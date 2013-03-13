@@ -1,0 +1,72 @@
+<div class="help">
+	<div dojoType="dijit.TitlePane" open="false" title="Intro">
+		<h4>Welcome to VOBox!</h4>
+		<p>VOBox is a network storage for scientific data. We provide free storage to scientists who want to publish their data without need to organize it in any way or have own infrastructure to support it.</p>
+		<p>To start using VOBox, create a folder using the "Create folder" button. To enter the folder, double click on it.</p>
+		<p>Once you are inside your folder, you can start uploading files by Drag-and-Dropping it to your browser window.</p>
+	</div>
+	<div dojoType="dijit.TitlePane" open="false" title="Data publication: Uploading files">
+		<div style="display: table;">
+			<div style="width:45%; display: table-cell; float: none; border: 1px;">
+				To upload, drag and drop one or multiple files from your local drive into your browser window.
+				<br/>(Folder uploading is not supported by browsers yet)<br/><img src="images/help/dnd.png"></img>
+			</div>
+			<div style="width:45%; display: table-cell; float: none; border: 1px;">
+				To pull any http URL contents into existing file, choose "Pull from URL..." from file's context menu:
+				<br/><img src="images/help/Pull_from_URL.png"></img><br/>
+				The file will be asynchronously downloaded by the service.
+			</div>
+		</div>
+		<p>You can only upload files into a folder. Uploading files to root is not permitted.</p>
+	</div>
+	<div dojoType="dijit.TitlePane" open="false" title="The interface">
+		<p>Files and folders have right-click context menu for operations on them.
+		<br/><img src="images/help/Download.png"></p>
+		<p>To select one or multiple files, left-click one file or drag over multiple files. These selected items can be drag-and-dropped between panels to organize the space and transfer files between remote locations.</p>
+		The panel is usually updated after user's operations. To manually refresh the contents, use Refresh toolbar button.<br/>
+		<img src="images/help/Refresh.png"></img>
+		</p>
+	</div>
+	<div dojoType="dijit.TitlePane" open="false" title="Accessing the data">
+		<p>Files can be downloaded by double-clicking on it. Also to download a file or folder with all its contents, right-click on it and choose Download from context menu. <br/><img src="images/help/Download.png"></img><br/>
+		Folders are downloaded as .tar archives.<br/>
+		Online Preview is available for files recognized as images.</p>
+	</div>
+	<div dojoType="dijit.TitlePane" open="false" title="Multi-region support">
+		<p>The right dropdown element contains the list of available regions. Currently new SSO users registration is only supported in JHU region. SDSC only works for current users. Please send request if you need to be added to San Diego Supercomputing Center mirror users.<br/>
+		<img src="images/help/Regions.png"></img>
+		</p>
+		<p>The star before the region ID means the user is authenticated in this region using <a href="https://vaossotest.ncsa.illinois.edu/" target="_blank">Single Sign On (SSO)</a> service. When choosing the region with no star, the user will be asked to authenticate. The Log off removes the stored user credentials for currently selected region and opens the first authenticated one. If user is not currently authenticated in any region, he will be redirected to default region SSO authentication page.<br/>
+	</div>
+	<div dojoType="dijit.TitlePane" open="false" title="Data sharing">
+		<div style="display: table;">
+			<div style="width:45%; display: table-cell; float: none; border: 1px; padding: 15px;">
+				To get world-accessible link to a file or folder, choose "Quick Share URL..." from file or folder context menu<br/><img src="images/help/Share_URL.png"></img>
+			</div>
+			<div style="width:45%; display: table-cell; float: none; border: 1px; padding: 15px;">
+				You can share the top-level container for read-only or read+write access by a group of users or to everyone. To access the share dialog, choose "Share" menu item from the context menu of top-level container.<br/>
+				<img src="images/help/Share.png"></img><br/>
+				The dialog allows choosing the predefined group for the share or make it public.<br/>
+				<img src="images/help/Share_dialog.png"></img><br/>
+				"Create the share" button opens the dialog with new share URL and ID. The URL provides Web view of the share. The ID can be used to provide access to the share for services.<br/>
+				<img src="images/help/Share_created.png"></img>
+			</div>
+		</div>
+	</div>
+	<div dojoType="dijit.TitlePane" open="false" title="Metadata extraction">
+		<p>There is background process watching for all file changes in the storage. Filetypes are automatically recognized by its contents signatures. For some filetypes there are plugins enabled that extract metadata and store it in side services.</p>
+		<div dojoType="dijit.TitlePane" open="false" title="Tabular data from FITS, CSV, Excel files">
+			If a file is recognized as having tabular data, this data will be uploaded to CasJobs service if user has his credentials setup. To register and add credentials, use the CasJobs toolbar button. 
+		</div>
+	</div>
+	<div dojoType="dijit.TitlePane" open="false" title="REST API">
+		<p>The service supports both VOSpace 2.0 and Dropbox REST API to access the data.</p>
+		<div dojoType="dijit.TitlePane" open="false" title="VOSpace 2.0 API">
+			The specification can be found at <a href="http://www.ivoa.net/Documents/VOSpace/" target="_blank">http://www.ivoa.net/Documents/VOSpace</a>.
+			The service supports both X.509 certificate and OAuth+OpenID as Single Sign On preferred way of authentication.
+		</div>
+		<div dojoType="dijit.TitlePane" open="false" title="Dropbox API">
+			The specification can be found at <a href="https://www.dropbox.com/developers/reference/api" target="_blank">Dropbox API</a>. The service supports OAuth+OpenID as Single Sign On preferred way of authentication.
+		</div>
+	</div>
+</div>

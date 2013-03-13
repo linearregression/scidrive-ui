@@ -1,0 +1,120 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" style="width: 90%; height: 100%; margin-left:auto;
+margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="rootContainer">
+	    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', style:'z-index: 5;', class: 'shadow'">
+	    	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="class:'topPanel'">
+	        	<img src="images/interface/vobox_logo.png" style="height: 70px; margin: 10px;"/>
+				<!-- Toolbar -->
+				<div data-dojo-attach-point="toolbar" data-dojo-type="dijit.Toolbar" data-dojo-props="class:'topToolbar'">
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="refreshButton" data-dojo-attach-event="onClick:_refresh" data-dojo-props="iconClass:'toolbarButton refreshToolbarButton', showLabel: false">Refresh
+					</button>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="mkdirButton" data-dojo-attach-event="onClick:_mkdirDialog" data-dojo-props="iconClass:'toolbarButton mkdirToolbarButton', showLabel: false">Create folder...
+					</button>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="mkfileButton" data-dojo-attach-event="onClick:_mkfileDialog" data-dojo-props="iconClass:'toolbarButton mkfileToolbarButton', showLabel: false">Create file...
+					</button>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="setCasJobsCredentialsButton" data-dojo-attach-event="onClick:_setCasJobsCredentialsDialog" data-dojo-props="iconClass:'toolbarButton casjobsToolbarButton', showLabel: false">CasJobs...
+					</button>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-event="onClick:_sharesDialog" data-dojo-props="iconClass:'toolbarButton linkToolbarButton', showLabel: false">Shares...
+					</button>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="secondPanelButton" data-dojo-attach-event="onClick:_addPanel" data-dojo-props="iconClass:'toolbarButton secpanToolbarButton', showLabel: false">Second panel
+					</button>
+					<img src="images/blank.gif" style="width:60px; height: 1px;"/>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="helpButton" data-dojo-attach-event="onClick:_help" data-dojo-props="class:'toolbarShadedButton'"><span style="font-size: 1.5em; color: #326eb7;">Help</span>
+					</button>
+					<img src="images/blank.gif" style="width:5px; height: 1px;"/>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="logoutButton" data-dojo-attach-event="onClick:_logout" data-dojo-props="class:'toolbarShadedButton'"><span style="font-size: 1.5em; color: #326eb7;">Log out</span>
+					</button>
+				</div>
+	    	</div>
+			<div dojoType="dijit.ProgressBar" style="height: 4px; margin: 0px;" data-dojo-attach-point="userLimitBar"></div>
+			<div data-dojo-attach-point="toolbar2" data-dojo-type="dijit.Toolbar" data-dojo-props="class:'bottomToolbar'">
+				<img src="images/interface/dirs.png" style="height: 80%"/>
+				<span data-dojo-attach-point="pathSelect2" style="font-size: 1.2em; color: #326eb7; position: relative; bottom:5;">
+				</span>
+				<select data-dojo-attach-point="loginSelect" data-dojo-type="dijit.form.Select" data-dojo-props="class:'toolbarDropdown'" style="float: right; width: 260px;">
+				</select>
+			</div>
+	    </div>
+	    <div data-dojo-props="region:'center'" data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="panel1contentpane">
+	    </div>
+	    <div data-dojo-props="region:'right'" data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="panel2contentpane">
+	    </div>
+	</div>
+	<div style="overflow: hidden; position: absolute; top:0; width: 100%; z-index: -1; margin-left:auto; margin-right:auto;" class="shadow">
+	   	<div class="topPanel topshadow" style="height: 90px; width: 100%;"></div>
+	   	<div style="height: 8px; width: 100%; /*background: #bcbec0;*/background:transparent;"></div>
+	   	<div class="bottomPanel" style="height: 45px; width: 100%;"></div>
+
+	</div>
+    <div class="dijitHidden">
+		<span data-dojo-type="dijit.Tooltip" data-dojo-attach-point="userLimitTooltip" data-dojo-props="showDelay: 0"></span>
+		
+		<!-- New folder dialog -->
+		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkdirDialog" title="Create new folder"
+			data-dojo-attach-event="execute:_mkdir">
+			<table>
+				<tr>
+					<td><label for="name"> Folder name: </label></td>
+					<td><input data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey"></td>
+				</tr>
+				<tr>
+					<td align="center" colspan="2">
+						<button data-dojo-type="dijit.form.Button" type="submit" onClick="return this.getParent().validate();">Create</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<!-- Set CasJobs Credentials -->
+		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="setCasJobsCredentialsDialog" title="Set your CasJobs credentials">
+			<table>
+				<tr>
+					<td>Service at:</td>
+					<td> <a href="http://skyserver.sdss3.org/CasJobs" target="_blanc">http://skyserver.sdss3.org/CasJobs</a></td>
+				</tr>
+				<tr>
+					<td><label for="wsid"> WSID: </label></td>
+					<td><input dojoType="dijit.form.TextBox" trim="true" data-dojo-attach-point="casJobsWSID" type="text" style="width: 500px;"></td>
+				</tr>
+				<tr>
+					<td><label for="password"> Password: </label></td>
+					<td><input dojoType="dijit.form.TextBox" trim="true" data-dojo-attach-point="casJobsPassword" type="password" style="width: 500px;"></td>
+				</tr>
+				<tr>
+					<td><label for="serviceEndpoint"> Service endpoint: </label></td>
+					<td><input dojoType="dijit.form.TextBox" trim="true" data-dojo-attach-point="casJobsServiceEndpoint" type="text" style="width: 500px;" value="http://skyserver.sdss3.org/CasJobs/services/jobs.asmx"></td>
+				</tr>
+				
+				<tr>
+					<td align="center" colspan="2">
+						<button dojoType="dijit.form.Button" type="submit" data-dojo-attach-event="onClick:_setCasJobsCredentials">Set</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!-- New file dialog -->
+		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkfileDialog" title="Create new file"
+			data-dojo-attach-event="execute:_mkfile">
+			<table>
+				<tr>
+					<td><label for="name"> File name: </label></td>
+					<td><input dojoType="dijit.form.ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey"></td>
+				</tr>
+				<tr>
+					<td align="center" colspan="2">
+						<button dojoType="dijit.form.Button" type="submit" onClick="return this.getParent().validate();">Create</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div data-dojo-attach-point="helpDialog" data-dojo-type="dojox.widget.Dialog" sizeToViewport="true" data-dojo-props="href:'scripts/my/templates/help.html'" title="VOBox user guide" showTitle="true" draggable="false">
+		</div>
+	</div><!-- hidden div -->
+
+	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="fileuploads" data-dojo-props="class:'fileUploadPanel'">
+	</div>
+
+
+</div>

@@ -1,0 +1,42 @@
+<div>
+	<div class="dijitHidden">
+		<!-- Transfer from URL dialog -->
+		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="transferUrlDialog" title="Transfer URL">
+			<div data-dojo-type="dijit.form.TextBox" type="hidden" data-dojo-attach-point="transferNode"></div>
+            <input type="text" required="true" regExp="(https?|ftp)://[A-Za-z0-9-_]+\.[A-Za-z0-9-_%&~\?\/\.=]+" trim="true" data-dojo-attach-point="urlInput" style="width: 380px;" dojoType="dijit.form.ValidationTextBox"/>
+			<center>
+				<button data-dojo-type="dijit.form.Button" type="submit" data-dojo-attach-event="onClick:_pullToVo">Create the transfer</button>
+				<button data-dojo-type="dijit.form.Button" type="submit">Cancel</button>
+			</center>
+		</div>
+
+		<!-- Choose group dialog -->
+		<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="chooseShareGroupDialog" title="Choose group for sharing" data-dojo-attach-event="execute: _createShare">
+			<input type="radio" name="groupEnable" checked value="off" data-dojo-attach-event="onclick:_disableShareGroup"/><label> No group: anonymous access</label><br/>
+			<input type="radio" name="groupEnable" value="on" data-dojo-attach-event="onclick:_enableShareGroup"/><label> Choose group:</label><br/>
+
+			<input type="hidden" data-dojo-attach-point="groupEnable" value="off"/>
+	    	<div data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="shareSelect" data-dojo-props="searchAttr:'name', queryExpr: '*\$\{0\}*', autoComplete: false, disabled: 'disabled'"></div>
+	    	<div style="margin: 10px; display: none; width: 450px;" data-dojo-attach-point="usersListDiv">Group users:
+		    	<div data-dojo-attach-point="usersList" style="width: 98%; height: 80px; overflow:auto; margin: 10px;"></div>
+			</div>
+			<div><input name="readonlycheck" data-dojo-attach-point="readOnlyCheckBox" data-dojo-type="dijit/form/CheckBox" value="true" checked/> <label>Read only</label></div>
+			<center>
+				<button data-dojo-type="dijit/form/Button" type="submit">Create the share
+				</button>
+				<button data-dojo-type="dijit/form/Button">Cancel
+					<script type="dojo/on" data-dojo-event="click">
+						this.getParent().hide();
+					</script>
+				</button>
+			</center>
+		</div>
+
+	</div>
+
+	<!-- Main panel -->
+	<div data-dojo-attach-point="grid">
+	</div>
+
+
+</div>

@@ -1,0 +1,253 @@
+
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/resources/dojo.css";
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dijit/themes/tundra/tundra.css";
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css";
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/layout/resources/FloatingPane.css";
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/image/resources/Lightbox.css";
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/grid/resources/tundraGrid.css";
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/widget/Dialog/Dialog.css";
+
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed|Fjalla+One|Economica:400&subset=latin,cyrillic);
+
+/*@font-face {
+  font-family: Myriad;
+  src: url('../../fonts/MyriadPro-Cond.woff') format('woff');
+}*/
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	border: 0;
+	padding: 0;
+}
+
+.vobox {
+	font-size: 1em;
+	font-family: Economica,Helvetica,Tahoma,Arial,clean,sans-serif;
+}
+
+.vobox .dijitMenuItem {
+	font: inherit;
+}
+
+.help p, .help h4, .help div {
+	font-family: Helvetica,Tahoma,Arial,clean,sans-serif;
+}
+
+.topPanel {
+	background: url("../../images/interface/toolbar_bg.png") repeat-x scroll left top #EAEAEA;
+}
+
+.vobox .shadow {
+	box-shadow: 0px 3px 5px rgba(40, 40, 40, 0.6);
+}
+
+.vobox .topshadow {
+	box-shadow: 0px 7px 9px rgba(40, 40, 40, 0.6);
+}
+
+.dijitToolbar.topToolbar {
+ 	position: absolute;
+    right: 0px;
+    top: 35px;
+    background: none;
+    border: 0px;
+}
+
+.dijitToolbar.bottomToolbar, .bottomPanel {
+	background: url("../../images/interface/toolbar_bg2.png") repeat-x scroll left top #EAEAEA;
+	background-size: 1px 45px;
+	height: 45px;
+	border-bottom: none;
+}
+
+.vobox .dojoxGrid {
+	font-family: inherit;
+	font-size: 1em;
+	background-color: white;
+	/*border-right: 2px solid #e7e8e9;*/
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+/* Grid header img */
+.vobox .dojoxGridHeader .dojoxGridCell {
+	background: url("../../images/interface/tabEnabled.png") repeat-x scroll center top #E9E9E9;
+	color: #58595b !important;
+	border-left: 2px solid white !important;
+	border-top: none;
+	border-bottom: none;
+	border-right: none;
+}
+
+/* Regular grid cell text font */
+.vobox .dojoxGridCell, .vobox .dojoxGridCellFocus, .dojoxGridCellFocus {
+	color: #414141;
+	border-bottom: none;
+	border-top: none;
+	border-left: 2px solid #e7e8e9;
+	border-right: none;
+}
+
+/* Remove lines on the left of grid */
+.vobox .dojoxGridRowbarInner {
+	width: 0px;
+	border: none;
+}
+
+/* All cells white */
+.vobox .dojoxGridRowOdd {
+	background-color: white;
+}
+
+/* No label in orange progress bar */
+.vobox .dijitProgressBarLabel {
+	visibility: hidden;
+}
+
+.vobox .dijitProgressBarTile {
+	background-image: linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
+	background-image: -o-linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
+	background-image: -moz-linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
+	background-image: -webkit-linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
+	background-image: -ms-linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		right top,
+		color-stop(0, rgb(246,176,26)),
+		color-stop(1, rgb(234,101,44))
+	);
+
+}
+
+.vobox .dijitProgressBarEmpty {
+	border-style: solid;
+	border-width: 2px 3px;
+    border-image:url("../../images/interface/progress_shadow.png") 5 fill round;
+    -moz-border-image:url("../../images/interface/progress_shadow.png") 5 fill round; /* Firefox */
+    -webkit-border-image:url("../../images/interface/progress_shadow.png") 5 round; /* Safari */
+    -o-border-image:url("../../images/interface/progress_shadow.png") 5 round; /* Opera */
+
+
+}
+
+.dijitSelect .dijitButtonText, .tundra td.dijitMenuItemLabel {padding: 3px;}
+
+.dijitToolbar .dijitSelect {margin: 4px 0px 4px 4px;}
+
+.dojoxDialogTitleBar {cursor: auto; padding-top: 10px; font-size: 1.3em;}
+
+.vobox .voboxButton {font-size: 1.5em;}
+.vobox .dijitTooltipContents {font-size: 1.1em;}
+
+.hover {background: lightgrey;}
+.errhover {background: red;}
+
+/* toolbar iconed button */
+.toolbarButton {
+	background-repeat: no-repeat;
+	background-size:48px 40px;
+	width: 48;
+	height: 40;
+	text-align: center;
+}
+
+/* text button padding remove */
+.dijitInline.toolbarShadedButton.dijitButton, .dijitStretch.dijitButtonContents, .dijitReset.dijitInputField.dijitButtonText {
+	padding: 0px;
+}
+
+/* text button border */
+.dijitInline.toolbarShadedButton.dijitButton, .toolbarShadedButton.dijitButton.dijitButtonHover.dijitHover {
+	border-style: solid;
+	border-width: 7px;
+    -moz-border-image:url("../../images/interface/button.png") 10 round; /* Firefox */
+    -webkit-border-image:url("../../images/interface/button.png") 10 round; /* Safari */
+    -o-border-image:url("../../images/interface/button.png") 10 round; /* Opera */
+    border-image:url("../../images/interface/button.png") 10 fill round;
+}
+
+.toolbarShadedButton .dijitButtonNode {
+	width: 110px;
+}
+
+/* border around dropdown elements */
+.toolbarDropdown.dijitSelect, .toolbarDropdown .dijitButtonContents, .tundra .dijitSelect .dijitButtonContents {
+	border: 0px;
+	background: none;
+}
+
+/* dropdown left part border */
+.toolbarDropdown .dijitReset.dijitStretch.dijitButtonContents {
+	border-style: solid;
+	border-width: 8px;
+	-moz-border-image: url("../../images/interface/dropdown_border_left.png") 13 round;
+	-webkit-border-image: url("../../images/interface/dropdown_border_left.png") 13 round;
+	-o-border-image: url("../../images/interface/dropdown_border_left.png") 13 round;
+	border-image: url("../../images/interface/dropdown_border_left.png") 13 fill round;
+}
+
+/* dropdown right part border */
+.toolbarDropdown .dijitReset.dijitRight.dijitButtonNode.dijitArrowButton.dijitDownArrowButton.dijitArrowButtonContainer {
+	border-style: solid;
+	border-width: 8px;
+	-moz-border-image: url("../../images/interface/dropdown_border_right.png") 13 round;
+	-webkit-border-image: url("../../images/interface/dropdown_border_right.png") 13 round;
+	-o-border-image: url("../../images/interface/dropdown_border_right.png") 13 round;
+	border-image: url("../../images/interface/dropdown_border_right.png") 13 fill round;
+
+}
+
+.vobox .dojoxGRidMasterView {
+	margin-top: 2px;
+}
+
+.pathelm {
+	cursor: pointer;
+}
+
+.refreshToolbarButton {background-image: url(../../images/interface/refresh_btn.gif)}
+.mkdirToolbarButton {background-image: url(../../images/interface/mkdir_btn.gif)}
+.mkfileToolbarButton {background-image: url(../../images/interface/mkfile_btn.gif)}
+.linkToolbarButton {background-image: url(../../images/interface/link_btn.gif)}
+.casjobsToolbarButton {background-image: url(../../images/interface/sdss3_logo.png)}
+.secpanToolbarButton {background-image: url(../../images/interface/2nd_pan_btn.gif)}
+
+.ConfirmDialog .dijitDialogPaneContentArea {
+  margin: -10px -8px;
+  padding: 10px 8px;
+}
+
+.ConfirmDialog .dijitDialogPaneActionBar {
+  /* gray bar at bottom of dialog with OK/Cancel buttons */
+
+  background-color: #efefef;
+  padding: 3px 5px 2px 7px;
+  text-align: right;
+  border-top: 1px solid #d3d3d3;
+  margin: 10px -8px -10px;
+}
+
+.vobox .fileUploadPanel {
+	position: fixed;
+	right: 20;
+	bottom: 30;
+	overflow: auto;
+	width: 330px;
+	max-height:250px;
+	border: 1px solid black;
+	background: rgba(245, 245, 245, 0.85);
+	border-radius: 5px;
+	padding: 8px;
+}
+
+.vobox .fileUploadProgress {
+	width: 320px;
+}
+
+.vobox .deleteShareButton {
+	background: red;
+}
