@@ -366,6 +366,28 @@ define([
             }
         },
 
+        _search: function() {
+          var panel = this;
+          dojo.xhrGet(OAuth.sign("GET", {
+              url: panel.current_panel.store.vospace.url + "/1/cont_search?query="+this.searchInput.value,
+              load: function(data) {
+                var dlg = new dijit.Dialog({
+                  title: "Search results",
+                  content: data,
+                  onHide: function() {
+                    this.destroyRecursive();
+                  }
+                });
+
+                dlg.show();
+
+              },
+              error: function(error, data) {
+                  console.error(error);
+              }
+          }, panel.current_panel.store.vospace.credentials));
+        },
+
         hideUploadPanel: function() {
           var haveUploads = (this.panel1 != undefined && this.panel1._isUploading) || (this.panel2 != undefined && this.panel2._isUploading);
 
