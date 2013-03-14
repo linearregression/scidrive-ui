@@ -1,11 +1,5 @@
 [
 	{
-		"id":"local",
-		"defaultRegion":true,
-		"url":"http://localhost/vospace-2.0",
-		"display":"Local"
-	},
-	{
 		"id":"zinc27.pha.jhu.edu",
 		"defaultRegion":false,
 		"url":"http://zinc27.pha.jhu.edu/vospace-2.0",
