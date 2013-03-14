@@ -7,7 +7,7 @@
 	},
 	{
 		"id":"vospace.sdsc.edu",
-		"defaultRegion":false,
+		"defaultRegion":true,
 		"url":"http://vospace.sdsc.edu:8080/vospace-2.0",
 		"display":"SDSC main"
 	}
