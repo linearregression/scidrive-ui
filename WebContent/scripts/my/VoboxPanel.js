@@ -165,8 +165,14 @@ define([
                 var store = new ItemFileWriteStore({data: data});
 
                 var layout = [[
-                  {'name': 'Container', 'field': 'container', 'width': '40%'},
-                  {'name': 'Group', 'field': 'group', 'width': '40%'},
+                  {'name': 'ID', 'field': 'share_id', 'width': '30%',
+                    formatter: function(col, rowIndex) {
+                      var url = document.location.href.slice(0,document.location.href.lastIndexOf('/')+1);
+                      return "<a href=\""+url+"?share="+col+"\" target=\"_blank\">"+col+"</a>";
+                    }
+                  },
+                  {'name': 'Container', 'field': 'container', 'width': '30%'},
+                  {'name': 'Group', 'field': 'group', 'width': '30%'},
                   {'name': 'Write', 'field': 'write_permission', 'width': '10%', 
                     formatter: function(col, rowIndex) {
                         return col?"✔":"✘";
