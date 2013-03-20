@@ -27,7 +27,7 @@ http.createServer(function (req, res) {
 	if(watchPath == "/")
 	    watchPath = "";
 
-	watchPath = "|^/[.^/]*"+watchPath+"$|";
+	watchPath = "^"+watchPath+"$";
 
 	var procMsg = function(msg) {
 		var msg_json = JSON.parse(msg);
