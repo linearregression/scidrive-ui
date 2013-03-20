@@ -110,6 +110,43 @@ define([
             this.mkfileDialog.show();
         },
 
+        _setCasJobsCredentialsDialog: function() {
+            var dlg = this;
+            this.casJobsServiceEndpoint.reset();
+            this.casJobsWSID.reset();
+            this.casJobsPassword.reset();
+
+            dojo.xhrGet(OAuth.sign("GET", {
+                url: this.current_panel.store.vospace.url + "/1/account/service",
+                handleAs: "json",
+                sync: false,
+                load: function(credentials) {
+                    if(!(JSON.stringify(credentials) == "{}")) {
+                        dlg.casJobsServiceEndpoint.set("value", credentials.fitsprocessor.endpoint);
+                        dlg.casJobsWSID.set("value", credentials.fitsprocessor.wsid);
+                        dlg.casJobsPassword.set("value", credentials.fitsprocessor.password);
+                    }
+                },
+                error: function(error, data) {
+                    console.error(error);
+                }
+            }, this.current_panel.store.vospace.credentials));
+
+            this.setCasJobsCredentialsDialog.show();        
+        },
+
+        _setCasJobsCredentials: function() {
+            var casJobsCredentials = {
+                fitsprocessor: {
+                    endpoint: this.casJobsServiceEndpoint.value,
+                    wsid: this.casJobsWSID.value,
+                    password: this.casJobsPassword.value
+                }
+            };
+
+            this.current_panel._setCasJobsCredentials(casJobsCredentials);
+        },
+
         _sharesDialog: function() {
           var panel = this;
           dojo.xhrGet(OAuth.sign("GET", {
