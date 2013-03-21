@@ -309,8 +309,13 @@ define([
                 return;
             }
 
-            if(vospace.isShare && this.secondPanelButton) {
-              this.secondPanelButton.destroyRecursive();
+            if(vospace.isShare) {
+              if(this.secondPanelButton)
+                this.secondPanelButton.destroyRecursive();
+              if(this.setCasJobsCredentialsButton)
+                this.setCasJobsCredentialsButton.destroyRecursive();
+              if(this.sharesButton)
+                this.sharesButton.destroyRecursive();
             }
 
             var panel = this;
