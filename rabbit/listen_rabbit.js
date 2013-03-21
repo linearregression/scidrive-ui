@@ -24,8 +24,8 @@ http.createServer(function (req, res) {
 			    'Connection': 'Keep-Alive'});
     
 	var watchPath = queryData.path;
-	if(watchPath == "/")
-	    watchPath = "";
+	if(watchPath.match(".*/$")==watchPath)
+	    watchPath = watchPath.slice(0, - 1);
 
 	watchPath = "^"+watchPath+"$";
 

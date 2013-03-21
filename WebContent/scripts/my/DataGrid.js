@@ -66,7 +66,9 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
         }
 
         if(undefined != this._user) {
-            this._eventSource = new EventSource('updates?user='+this._user+'&path='+this._currentPath);
+
+            var shareRootPath = (this.store.vospace.isShare)?"/.*":""
+            this._eventSource = new EventSource('updates?user='+this._user+'&path='+shareRootPath+this._currentPath);
             
             this._eventSource.onmessage = function(e) {
               console.debug("Updated");
