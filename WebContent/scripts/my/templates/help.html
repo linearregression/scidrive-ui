@@ -39,17 +39,22 @@
 		<p>The star before the region ID means the user is authenticated in this region using <a href="https://vaossotest.ncsa.illinois.edu/" target="_blank">Single Sign On (SSO)</a> service. When choosing the region with no star, the user will be asked to authenticate. The Log off removes the stored user credentials for currently selected region and opens the first authenticated one. If user is not currently authenticated in any region, he will be redirected to default region SSO authentication page.<br/>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="Data sharing">
-		<div style="display: table;">
-			<div style="width:45%; display: table-cell; float: none; border: 1px; padding: 15px;">
-				To get world-accessible link to a file or folder, choose "Quick Share URL..." from file or folder context menu<br/><img src="images/help/Share_URL.png"></img>
-			</div>
-			<div style="width:45%; display: table-cell; float: none; border: 1px; padding: 15px;">
-				You can share the top-level container for read-only or read+write access by a group of users or to everyone. To access the share dialog, choose "Share" menu item from the context menu of top-level container.<br/>
-				<img src="images/help/Share.png"></img><br/>
-				The dialog allows choosing the predefined group for the share or make it public.<br/>
-				<img src="images/help/Share_dialog.png"></img><br/>
-				"Create the share" button opens the dialog with new share URL and ID. The URL provides Web view of the share. The ID can be used to provide access to the share for services.<br/>
-				<img src="images/help/Share_created.png"></img>
+		<div dojoType="dijit.TitlePane" open="false" title="Quick share">
+			To get world-accessible link to a file or folder, choose "Quick Share URL..." from file or folder context menu<br/><img src="images/help/Share_URL.png"></img><br/>
+			Containers will be downloaded as .tar archives.
+		</div>
+		<div dojoType="dijit.TitlePane" open="false" title="Groups share">
+			<p>You can share a top-level container for read-only or read+write access by a group of users or by everyone. To access the share dialog, choose "Share" menu item from the context menu of top-level container.<br/>
+			<img src="images/help/Share.png"></img></p>
+			<p>The dialog allows choosing the predefined group for the share or make it public.<br/>
+			<img src="images/help/Share_dialog.png"></img></p>
+			<p>"Create the share" button opens the dialog with new share URL and ID. The URL provides Web view of the share.<br/>
+			<img src="images/help/Share_created.png"></img></p>
+			<div dojoType="dijit.TitlePane" open="false" title="Using share ID in console scripts">
+				The share ID can be used to provide access to the share for console scripts. To get the OAuth token for shared container, the "share" parameter should be added to request_token and authorize OAuth URLs:
+				<p><code>http://server/vospace-2.0/request_token?share=&lt;share_id&gt;</code></p>
+				<p><code>http://server/vospace-2.0/authorize?provider=vao&share=&lt;share_id&gt;</code></p>
+				When accessing the authorize URL with anonymous share ID, no user acton is needed. The URL can be queried by the script in automatic mode, as described here: <a href="https://github.com/dimm0/vobox/wiki/Using-Dropbox-SDK" target="_blank">https://github.com/dimm0/vobox/wiki/Using-Dropbox-SDK</a>
 			</div>
 		</div>
 	</div>
