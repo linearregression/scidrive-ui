@@ -103,8 +103,8 @@ define([
                     }).cancel();
                   });
                 },
-                error: function(error, data) {
-                  alert(error+"\n"+data.xhr.responseText);
+                error: function(data, ioargs) {
+                  panel._handleError(data, ioargs);
                 }
               },panel.store.vospace.credentials));
             }
@@ -132,9 +132,9 @@ define([
                   lb.show();
                 }, 2000);
                },
-               error: function(error, data) {
-                alert(error+"\n"+data.xhr.responseText);
-              }
+               error: function(data, ioargs) {
+                 panel._handleError(data, ioargs);
+               }
             },panel.store.vospace.credentials));
             } 
           });
@@ -177,9 +177,10 @@ define([
                 infoWindow.set("content",infoContent);
                 infoWindow.show();
               },
-              error: function(error, data) {
-                alert(error+"\n"+data.xhr.responseText);
+              error: function(data, ioargs) {
+                panel._handleError(data, ioargs);
               }
+
             },panel.store.vospace.credentials));
           } 
         }); 
@@ -209,9 +210,9 @@ define([
                       });
 
                    }, 
-                   error: function(error) {
-                    console.error("Something bad happened: "+error);
-                   }
+                    error: function(data, ioargs) {
+                      panel._handleError(data, ioargs);
+                    }
                   }, panel.store.vospace.credentials));
                 });
 
@@ -290,8 +291,8 @@ define([
                     }).cancel();
                   });
                 },
-                error: function(error, data) {
-                 alert(error+"\n"+data.xhr.responseText);
+                error: function(data, ioargs) {
+                  panel._handleError(data, ioargs);
                 }
               },panel.store.vospace.credentials));
             }
@@ -340,9 +341,9 @@ define([
            load: function(data){
             //!!panel._refresh();
             },
-            error: function(error, data) {
-             alert(error+"\n"+data.xhr.responseText);
-           }
+            error: function(data, ioargs) {
+              panel._handleError(data, ioargs);
+            }
         }, this.store.vospace.credentials));
       }
     },
@@ -363,21 +364,23 @@ define([
            load: function(data){
             //!!panel._refresh();
           },
-          error: function(error, data) {
-           alert(error+"\n"+data.xhr.responseText);
-         }
+          error: function(data, ioargs) {
+            panel._handleError(data, ioargs);
+          }
         }, this.store.vospace.credentials));
       }
     },
 
     _setCasJobsCredentials: function(casJobsCredentials) {			
+      var panel = this;
       dojo.xhrPut(my.OAuth.sign("PUT", {
         url: this.store.vospace.url +"/1/account/service",
         putData: JSON.stringify(casJobsCredentials),
         handleAs: "text",
-        error: function(error, data) {
-         alert(error+"\n"+data.xhr.responseText);
-       }
+        error: function(data, ioargs) {
+          panel._handleError(data, ioargs);
+        }
+
       }, this.store.vospace.credentials));
     },
 
@@ -433,9 +436,9 @@ define([
                load: function(error, ioargs){
                   //!!panel._refresh();
                },
-               error: function(error, data) {
-                 alert(error+"\n"+data.xhr.responseText);
-               }
+              error: function(data, ioargs) {
+                panel._handleError(data, ioargs);
+              }
              }, panel.store.vospace.credentials));
           }
 
@@ -446,9 +449,9 @@ define([
            load: function(error, ioargs){
               //!!panel._refresh();
            },
-           error: function(error, data) {
-             alert(error+"\n"+data.xhr.responseText);
-           }
+            error: function(data, ioargs) {
+              panel._handleError(data, ioargs);
+            }
          }, panel.store.vospace.credentials));
        }
 
@@ -521,9 +524,9 @@ define([
                dijit.popup.close(editNodeDialog);
                editNodeDialog.destroyRecursive(false);
              },
-             error: function(error, data) {
-              alert(error+"\n"+data.xhr.responseText);
-            }
+              error: function(data, ioargs) {
+                panel._handleError(data, ioargs);
+              }
           }, panel.store.vospace.credentials));
 
           }
@@ -533,9 +536,9 @@ define([
          editNodeDialog.show();
 
        },
-       error: function(error, data) {
-         alert(error+"\n"+data.xhr.responseText);
-       }
+      error: function(data, ioargs) {
+        panel._handleError(data, ioargs);
+      }
      }, this.store.vospace.credentials));
 
     },
@@ -562,8 +565,8 @@ define([
           updateInfo(accountInfo);
           panel.gridWidget.setUser(accountInfo.display_name);
         },
-        error: function(error, data) {
-          console.error(error);
+        error: function(data, ioargs) {
+          panel._handleError(data, ioargs);
         }
       },this.store.vospace.credentials));
     },
@@ -741,8 +744,8 @@ define([
           });
           infoWindow.show();
         },
-        error: function(error, data) {
-          alert(error+"\n"+data.xhr.responseText);
+        error: function(data, ioargs) {
+          panel._handleError(data, ioargs);
         }
       },panel.store.vospace.credentials));
     },
@@ -782,6 +785,14 @@ define([
       this.groupEnable.value = "off";
       domConstruct.empty(this.usersList);
     },
+
+    _handleError: function(data, ioargs) {
+      if(ioargs.xhr.status == 401) {
+        login(this.store.vospace, this, true);
+      } else {
+        alert("Error: "+data);
+      }
+    }
 
   });
 });
