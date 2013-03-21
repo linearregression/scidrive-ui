@@ -87,7 +87,22 @@ function login(vospace, component, openWindow) {
         }
 
 
-        function failure(data, ioargs) { console.error('Something bad happened: ' + ioargs.xhr); }
+        function failure(data, ioargs) { 
+        	if(ioargs.xhr.status == 400 || ioargs.xhr.status == 401 || ioargs.xhr.status == 503) { // OAuth errors
+	        	var errorResponse = ioargs.xhr.responseText;
+	        	if(errorResponse.split("&")[0] != undefined) {
+		        	var problem = errorResponse.split("&")[0].slice("oauth_problem=".length);
+		        	if(problem == "timestamp_refused"){
+		        		alert("Error logging in: request timestamp incorrect. Please check your computer system time.");
+		        	} else {
+		        		alert("Error logging in: "+ problem);
+		        	}
+
+	        	} else {
+	        		alert("Error logging in: "+ errorResponse);
+	        	}
+        	}
+        }
 
 		var xhrArgs = {
 		    url: vospace.url+'/request_token'+((vospace.isShare)?"?share="+vospace.id:""),
