@@ -15,18 +15,12 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "my/OAuth"], function
 		pullFromVoJob: function(vospace, id) {},
 		pullToVoJob: function(vospace, id, endpoint) {},
 		moveJob: function(vospace, id, endpoint) {},
-		
-    	close: function(/*dojo.data.api.Request || keywordArgs || null */ request){
-		    this._lastServerRequest = null;
-		    this._itemsByIdentity = null;
-		    this._items = null;
-		},
-	
-		fetch: function(/* Object? */ request){
-			this.inherited(arguments);
-		},
+		parentPanel: null,
 
 		_fetchItems: function(request, fetchHandler, errorHandler){
+
+			var cur = this;
+
 			var serverQuery = request.serverQuery || request.query || {};
 			//Need to add start and count
 			if(!this.doClientPaging){
@@ -69,9 +63,18 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "my/OAuth"], function
 				var xhrHandler = xhrFunc(OAuth.sign(this.requestMethod.toUpperCase(),{
 					url:fullUrl, 
 					handleAs:"json-comment-optional", 
-					content:serverQuery
-					}, this.vospace.credentials));
-
+					content:serverQuery,
+					failOk: true,
+					error: function(data, ioargs) {
+						 // OAuth error
+						if(ioargs.xhr.status == 401) {
+                  			cur.parentPanel._handleError(data, ioargs);
+                  		}
+                	}
+                }, this.vospace.credentials));
+				request.abort = function(){
+					xhrHandler.cancel();
+				};
 				xhrHandler.addCallback(dojo.hitch(this, function(data){
 					this._xhrFetchHandler(data, request, fetchHandler, errorHandler);
 				}));

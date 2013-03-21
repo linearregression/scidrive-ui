@@ -127,8 +127,8 @@ define([
                         dlg.casJobsPassword.set("value", credentials.fitsprocessor.password);
                     }
                 },
-                error: function(error, data) {
-                    console.error(error);
+                error: function(data, ioargs) {
+                  dlg.current_panel._handleError(data, ioargs);
                 }
             }, this.current_panel.store.vospace.credentials));
 
@@ -194,11 +194,10 @@ define([
                                 load: function(data) {
                                   console.debug("refresh!");
                                   store.deleteItem(rowdata); 
-                                  grid._refresh();
-
+                                  //grid._refresh();!!!!!!!!!
                                 },
-                                error: function(error, data) {
-                                    console.error(error);
+                                error: function(data, ioargs) {
+                                  panel.current_panel._handleError(data, ioargs);
                                 }
                             }, panel.current_panel.store.vospace.credentials));
                           }
@@ -235,8 +234,8 @@ define([
 
 
               },
-              error: function(error, data) {
-                  console.error(error);
+              error: function(data, ioargs) {
+                panel.current_panel._handleError(data, ioargs);
               }
           }, this.current_panel.store.vospace.credentials));
 
@@ -321,6 +320,7 @@ define([
             } else {
                 if(component != null) {
                     var store = this.createStore(vospace);
+                    store.parentPanel = component;
                     component.setStore(store);
                     this._updateUserInfo();
                     this._refreshRegions();
@@ -333,6 +333,7 @@ define([
                             createNewNodeXml: createNewNodeXml,
                             parentPanel: this
                             }).placeAt(this.panel1contentpane);
+                        this.panel1.store.parentPanel = this.panel1;
                         this.updateCurrentPanel(this.panel1);
                     } else {
                         dojo.byId(this.panel2contentpane.id).style.width = "50%";
@@ -346,6 +347,7 @@ define([
                             createNewNodeXml: createNewNodeXml,
                             parentPanel: this
                             }).placeAt(this.panel2contentpane);
+                        this.panel2.store.parentPanel = this.panel2;
                         this.updateCurrentPanel(this.panel2);
                         this.panel1.gridWidget.resize();
                     }
@@ -425,9 +427,10 @@ define([
                 dlg.show();
 
               },
-              error: function(error, data) {
-                  console.error(error);
+              error: function(data, ioargs) {
+                panel.current_panel._handleError(data, ioargs);
               }
+
           }, panel.current_panel.store.vospace.credentials));
         },
 
