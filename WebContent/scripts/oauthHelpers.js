@@ -149,8 +149,8 @@ function login2(vospace, component) {
 	            dijit.byId("voboxWidget").loginToVO(vospace, component); // with updated credentials
             	dijit.byId("voboxWidget").startup();
 	        },
-	        error: function(error, data) {
-	        	console.error(error);
+	        error: function(data, ioargs) {
+	        	console.error(data);
 				vospace.credentials = null;
 
 
@@ -158,7 +158,12 @@ function login2(vospace, component) {
 				delete identity.regions[vospace.id];
 				localStorage.setItem('vospace_oauth_s', dojo.toJson(identity));
 
-	            //login(vospace, null);
+	            if(ioargs.xhr.status == 401) {
+	            	login(vospace, null);
+	            } else {
+	        		alert("Error logging in: "+ ioargs.xhr.responseText);
+	            }
+	            
 	        }
 	    },vospace.credentials));
     });
