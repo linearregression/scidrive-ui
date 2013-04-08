@@ -162,6 +162,11 @@ my.OAuth = new (function(){
 		}
 		args._url = map.url;
 
+		if(args.postData){ 
+			var tmp = dojo.queryToObject(args.postData);
+			miArgs.push(tmp); 
+		}//dimm: add multipart form params for POST
+
 		//	now set up all the parameters as an array of 2 element arrays.
 		var a = [];
 		for(var i=0, l=miArgs.length; i<l; i++){

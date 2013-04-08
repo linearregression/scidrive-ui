@@ -1,11 +1,11 @@
 function login(vospace, component, openWindow) {
-    require(["dojo/_base/json", "my/OAuth"], function(dojo, OAuth){
+    require(["dojo/_base/json", "my/OAuth", "dojo/io-query"], function(dojo, OAuth, ioQuery){
 
     	var config = { consumer: {key: "sclient", secret: "ssecret"}};
         function success_reload(data) {
-            var request_tokens = data.split("&");
-            var reqToken = request_tokens[0].slice("oauth_token=".length);
-            var tokenSecret = request_tokens[1].slice("oauth_token_secret=".length);
+        	var respObject = ioQuery.queryToObject(data);
+            var reqToken = respObject.oauth_token;
+            var tokenSecret = respObject.oauth_token_secret;
 
     		vospace.credentials = {
     			stage:"request",
@@ -36,9 +36,9 @@ function login(vospace, component, openWindow) {
         
         function success_open_window(data) {
 		    require(["dojo/dom-construct", "dijit/Dialog", "dojo/_base/connect"], function(domConstruct, Dialog, connect){
-	            var request_tokens = data.split("&");
-	            var reqToken = request_tokens[0].slice("oauth_token=".length);
-	            var tokenSecret = request_tokens[1].slice("oauth_token_secret=".length);
+	        	var respObject = ioQuery.queryToObject(data);
+	            var reqToken = respObject.oauth_token;
+	            var tokenSecret = respObject.oauth_token_secret;
 
 	        	if(dijit.byId('formDialog') != undefined){
 	        		dijit.byId('formDialog').destroyRecursive();
@@ -111,14 +111,14 @@ function login(vospace, component, openWindow) {
 		    load: (openWindow?success_open_window:success_reload),
 		    error: failure
 		};
-		var args = OAuth.sign("GET", xhrArgs, config);
-		dojo.xhrGet(args);
+		var args = OAuth.sign("POST", xhrArgs, config);
+		dojo.xhrPost(args);
     });
 
 }
 
 function login2(vospace, component) {
-    require(["dojo/_base/json", "my/OAuth", "my/VoboxPanel"], function(dojo, OAuth, VoboxPanel){
+    require(["dojo/_base/json", "my/OAuth", "my/VoboxPanel", "dojo/io-query"], function(dojo, OAuth, VoboxPanel, ioQuery){
     	var url = vospace.url+"/access_token";
 
 	    dojo.xhrPost(OAuth.sign("POST", {
@@ -126,8 +126,9 @@ function login2(vospace, component) {
 	        handleAs: "text",
 	        sync: false,
 	        load: function(data) {
-	        	var request_tokens = data.split("&");
-	        	var token = request_tokens[0].slice("oauth_token=".length), tokenSecret = request_tokens[1].slice("oauth_token_secret=".length);
+	        	var respObject = ioQuery.queryToObject(data);
+	            var token = respObject.oauth_token;
+	            var tokenSecret = respObject.oauth_token_secret;
 
 	            vospace.credentials.token = {
                 	key: token,
