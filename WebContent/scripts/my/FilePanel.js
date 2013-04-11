@@ -514,11 +514,11 @@ define([
           style: "width: 600px",
           width: "600px",
           onChange: function(value) {
-
             dojo.xhrPost(my.OAuth.sign("POST", {
               url: encodeURI(panel.store.vospace.url+"/nodes/"+path),
               postData: value,
               handleAs: "text",
+              headers: { "Content-Type": "application/xml"},
               sync: false,
               load: function(data){
                dijit.popup.close(editNodeDialog);

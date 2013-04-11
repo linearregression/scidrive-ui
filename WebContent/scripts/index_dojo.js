@@ -136,6 +136,7 @@ function pullFromVoJob(vospace, id, handler/*function*/, args/*handler args*/) {
 
 	    dojo.xhrPost(OAuth.sign("POST", {
 			url: vospace.url+"/transfers",
+            headers: { "Content-Type": "application/xml"},
 			postData: reqData,
 			handleAs: "xml",
 	        sync: false,
@@ -165,7 +166,8 @@ function pullToVoJob(vospace, id, endpoint) {
 		var reqData = createPullToVoJob(id, endpoint);
 	    dojo.xhrPost(OAuth.sign("POST", {
 			url: vospace.url+"/transfers",
-			postData: reqData,
+            headers: { "Content-Type": "application/xml"},
+  			postData: reqData,
 			handleAs: "xml",
 	        sync: false,
 	        handle: function(data, ioargs){
@@ -181,6 +183,7 @@ function moveJob(vospace, from, to) {
 		var reqData = createMoveJob(from, to);
 	    dojo.xhrPost(OAuth.sign("POST", {
 			url: vospace.url+"/transfers",
+            headers: { "Content-Type": "application/xml"},
 			postData: reqData,
 			handleAs: "xml",
 	        sync: false,
@@ -209,6 +212,7 @@ function createNewVoTask(transferDirection/*push, pull*/, id) {
 	dojo.xhrPost(dojox.io.OAuth.sign("POST", {
 		url: obsCredentials[vo.id].url+"/transfers",
 		postData: taskData,
+        headers: { "Content-Type": "application/xml"},
 		handleAs: "xml",
         sync: false,
 		load: function(data){
@@ -227,6 +231,7 @@ function createNewVoTask(transferDirection/*push, pull*/, id) {
         	dojo.xhrPost(dojox.io.OAuth.sign("POST", {
         		url: transfersUrl,
         		postData: taskData2,
+	            headers: { "Content-Type": "application/xml"},
         		handleAs: "text",
                 sync: false,
         		load: function(data){

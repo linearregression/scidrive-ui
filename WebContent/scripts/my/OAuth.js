@@ -162,10 +162,15 @@ my.OAuth = new (function(){
 		}
 		args._url = map.url;
 
-		if(args.postData){ 
+		if(args.postData && (args.headers == null || args.headers["Content-Type"] == undefined || args.headers["Content-Type"]=="application/x-www-form-urlencoded")){ 
 			var tmp = dojo.queryToObject(args.postData);
 			miArgs.push(tmp); 
-		}//dimm: add multipart form params for POST
+		}//dimm: add urlencoded form params for POST
+
+		if(args.putData && (args.headers == null || args.headers["Content-Type"] == undefined || args.headers["Content-Type"]=="application/x-www-form-urlencoded")){ 
+			var tmp = dojo.queryToObject(args.putData);
+			miArgs.push(tmp); 
+		}//dimm: add urlencoded form params for PUT
 
 		//	now set up all the parameters as an array of 2 element arrays.
 		var a = [];
@@ -223,18 +228,18 @@ my.OAuth = new (function(){
 	
 	function sign(method, args, oaa){
 		//	return the oauth_signature for this message.
-		var headerParams = getOAuthParams(oaa);
+		var oaaParams = getOAuthParams(oaa);
 		var k = key(oaa),
-			message = baseString(method, args, headerParams, oaa),
+			message = baseString(method, args, oaaParams, oaa),
 			s = signature(message, k, oaa.sig_method || "HMAC-SHA1");
 		
-		var h = dojo.map(headerParams, function(item){
+		var h = dojo.map(oaaParams, function(item){
 			return ""+encode(item[0]) + "=\"" + encode((item[1]+""!="")?item[1]:"")+"\"";
 		}).join(",");
 		
 		h += ",oauth_signature=\""+encode(s)+"\"";
 		
-		args.headers = {"Authorization":"OAuth "+h};
+		args.headers = dojo.mixin({"Authorization":"OAuth "+h}, args.headers);
 
 		return args;
 	}
