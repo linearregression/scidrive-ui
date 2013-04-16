@@ -239,7 +239,7 @@ define([
                   { name: 'Name', field: 'path' , formatter: this._getName, width: '62%'},
                   { name: 'Size', field: 'size' , width: "15%"},
                   //{ name: 'Modified', field: 'modified' , width: "20%"},
-                  { name: 'Type', field: 'mime_type' , width: "20%"}
+                  { name: 'Type', field: 'mime_type' , formatter: this._shortenString, width: "20%"}
                   ]],
             rowSelector: '0px',
             canSort: false,
@@ -488,6 +488,15 @@ define([
         }
       },
       
+      _shortenString: function(mime, rowIndex) {
+        var max_len = 40;
+        if(!mime || mime.length < max_len) {
+          return mime;
+        } else {
+          return "<div title='"+mime+"'>"+mime.substring(0,max_len)+"...</div>";
+        }
+      },
+
     _showMetadata: function(path) {
      var panel = this;
 
