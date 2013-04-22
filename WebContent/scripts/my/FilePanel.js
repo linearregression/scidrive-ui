@@ -376,6 +376,7 @@ define([
       dojo.xhrPut(my.OAuth.sign("PUT", {
         url: this.store.vospace.url +"/1/account/service",
         putData: JSON.stringify(casJobsCredentials),
+        headers: { "Content-Type": "application/json"},
         handleAs: "text",
         error: function(data, ioargs) {
           panel._handleError(data, ioargs);
