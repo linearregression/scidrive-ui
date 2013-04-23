@@ -9,11 +9,6 @@
 
 @import url(http://fonts.googleapis.com/css?family=Roboto+Condensed|Fjalla+One|Economica:400&subset=latin,cyrillic);
 
-/*@font-face {
-  font-family: Myriad;
-  src: url('../../fonts/MyriadPro-Cond.woff') format('woff');
-}*/
-
 html, body {
 	width: 100%;
 	height: 100%;
@@ -136,6 +131,7 @@ html, body {
 
 .dijitSelect .dijitButtonText, .tundra td.dijitMenuItemLabel {padding: 3px;}
 
+
 .dijitToolbar .dijitSelect {margin: 4px 0px 4px 4px;}
 
 .dojoxDialogTitleBar {cursor: auto; padding-top: 10px; font-size: 1.3em;}
@@ -168,6 +164,12 @@ html, body {
     -webkit-border-image:url("../../images/interface/button.png") 10 round; /* Safari */
     -o-border-image:url("../../images/interface/button.png") 10 round; /* Opera */
     border-image:url("../../images/interface/button.png") 10 fill round;
+}
+
+/* Text button toolbar font */
+.toolbarShadedButton .dijitInline.dijitButtonText {
+	color: #326EB7;
+	font-size: 1.5em;
 }
 
 .toolbarShadedButton .dijitButtonNode {
@@ -248,6 +250,28 @@ html, body {
 	width: 320px;
 }
 
-.vobox .deleteShareButton {
-	background: red;
+/* Dialogs buttons */
+
+/* text button dialog border */
+.dijitInline.dialogShadedButton.dijitButton, .dialogShadedButton.dijitButton.dijitButtonHover.dijitHover {
+	border-style: solid;
+	border-width: 6px;
+    -moz-border-image:url("../../images/interface/button.png") 10 round; /* Firefox */
+    -webkit-border-image:url("../../images/interface/button.png") 10 round; /* Safari */
+    -o-border-image:url("../../images/interface/button.png") 10 round; /* Opera */
+    border-image:url("../../images/interface/button.png") 10 fill round;
+}
+
+.dialogShadedButton .dijitButtonNode, .dialogShadedButton .dijitInline.dijitButtonNode {
+	background: none;
+	border: 0px;
+	padding: 0px;
+}
+
+.dialogShadedButton .dijitButtonNode {
+	width: 120px;
+}
+
+.dialogShadedButton .dijitInline.dijitButtonText {
+	color: #326EB7;
 }

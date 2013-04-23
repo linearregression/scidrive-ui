@@ -167,6 +167,7 @@ define([
               load: function(data) {
                 var infoWindow = new dijit.Dialog({
                   title: "File URL",
+                  autofocus: false,
                   style: "background-color:white;z-index:5;position:relative;",
                   id : "IndoWindow",
                   onCancel: function() {
@@ -174,7 +175,7 @@ define([
                     this.destroyRecursive(false);
                   }
                 });
-                var infoContent = "<p>Data URL: <a href=\""+data.url+"\" target=\"_blank\">"+data.url+"</p>\n";
+                var infoContent = "<div style='background: #e3e3e3; margin: 30px; padding: 5px;'><a href=\""+data.url+"\" target=\"_blank\">"+data.url+"</a></div>";
                 infoWindow.set("content",infoContent);
                 infoWindow.show();
               },

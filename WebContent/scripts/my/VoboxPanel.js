@@ -295,7 +295,7 @@ define([
 
                 var tooltipText = "Used space: "+numeral(accountInfo.quota_info.normal*1024*1024*1024).format('0.0 b');
                 panel.userLimitTooltip.set("label", tooltipText);
-                dijit.Tooltip.defaultPosition=['below'];
+                dijit.Tooltip.defaultPosition=['below-centered'];
                 panel.userLimitTooltip.set("connectId",panel.userLimitBar.id);
             }
 

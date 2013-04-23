@@ -19,10 +19,10 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="secondPanelButton" data-dojo-attach-event="onClick:_addPanel" data-dojo-props="iconClass:'toolbarButton secpanToolbarButton', showLabel: false">Second panel
 					</button>
 					<img src="images/blank.gif" style="width:60px; height: 1px;"/>
-					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="helpButton" data-dojo-attach-event="onClick:_help" data-dojo-props="class:'toolbarShadedButton'"><span style="font-size: 1.5em; color: #326eb7;">Help</span>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="helpButton" data-dojo-attach-event="onClick:_help" data-dojo-props="class:'toolbarShadedButton'">Help
 					</button>
 					<img src="images/blank.gif" style="width:5px; height: 1px;"/>
-					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="logoutButton" data-dojo-attach-event="onClick:_logout" data-dojo-props="class:'toolbarShadedButton'"><span style="font-size: 1.5em; color: #326eb7;">Log out</span>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="logoutButton" data-dojo-attach-event="onClick:_logout" data-dojo-props="class:'toolbarShadedButton'">Log out
 					</button>
 				</div>
 	    	</div>
@@ -55,21 +55,17 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 		<!-- New folder dialog -->
 		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkdirDialog" title="Create new folder"
 			data-dojo-attach-event="execute:_mkdir">
-			<table>
-				<tr>
-					<td><label for="name"> Folder name: </label></td>
-					<td><input data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey"></td>
-				</tr>
-				<tr>
-					<td align="center" colspan="2">
-						<button data-dojo-type="dijit.form.Button" type="submit" onClick="return this.getParent().validate();">Create</button>
-					</td>
-				</tr>
-			</table>
+			<div style="margin: 10px;">
+				<label for="name"> Folder name: </label>
+				<input data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey">
+			</div>
+			<div style="text-align: center; margin: 10px;">
+				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="submit" onClick="return this.getParent().validate();">Create</button>
+			</div>
 		</div>
 
 		<!-- Set CasJobs Credentials -->
-		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="setCasJobsCredentialsDialog" title="Set your CasJobs credentials">
+		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="setCasJobsCredentialsDialog" autofocus="false" title="Set your CasJobs credentials">
 			<table>
 				<tr>
 					<td>Service at:</td>
@@ -90,7 +86,7 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 				
 				<tr>
 					<td align="center" colspan="2">
-						<button dojoType="dijit.form.Button" type="submit" data-dojo-attach-event="onClick:_setCasJobsCredentials">Set</button>
+						<button dojoType="dijit.form.Button" type="submit" data-dojo-props="class:'dialogShadedButton'" data-dojo-attach-event="onClick:_setCasJobsCredentials">Set</button>
 					</td>
 				</tr>
 			</table>
@@ -99,17 +95,13 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 		<!-- New file dialog -->
 		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkfileDialog" title="Create new file"
 			data-dojo-attach-event="execute:_mkfile">
-			<table>
-				<tr>
-					<td><label for="name"> File name: </label></td>
-					<td><input dojoType="dijit.form.ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey"></td>
-				</tr>
-				<tr>
-					<td align="center" colspan="2">
-						<button dojoType="dijit.form.Button" type="submit" onClick="return this.getParent().validate();">Create</button>
-					</td>
-				</tr>
-			</table>
+			<div style="margin: 10px;">
+				<label for="name"> File name: </label>
+				<input dojoType="dijit.form.ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey">
+			</div>
+			<div style="text-align: center; margin: 10px;">
+					<button dojoType="dijit.form.Button" type="submit" onClick="return this.getParent().validate();" data-dojo-props="class:'dialogShadedButton'">Create</button>
+			</div>
 		</div>
 
 		<div data-dojo-attach-point="helpDialog" data-dojo-type="dojox.widget.Dialog" sizeToViewport="true" data-dojo-props="href:'scripts/my/templates/help.html'" title="VOBox user guide" showTitle="true" draggable="false">
