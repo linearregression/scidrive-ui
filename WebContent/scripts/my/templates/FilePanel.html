@@ -11,14 +11,20 @@
 		</div>
 
 		<!-- Choose group dialog -->
-		<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="chooseShareGroupDialog" title="Choose group for sharing" data-dojo-attach-event="execute: _createShare">
-			<input type="radio" name="groupEnable" checked value="off" data-dojo-attach-event="onclick:_disableShareGroup"/><label> No group: anonymous access</label><br/>
-			<input type="radio" name="groupEnable" value="on" data-dojo-attach-event="onclick:_enableShareGroup"/><label> Choose group:</label><br/>
-
-			<input type="hidden" data-dojo-attach-point="groupEnable" value="off"/>
-	    	<div data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="shareSelect" data-dojo-props="searchAttr:'name', queryExpr: '*\$\{0\}*', autoComplete: false, disabled: 'disabled'"></div>
-	    	<div style="margin: 10px; display: none; width: 450px;" data-dojo-attach-point="usersListDiv">Group users:
-		    	<div data-dojo-attach-point="usersList" style="width: 98%; height: 80px; overflow:auto; margin: 10px;"></div>
+		<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="chooseShareGroupDialog" title="Choose group for sharing" data-dojo-attach-event="execute: _createShare" style="background-color: rgb(209, 228, 246);">
+			<div style="margin:0px auto; width: 450px;">
+				<div>
+					<input type="radio" name="groupEnable" checked value="off" data-dojo-attach-event="onclick:_disableShareGroup"/><label> No group: anonymous access</label>
+				</div>
+				<div style="margin: 5px 0px;">
+					<input type="radio" name="groupEnable" value="on" data-dojo-attach-event="onclick:_enableShareGroup"/><label> Choose group:</label><br/>
+					<input type="hidden" data-dojo-attach-point="groupEnable" value="off"/>
+				</div>
+		    	<div data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-point="shareSelect" data-dojo-props="searchAttr:'name', queryExpr: '*\$\{0\}*', autoComplete: false, disabled: 'disabled'" style="width: 100%;"></div>
+			</div>
+	    	<div style="margin: 10px 0px; display: none; box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.75);" data-dojo-attach-point="usersListDiv">
+	    		<div style="background-color: #FAFAFA; padding: 5px;">Group members who will get access:</div>
+		    	<div data-dojo-attach-point="usersList" style="width: 430px; height: 0px; padding: 5px;"></div>
 			</div>
 			<div><input name="readonlycheck" data-dojo-attach-point="readOnlyCheckBox" data-dojo-type="dijit/form/CheckBox" value="true" checked/> <label>Read only</label></div>
 			<center>

@@ -1,6 +1,7 @@
 define([
   "dojo/_base/declare",
   "dojo/_base/connect",
+  "dojo/_base/fx",
   "dojo/Deferred",
   "dojo/aspect",
   "dojo/_base/array",
@@ -46,7 +47,7 @@ define([
   "dojo/data/ItemFileWriteStore",
   "dijit/TitlePane",
   ],
-  function(declare, connect, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin, 
+  function(declare, connect, fx, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin, 
     MenuPlugin, DataGrid, Menu, LightBox, OAuth, ConfirmDialog, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
     Form, Button, Select, CheckBox, ValidationTextBox, TextBox, Textarea, 
     FilteringSelect, PopupMenuBarItem, DropDownMenu, InlineEditBox, Toolbar, ProgressBar, Dialog, registry, dojox_Dialog, ItemFileWriteStore
@@ -784,16 +785,40 @@ define([
     },
 
     _enableShareGroup: function(e) {
-      this.shareSelect.setDisabled(false);
+      var panel = this;
+
       domStyle.set(this.usersListDiv, "display", "block");
-      this.groupEnable.value = "on";
+      var anim = fx.animateProperty({
+        node:this.usersList,
+        properties: {
+            height: {end: 150}
+        }
+       });
+      aspect.after(anim, "onEnd", function(){
+        panel.groupEnable.value = "on";
+        panel.shareSelect.setDisabled(false);
+        //panel.shareSelect.reset();
+      }, true);
+      anim.play();
+
     },
 
     _disableShareGroup: function(e) {
-      this.shareSelect.setDisabled(true);
-      domStyle.set(this.usersListDiv, "display", 'none');
-      this.groupEnable.value = "off";
-      domConstruct.empty(this.usersList);
+      var panel = this;
+      var anim = fx.animateProperty({
+        node:this.usersList,
+        properties: {
+            height: { end:0}
+        }
+       });
+      aspect.after(anim, "onEnd", function(){
+        domStyle.set(panel.usersListDiv, "display", 'none');
+        panel.groupEnable.value = "off";
+        panel.shareSelect.setDisabled(true);
+        //domConstruct.empty(panel.usersList);
+      }, true);
+      anim.play();
+      
     },
 
     _handleError: function(data, ioargs) {
