@@ -76,14 +76,6 @@ define([
         if(null != this.store) {
           var panel = this; // to keep context
 
-          var selectionMenuObject = new Menu();
-          selectionMenuObject.addChild(new dijit.MenuItem({ 
-            label: "Delete selection", 
-            onClick:function(e) {
-              panel._deleteSelected();
-            } 
-          }));
-
           this._createUploader();
 
           var rowMenuObject = new Menu();
@@ -143,7 +135,21 @@ define([
           rowMenuObject.addChild(new dijit.MenuItem({ 
             label: "Delete", 
             onClick:function(e) {
-              panel._deleteItem(panel._menuSelectedItem.i.path);
+              var selectedItems = panel.gridWidget.selection.getSelected("row", true);
+
+              if(selectedItems != undefined) {
+                var selected = selectedItems.filter(function(val) {
+                  return val == panel._menuSelectedItem;
+                });
+
+                if(selected.length > 0) {
+                  panel._deleteSelection(selectedItems);
+                } else {
+                  panel._deleteSelection(panel._menuSelectedItem);
+                }
+              } else { // nothing is selected
+                panel._deleteSelection(panel._menuSelectedItem);
+              }
             } 
           })); 
           this._menuItems['pullUrlMenuItem'] = new dijit.MenuItem({ 
@@ -231,7 +237,6 @@ define([
 
 
           rowMenuObject.startup();
-          selectionMenuObject.startup();
 
           this.gridWidget = new DataGrid({
             id: this.grid.id,
@@ -270,7 +275,7 @@ define([
                 cell: 'disabled',
                 col: 'disabled'
               },
-              menus: {rowMenu: rowMenuObject.id, selectedRegionMenu: selectionMenuObject.id}
+              menus: {rowMenu: rowMenuObject.id}
             },
             query: {list: 'true'},
             pathWidget: this.pathSelect,
@@ -304,7 +309,8 @@ define([
         
         connect.connect(this.gridWidget, "dokeypress", this, function(e) {
           if(e.keyCode == keys.DELETE) { // press delete on grid
-            this._deleteSelected();
+            var selectedItems = panel.gridWidget.selection.getSelected("row", true);
+            panel._deleteSelection(selectedItems);
           }
         });
         
@@ -412,33 +418,16 @@ define([
       		sourcePlugin.grid.store.moveJob(store.vospace, nodeId, thisNodeId);
       	}
       }
-
-       var panel = this;
-
-       /*setTimeout(function() {
-         panel._refresh();
-         sourcePlugin.grid._refresh(true);
-       },1000);*///!!
     },
 
-    _deleteSelected: function() {
-      var panel = this;
-      var selectedItems = this.gridWidget.selection.getSelected("row", true); 
-      this._deleteItem(selectedItems);
-    },
-
-
-    _deleteItem: function(path) {
+    _deleteSelection: function(path) {
      var panel = this;
-     MessageBox.confirm({message: "Remove files?"}).then(function() {
+     MessageBox.confirm({message: "Delete files?"}).then(function() {
         if(path instanceof Array) {
           for(var i = 0; i < path.length; i++) {
              dojo.xhrDelete(OAuth.sign("DELETE", {
                url: encodeURI(panel.store.vospace.url+"/nodes"+path[i].i.path),
                handleAs: "text",
-               load: function(error, ioargs){
-                  //!!panel._refresh();
-               },
               error: function(data, ioargs) {
                 panel._handleError(data, ioargs);
               }
@@ -447,11 +436,8 @@ define([
 
         } else {
          dojo.xhrDelete(OAuth.sign("DELETE", {
-           url: encodeURI(panel.store.vospace.url+"/nodes"+path),
+           url: encodeURI(panel.store.vospace.url+"/nodes"+path.i.path),
            handleAs: "text",
-           load: function(error, ioargs){
-              //!!panel._refresh();
-           },
             error: function(data, ioargs) {
               panel._handleError(data, ioargs);
             }
