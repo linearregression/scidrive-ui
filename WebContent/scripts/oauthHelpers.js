@@ -118,7 +118,8 @@ function login(vospace, component, openWindow) {
 }
 
 function login2(vospace, component) {
-    require(["dojo/_base/json", "my/OAuth", "my/VoboxPanel", "dojo/io-query"], function(dojo, OAuth, VoboxPanel, ioQuery){
+    require(["dojo/_base/json", "my/OAuth", "my/VoboxPanel", "dojo/io-query", "dojo/_base/fx", "dojo/fx", "dojo/aspect", "dojo/dom-construct"], 
+    	function(dojo, OAuth, VoboxPanel, ioQuery, fx, coreFx, aspect, domConstruct){
     	var url = vospace.url+"/access_token";
 
 	    dojo.xhrPost(OAuth.sign("POST", {
@@ -144,10 +145,25 @@ function login2(vospace, component) {
 		            new VoboxPanel({
 		            	id: "voboxWidget"
 		            }, dojo.byId("voboxWidgetDiv"));
+	            	dijit.byId("voboxWidget").loginToVO(vospace, component); // with updated credentials
 	            	dijit.byId("voboxWidget").startup();
-	            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
+
+					var anim = coreFx.combine([
+						fx.fadeIn({
+						  node: "voboxWidget",
+						  duration: 1000
+						}),
+						fx.fadeOut({
+						  node: "loader",
+						  duration: 1000
+						})
+					]).play();
+
+					aspect.after(anim, "onEnd", function(){
+						domConstruct.destroy("loader");
+					}, true);
 	            } else {
-	            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
+	            	dijit.byId("voboxWidget").loginToVO(vospace, component); // with updated credentials
 	            }
 	        },
 	        error: function(data, ioargs) {

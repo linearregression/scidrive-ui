@@ -8,8 +8,6 @@ var shareParam;
 var identity_ver = "1.4";
 
 dojo.addOnLoad(function() {
-	// return;
-	setTimeout(function() {
     require(["dojo/request/xhr", "dojo/_base/lang"], function(xhr, lang){
 
 		/* Init identity object and make sure it's current version */
@@ -75,13 +73,29 @@ dojo.addOnLoad(function() {
 	    			if(vospace.credentials.stage == "request") { // contains request token
 	    				login2(vospace, null);
 	    			} else if(vospace.credentials.stage == "access") {
-					    require(["my/VoboxPanel"], function(VoboxPanel){
+					    require(["my/VoboxPanel", "dojo/_base/fx", "dojo/fx", "dojo/aspect", "dojo/dom-construct"], 
+					    	function(VoboxPanel, fx, coreFx, aspect, domConstruct){
 				            if(undefined == dijit.byId("voboxWidget")) {
 					            new VoboxPanel({
 					            	id: "voboxWidget"
 					            }, dojo.byId("voboxWidgetDiv"));
 				            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
 				            	dijit.byId("voboxWidget").startup();
+
+								var anim = coreFx.combine([
+									fx.fadeIn({
+									  node: "voboxWidget",
+									  duration: 1000
+									}),
+									fx.fadeOut({
+									  node: "loader",
+									  duration: 1000
+									})
+								]).play();
+
+								aspect.after(anim, "onEnd", function(){
+									domConstruct.destroy("loader");
+								}, true);
 				            } else {
 				            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
 				            }
@@ -121,7 +135,6 @@ dojo.addOnLoad(function() {
 	        }
 	    );
     });
-    }, 500);
 
 });
 
