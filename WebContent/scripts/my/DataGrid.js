@@ -65,20 +65,17 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
           this._eventSource = null;
         }
 
-        if(undefined != this._user) {
+        if(undefined != this._user && !!window.EventSource) {
 
             var shareRootPath = (this.store.vospace.isShare)?"/.*":""
             this._eventSource = new EventSource('updates?user='+this._user+'&path='+shareRootPath+this._currentPath);
             
             this._eventSource.onmessage = function(e) {
-              console.debug("Updated");
               panel.plugin('selector').clear();
               panel._refresh(true);
             };
             this._eventSource.onerror = function(e) {
                 panel._eventSource.close();
-                console.debug("Disconnected!!!");
-                console.debug(e);
                 panel._eventSource = null;
             };
         }
