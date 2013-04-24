@@ -142,13 +142,13 @@ function login2(vospace, component) {
 
 	            if(undefined == dijit.byId("voboxWidget")) {
 		            new VoboxPanel({
-		            	id: "voboxWidget",
-		            	style: {height: '100%'}
+		            	id: "voboxWidget"
 		            }, dojo.byId("voboxWidgetDiv"));
+	            	dijit.byId("voboxWidget").startup();
+	            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
+	            } else {
+	            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
 	            }
-
-	            dijit.byId("voboxWidget").loginToVO(vospace, component); // with updated credentials
-            	dijit.byId("voboxWidget").startup();
 	        },
 	        error: function(data, ioargs) {
 	        	console.error(data);

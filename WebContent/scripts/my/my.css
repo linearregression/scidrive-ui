@@ -17,6 +17,16 @@ html, body {
 	padding: 0;
 }
 
+.center {
+   width: 150px;
+   height: 150px;
+   position: absolute;
+   left: 50%;
+   top: 50%; 
+   margin-left: -75px;
+   margin-top: -75px;
+}
+
 .vobox {
 	font-size: 1em;
 	font-family: Economica,Helvetica,Tahoma,Arial,clean,sans-serif;

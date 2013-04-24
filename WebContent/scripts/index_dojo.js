@@ -8,6 +8,8 @@ var shareParam;
 var identity_ver = "1.4";
 
 dojo.addOnLoad(function() {
+	// return;
+	setTimeout(function() {
     require(["dojo/request/xhr", "dojo/_base/lang"], function(xhr, lang){
 
 		/* Init identity object and make sure it's current version */
@@ -76,12 +78,13 @@ dojo.addOnLoad(function() {
 					    require(["my/VoboxPanel"], function(VoboxPanel){
 				            if(undefined == dijit.byId("voboxWidget")) {
 					            new VoboxPanel({
-					            	id: "voboxWidget",
-					            	style: {height: '100%'}
+					            	id: "voboxWidget"
 					            }, dojo.byId("voboxWidgetDiv"));
+				            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
+				            	dijit.byId("voboxWidget").startup();
+				            } else {
+				            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
 				            }
-			            	dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
-			            	dijit.byId("voboxWidget").startup();
 			            });
 		        	}
 		        }
@@ -118,6 +121,8 @@ dojo.addOnLoad(function() {
 	        }
 	    );
     });
+    }, 500);
+
 });
 
 

@@ -2,6 +2,9 @@ define([
   "dojo/_base/declare", 
   "dojo/_base/array", 
   "dojo/_base/lang",
+  "dojo/_base/fx",
+  "dojo/fx",
+  "dojo/aspect",
   "dojo/query",
   "dojo/dom-style",
   "dojo/dom-construct",
@@ -26,7 +29,7 @@ define([
   "my/VosyncReadStore",
   "dojo/text!./templates/VoboxPanel.html",
   ],
-  function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
+  function(declare, array, lang, fx, coreFx, aspect, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, 
     OAuth, FilePanel, DataGrid, VosyncReadStore, template) {
     return declare("my.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
@@ -98,6 +101,27 @@ define([
                 console.debug("Something bad happened: can't find the region");
             });
             
+        },
+
+        startup: function(){
+          domStyle.set(this.id, "opacity", "0");
+          this.inherited(arguments);
+
+          var anim = coreFx.combine([
+            fx.fadeIn({
+              node: this.id,
+              duration: 1000
+            }),
+            fx.fadeOut({
+              node: "loader",
+              duration: 1000
+            })
+          ]).play();
+
+          aspect.after(anim, "onEnd", function(){
+            domConstruct.destroy("loader");
+          }, true);
+
         },
 
         _mkdirDialog: function() {
