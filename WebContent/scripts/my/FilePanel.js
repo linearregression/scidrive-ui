@@ -784,6 +784,7 @@ define([
       aspect.after(anim, "onEnd", function(){
         panel.groupEnable.value = "on";
         panel.shareSelect.setDisabled(false);
+        panel.shareSelect.loadAndOpenDropDown();
         //panel.shareSelect.reset();
       }, true);
       anim.play();
@@ -792,6 +793,7 @@ define([
 
     _disableShareGroup: function(e) {
       var panel = this;
+      this.shareSelect.closeDropDown();
       var anim = fx.animateProperty({
         node:this.usersList,
         properties: {
