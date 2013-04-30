@@ -1,13 +1,13 @@
 
-@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/resources/dojo.css";
-@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dijit/themes/tundra/tundra.css";
-@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css";
-@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/layout/resources/FloatingPane.css";
-@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/image/resources/Lightbox.css";
-@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/grid/resources/tundraGrid.css";
-@import "http://ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/widget/Dialog/Dialog.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojo/resources/dojo.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dijit/themes/tundra/tundra.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/layout/resources/FloatingPane.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/image/resources/Lightbox.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/grid/resources/tundraGrid.css";
+@import "//ajax.googleapis.com/ajax/libs/dojo/1.8.3/dojox/widget/Dialog/Dialog.css";
 
-@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed|Fjalla+One|Economica:400&subset=latin,cyrillic);
+@import url(//fonts.googleapis.com/css?family=Roboto+Condensed|Fjalla+One|Economica:400&subset=latin,cyrillic);
 
 html, body {
 	width: 100%;
