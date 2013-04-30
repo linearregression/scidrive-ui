@@ -345,6 +345,7 @@ define([
           dojo.xhrPut(my.OAuth.sign("PUT", {
            url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
            putData: nodeTemplate,
+           headers: { "Content-Type": "application/xml"},
            handleAs: "text",
            load: function(data){
             //!!panel._refresh();
@@ -368,6 +369,7 @@ define([
           dojo.xhrPut(my.OAuth.sign("PUT", {
            url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
            putData: nodeTemplate,
+           headers: { "Content-Type": "application/xml"},
            handleAs: "text",
            load: function(data){
             //!!panel._refresh();
