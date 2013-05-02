@@ -20,15 +20,17 @@ define([
   "dijit/ProgressBar",
   "dijit/form/Button",
   "dijit/form/Select",
+  "dijit/Dialog",
   "my/OAuth",
   "my/FilePanel",
   "my/DataGrid",
   "my/VosyncReadStore",
+  "my/JobsManager",
   "dojo/text!./templates/VoboxPanel.html",
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
-    BorderContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, 
-    OAuth, FilePanel, DataGrid, VosyncReadStore, template) {
+    BorderContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, Dialog,
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, template) {
     return declare("my.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -463,6 +465,30 @@ define([
           } else {
             this.loginSelect.updateOption(this._getCurrentRegions());
           }
+        },
+
+        _destroyJobs: function() { // destroys jobs grid
+          this.transfersManager.destroyRecursive();
+        },
+        
+        _showJobsManagerDialog: function() {
+
+          var transfersManager = new JobsManager({
+            vospace: this.current_panel.store.vospace,
+            transfers_url: this.current_panel.store.vospace.url+"/1/transfers",
+            style: "width: 800px; height: 500px;",
+          });
+          
+          var dialog = new Dialog({
+                  content: transfersManager,
+                  onHide: function() {
+                    transfersManager.destroyRecursive();
+                    this.destroyRecursive();
+                  }
+              });
+
+          dialog.show();
+      
         },
 
    

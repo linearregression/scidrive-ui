@@ -227,6 +227,7 @@ html, body {
 .linkToolbarButton {background-image: url(../../images/interface/link_btn.gif)}
 .casjobsToolbarButton {background-image: url(../../images/interface/sdss3_logo.png)}
 .secpanToolbarButton {background-image: url(../../images/interface/2nd_pan_btn.gif)}
+.jobsToolbarButton {background-image: url(../../images/interface/jobs_btn.gif)}
 
 .ConfirmDialog .dijitDialogPaneContentArea {
   margin: -10px -8px;
