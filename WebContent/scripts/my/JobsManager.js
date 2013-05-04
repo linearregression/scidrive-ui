@@ -103,7 +103,7 @@ define([
     		case 'RUN':
     			return "<img src='images/start.png' title='RUN' alt='RUN' height='32'/>";
     		case 'COMPLETED':
-    			return "<img src='images/finished.jpg' title='COMPLETED' alt='COMPLETED' height='32'/>";
+    			return "<img src='images/finished.gif' title='COMPLETED' alt='COMPLETED' height='32'/>";
     		case 'ERROR':
     			return "<img src='images/error.png' title='ERROR' alt='ERROR' height='32'/>";
     	}
