@@ -220,7 +220,7 @@ define([
 
                 var dlg = new dijit.Dialog({
                   title: "Containers Shares",
-                  style: "width: 600px; height: 450px",
+                  style: "width: 650px; height: 450px",
                   content: grid.domNode,
                   onHide: function() {
                     this.destroyRecursive();

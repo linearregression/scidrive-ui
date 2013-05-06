@@ -34,10 +34,6 @@ html, body {
 	font: inherit;
 }
 
-.help p, .help h4, .help div {
-	font-family: Helvetica,Tahoma,Arial,clean,sans-serif;
-}
-
 .topPanel {
 	background: url("../../images/interface/toolbar_bg.png") repeat-x scroll left top #EAEAEA;
 }
@@ -178,6 +174,7 @@ html, body {
 .toolbarShadedButton .dijitInline.dijitButtonText {
 	color: #326EB7;
 	font-size: 1.5em;
+	font-weight: 600;
 }
 
 .toolbarShadedButton .dijitButtonNode {

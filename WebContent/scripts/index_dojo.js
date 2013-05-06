@@ -126,8 +126,7 @@ dojo.addOnLoad(function() {
 	    });*/
 
     	xhr("regions.json", {
-			handleAs: "json",
-			preventCache: true
+			handleAs: "json"
 		}).then(
 			loginFunc, 
 	        function(error) { // regions are not supported
