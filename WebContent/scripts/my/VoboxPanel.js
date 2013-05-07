@@ -346,7 +346,6 @@ define([
                     } else {
                         dojo.byId(this.panel2contentpane.id).style.width = "50%";
                         this.rootContainer.resize();
-                        console.debug(this.panel2contentpane);
                         this.panel2 = new FilePanel({
                             login: this.loginToVO,
                             store: this.createStore(vospace),
