@@ -23,12 +23,12 @@ define([
         
         layout: [{
 		    rows: [
-		        {name: "direction", field: "direction", width: "8.5%", formatter: formatJobDirection, style: "text-align: center"},
-		        {name: "state", field: "state", width: "6.5%", formatter: formatJobState, style: "text-align: center"},
-		        {name: "id", field: "id", width: "25%"},
+		        {name: "direction", field: "direction", width: "70px", formatter: formatJobDirection, style: "text-align: center"},
+		        {name: "state", field: "state", width: "50px", formatter: formatJobState, style: "text-align: center"},
+		        {name: "id", field: "id", formatter: formatId, width: "100px"},
 		        //{name: "starttime", field: "starttime", width: "13%"},
-		        {name: "endtime", field: "endtime", width: "13%"},
-		        {name: "path", field: "path"},
+		        {name: "endtime", field: "endtime", width: "180px"},
+		        {name: "path", field: "path", width: "343px"},
 		    ]
 		}],
         
@@ -48,7 +48,7 @@ define([
 		    		    panel.jobsgrid = new dojox.grid.DataGrid({
 		    		        store: ObjectStore({objectStore: store}),
 		    		        structure: panel.layout,
-		    		        rowSelector: '20px',
+		    		        rowSelector: '0px',
 		    		        onMouseOver: function(e) {
 		    		        	var item = e.grid.getItem(e.rowIndex);
 		    		        	if(e.cell.name == "state" && item.state == "ERROR"){
@@ -97,16 +97,25 @@ define([
     }
 
     function formatJobState(value){
-    	switch(value){
-    		case 'PENDING':
-    			return "<img src='images/submited.png' title='PENDING' alt='PENDING' height='32'/>";
-    		case 'RUN':
-    			return "<img src='images/start.png' title='RUN' alt='RUN' height='32'/>";
-    		case 'COMPLETED':
-    			return "<img src='images/finished.gif' title='COMPLETED' alt='COMPLETED' height='32'/>";
-    		case 'ERROR':
-    			return "<img src='images/error.png' title='ERROR' alt='ERROR' height='32'/>";
-    	}
+        switch(value){
+            case 'PENDING':
+                return "<img src='images/submited.png' title='PENDING' alt='PENDING' height='32'/>";
+            case 'RUN':
+                return "<img src='images/start.png' title='RUN' alt='RUN' height='32'/>";
+            case 'COMPLETED':
+                return "<img src='images/finished.gif' title='COMPLETED' alt='COMPLETED' height='32'/>";
+            case 'ERROR':
+                return "<img src='images/error.png' title='ERROR' alt='ERROR' height='32'/>";
+        }
+    }
+
+    function formatId(value){
+        var max_len = 10;
+        if(!value || value.length < max_len) {
+          return value;
+        } else {
+          return "<div title='"+value+"'>"+value.substring(0,max_len)+"...</div>";
+        }
     }
 
 });

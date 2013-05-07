@@ -244,9 +244,9 @@ define([
             structure: [[
                   //{ name: ' ', field: 'is_dir' , formatter: this._formatFileIcon, width: '3%'},
                   { name: 'Name', field: 'path' , formatter: this._getName, width: '62%'},
-                  { name: 'Size', field: 'size' , width: "15%"},
+                  { name: 'Size', field: 'size' , width: "10%"},
                   //{ name: 'Modified', field: 'modified' , width: "20%"},
-                  { name: 'Type', field: 'mime_type' , formatter: this._shortenString, width: "20%"}
+                  { name: 'Type', field: 'mime_type' , formatter: this._shortenString, width: "30%"}
                   ]],
             rowSelector: '0px',
             canSort: false,
