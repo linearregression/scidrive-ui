@@ -479,18 +479,35 @@ define([
           });
           
           var dialog = new Dialog({
-                  content: transfersManager,
-                  onHide: function() {
-                    transfersManager.destroyRecursive();
-                    this.destroyRecursive();
-                  }
-              });
+              content: transfersManager,
+              onHide: function() {
+                transfersManager.destroyRecursive();
+                this.destroyRecursive();
+              }
+          });
 
           dialog.show();
       
         },
 
-   
+        _showProcessManagerDialog: function() {
+          var dialog = new Dialog({
+              content: "transfersManager",
+              onHide: function() {
+                //transfersManager.destroyRecursive();
+                this.destroyRecursive();
+              }
+          });
+
+          dialog.show();
+          
+        },
+
+        _updateProcessors: function() {
+          
+        }
+
+
     });
 
 });

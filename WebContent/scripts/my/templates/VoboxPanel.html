@@ -20,6 +20,8 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 					</button>
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="jobsPanelButton" data-dojo-attach-event="onClick:_showJobsManagerDialog" data-dojo-props="iconClass:'toolbarButton jobsToolbarButton', showLabel: false">Jobs
 					</button>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="processPanelButton" data-dojo-attach-event="onClick:_showProcessManagerDialog" data-dojo-props="iconClass:'toolbarButton jobsToolbarButton', showLabel: false">Processors
+					</button>
 					<img src="images/blank.gif" style="width:60px; height: 1px;"/>
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="helpButton" data-dojo-attach-event="onClick:_help" data-dojo-props="class:'toolbarShadedButton'">Help
 					</button>
@@ -107,6 +109,21 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 		</div>
 
 		<div data-dojo-attach-point="helpDialog" data-dojo-type="dojox.widget.Dialog" sizeToViewport="true" data-dojo-props="href:'scripts/my/templates/help.html'" title="VOBox user guide" showTitle="true" draggable="false">
+		</div>
+
+		<!-- Manage processors dialog -->
+		<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="procManageDialog" title="Manage processors" data-dojo-attach-event="execute: _updateProcessors" data-dojo-props="class:'dialog'">
+			<div style="margin:0px auto; width: 450px;">
+			</div>
+			<center>
+				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="submit">Update
+				</button>
+				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'">Cancel
+					<script type="dojo/on" data-dojo-event="click">
+						this.getParent().hide();
+					</script>
+				</button>
+			</center>
 		</div>
 	</div><!-- hidden div -->
 
