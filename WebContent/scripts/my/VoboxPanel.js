@@ -175,13 +175,13 @@ define([
                     }
                   },
                   {'name': 'Container', 'field': 'container', 'width': '30%'},
-                  {'name': 'Group', 'field': 'group', 'width': '30%'},
+                  {'name': 'Group', 'field': 'group', 'width': '28%'},
                   {'name': 'Write', 'field': 'write_permission', 'width': '10%', 
                     formatter: function(col, rowIndex) {
                         return col?"✔":"✘";
                     }
                   },
-                  {'name': 'Remove', 'field':'share_id', 'width':'10%', 
+                  {'name': 'Remove', 'field':'share_id', 'width':'12%', 
                     formatter: function(col, rowIndex) {
                       var rowdata = this.grid.getItem(rowIndex);
                       var share_id = rowdata['share_id'];
@@ -220,7 +220,7 @@ define([
 
                 var dlg = new dijit.Dialog({
                   title: "Containers Shares",
-                  style: "width: 650px; height: 450px",
+                  style: "width: 680px; height: 450px",
                   content: grid.domNode,
                   onHide: function() {
                     this.destroyRecursive();
