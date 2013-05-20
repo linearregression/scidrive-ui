@@ -171,9 +171,11 @@ define([
               handleAs: "json",
               sync: false,
               load: function(data) {
+                var infoContent = "<div style='background: #e3e3e3; margin: 30px; padding: 5px;'><a href=\""+data.url+"\" target=\"_blank\">"+data.url+"</a></div>";
                 var infoWindow = new dijit.Dialog({
                   title: "File URL",
                   autofocus: false,
+                  content: infoContent,
                   style: "background-color:white;z-index:5;position:relative;",
                   id : "IndoWindow",
                   onCancel: function() {
@@ -181,8 +183,6 @@ define([
                     this.destroyRecursive(false);
                   }
                 });
-                var infoContent = "<div style='background: #e3e3e3; margin: 30px; padding: 5px;'><a href=\""+data.url+"\" target=\"_blank\">"+data.url+"</a></div>";
-                infoWindow.set("content",infoContent);
                 infoWindow.show();
               },
               error: function(data, ioargs) {
