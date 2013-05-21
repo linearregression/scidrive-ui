@@ -20,6 +20,7 @@ define([
   "dijit/ProgressBar",
   "dijit/form/Button",
   "dijit/form/Select",
+  "dijit/form/ToggleButton",
   "dijit/Dialog",
   "my/OAuth",
   "my/FilePanel",
@@ -29,7 +30,7 @@ define([
   "dojo/text!./templates/VoboxPanel.html",
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
-    BorderContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, Dialog,
+    BorderContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, ToggleButton, Dialog,
     OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, template) {
     return declare("my.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
@@ -300,9 +301,10 @@ define([
                 panel.userLimitTooltip.set("label", tooltipText);
                 dijit.Tooltip.defaultPosition=['below-centered'];
                 panel.userLimitTooltip.set("connectId",panel.userLimitBar.id);
+                panel.current_panel.gridWidget.setUser(accountInfo.display_name);
             }
 
-            this.current_panel.updateUserInfo(updateInfo);
+            this.current_panel.getUserInfo(updateInfo);
 
         },
 
@@ -491,15 +493,71 @@ define([
         },
 
         _showProcessManagerDialog: function() {
-          var dialog = new Dialog({
-              content: "transfersManager",
-              onHide: function() {
-                //transfersManager.destroyRecursive();
-                this.destroyRecursive();
-              }
+          var panel = this;
+          require(["gform/createStandardEditorFactory", "gform/Editor", "gform/convertSchema", "dojo/json", "dojo/text!schema.json"],
+            function(createEf, Editor, convertSchema, json, meta) {
+                panel.current_panel.getUserInfo(function(userInfo) {
+                  var bc = new BorderContainer({
+                      style: "height: 500px; width: 800px;"
+                  });
+                  var cp_left = new ContentPane({region: "left", style: "width: 385;"});
+
+                  for (var procKey in userInfo.services) {
+                      if (userInfo.services.hasOwnProperty(procKey)) {
+                        var chk = new ToggleButton({
+                            label: procKey,
+                            checked: userInfo.services.procKey,
+                            iconClass: "dijitCheckBoxIcon",
+                            onClick: function(b){ alert('onChange called with parameter = ' + b + ', and widget value = ' + this.get('value') ); }
+                        })
+                        chk.placeAt(cp_left);
+                      }
+                    }
+
+                  bc.addChild(cp_left);
+
+                  var cp_form = new ContentPane({region: "center", style: "overflow: auto"});
+
+                  var editor = new Editor({
+                      editorFactory: createEf(),
+                      meta: convertSchema(json.parse(meta))
+                  });
+                  editor.placeAt(cp_form);
+                  bc.addChild(cp_form);
+        
+                  var validateAndSave=function() {
+                      var errorCount=editor.validate(true);
+                      if (errorCount==0) {
+                          alert("saved: "+json.stringify(editor.get("plainValue")));
+                      }
+                  }
+                  // registry.byId("reset").on("click",function(){editor.reset()});
+
+                  var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
+
+                  var updateButton = new Button({label: "Update", class:'dialogShadedButton'});
+                  on(updateButton, "click", validateAndSave);
+                  cp_buttons.addChild(updateButton);
+
+                  var cancelButton = new Button({label: "Cancel", class:'dialogShadedButton'});
+                  on(cancelButton, "click", function(){});
+                  cp_buttons.addChild(cancelButton);
+                  
+                  bc.addChild(cp_buttons);
+
+                  bc.startup();
+
+
+                  var dialog = new Dialog({
+                      content: bc,
+                      onHide: function() {
+                        this.destroyRecursive();
+                      }
+                  });
+                  dialog.show();
+                });
           });
 
-          dialog.show();
           
         },
 

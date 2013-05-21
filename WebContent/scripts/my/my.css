@@ -6,6 +6,7 @@
 @import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/image/resources/Lightbox.css";
 @import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/grid/resources/tundraGrid.css";
 @import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/widget/Dialog/Dialog.css";
+@import "../gform/resources/gform.css";
 
 html, body {
 	width: 100%;

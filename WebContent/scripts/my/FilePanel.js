@@ -555,7 +555,7 @@ define([
       }
     },
 
-    updateUserInfo: function(updateInfo /* callback */) {
+    getUserInfo: function(updateInfo /* callback */) {
       var panel = this;
       dojo.xhrGet(OAuth.sign("GET", {
         url: encodeURI(this.store.vospace.url+"/1/account/info"),
@@ -563,7 +563,6 @@ define([
         sync: false,
         load: function(accountInfo) {
           updateInfo(accountInfo);
-          panel.gridWidget.setUser(accountInfo.display_name);
         },
         error: function(data, ioargs) {
           panel._handleError(data, ioargs);

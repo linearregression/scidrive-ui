@@ -111,20 +111,6 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 		<div data-dojo-attach-point="helpDialog" data-dojo-type="dojox.widget.Dialog" sizeToViewport="true" data-dojo-props="href:'scripts/my/templates/help.html'" title="VOBox user guide" showTitle="true" draggable="false">
 		</div>
 
-		<!-- Manage processors dialog -->
-		<div data-dojo-type="dijit/Dialog" data-dojo-attach-point="procManageDialog" title="Manage processors" data-dojo-attach-event="execute: _updateProcessors" data-dojo-props="class:'dialog'">
-			<div style="margin:0px auto; width: 450px;">
-			</div>
-			<center>
-				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="submit">Update
-				</button>
-				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'">Cancel
-					<script type="dojo/on" data-dojo-event="click">
-						this.getParent().hide();
-					</script>
-				</button>
-			</center>
-		</div>
 	</div><!-- hidden div -->
 
 	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="fileuploads" data-dojo-props="class:'fileUploadPanel'">
