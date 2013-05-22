@@ -10,18 +10,23 @@ define([
   "dojo/fx/Toggler",
   "dojo/fx",
   "dojo/data/ItemFileWriteStore",
+  "dojo/request/xhr",
   "dijit/_WidgetBase",
   "dijit/_TemplatedMixin",
   "dijit/_WidgetsInTemplateMixin",
   "dijit/layout/BorderContainer",
+  "dijit/layout/TabContainer",
   "dijit/layout/ContentPane",
   "dijit/Toolbar",
   "dijit/Tooltip",
   "dijit/ProgressBar",
   "dijit/form/Button",
   "dijit/form/Select",
+  "dijit/form/MultiSelect",
   "dijit/form/ToggleButton",
+  "dijit/form/TextBox",
   "dijit/Dialog",
+  "dojox/layout/TableContainer",
   "my/OAuth",
   "my/FilePanel",
   "my/DataGrid",
@@ -29,8 +34,8 @@ define([
   "my/JobsManager",
   "dojo/text!./templates/VoboxPanel.html",
   ],
-  function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
-    BorderContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, ToggleButton, Dialog,
+  function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
+    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer,
     OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, template) {
     return declare("my.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
@@ -494,71 +499,84 @@ define([
 
         _showProcessManagerDialog: function() {
           var panel = this;
-          require(["gform/createStandardEditorFactory", "gform/Editor", "gform/convertSchema", "dojo/json", "dojo/text!schema.json"],
-            function(createEf, Editor, convertSchema, json, meta) {
-                panel.current_panel.getUserInfo(function(userInfo) {
-                  var bc = new BorderContainer({
-                      style: "height: 500px; width: 800px;"
-                  });
-                  var cp_left = new ContentPane({region: "left", style: "width: 385;"});
-
-                  for (var procKey in userInfo.services) {
-                      if (userInfo.services.hasOwnProperty(procKey)) {
-                        var chk = new ToggleButton({
-                            label: procKey,
-                            checked: userInfo.services.procKey,
-                            iconClass: "dijitCheckBoxIcon",
-                            onClick: function(b){ alert('onChange called with parameter = ' + b + ', and widget value = ' + this.get('value') ); }
-                        })
-                        chk.placeAt(cp_left);
-                      }
-                    }
-
-                  bc.addChild(cp_left);
-
-                  var cp_form = new ContentPane({region: "center", style: "overflow: auto"});
-
-                  var editor = new Editor({
-                      editorFactory: createEf(),
-                      meta: convertSchema(json.parse(meta))
-                  });
-                  editor.placeAt(cp_form);
-                  bc.addChild(cp_form);
-        
-                  var validateAndSave=function() {
-                      var errorCount=editor.validate(true);
-                      if (errorCount==0) {
-                          alert("saved: "+json.stringify(editor.get("plainValue")));
-                      }
-                  }
-                  // registry.byId("reset").on("click",function(){editor.reset()});
-
-                  var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
-
-                  var updateButton = new Button({label: "Update", class:'dialogShadedButton'});
-                  on(updateButton, "click", validateAndSave);
-                  cp_buttons.addChild(updateButton);
-
-                  var cancelButton = new Button({label: "Cancel", class:'dialogShadedButton'});
-                  on(cancelButton, "click", function(){});
-                  cp_buttons.addChild(cancelButton);
-                  
-                  bc.addChild(cp_buttons);
-
-                  bc.startup();
-
-
-                  var dialog = new Dialog({
-                      content: bc,
-                      onHide: function() {
-                        this.destroyRecursive();
-                      }
-                  });
-                  dialog.show();
+          panel.current_panel.getUserInfo(function(userInfo) {
+            var tabContainer = new TabContainer({
+                    doLayout: false,
+                    tabPosition: "left-h",
+                    style: "height: 500px; width: 800px;",
+                    tabStrip: true
                 });
-          });
 
+            userInfo.services.map(function(service) {
+              var cp = new ContentPane({
+                  title: service.id,
+                  onShow: function() {
+
+                    var bc = new BorderContainer({style: "height: 100%; width: 100%"});
+  
+                    var cp_form = new ContentPane({
+                      region: "center", 
+                      style: "overflow: auto; box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.75); margin: 10px; text-align: right;"
+                    });
+
+                    xhr(panel.current_panel.store.vospace.url + "/1/account/service_schema/"+service.id, {
+                      handleAs: "json"
+                    }).then(function(data){
+  
+                      data.fields.map(function(property) {
+                        var propertyTextBox = new TextBox({
+                            value: property.defaultValue,
+                            placeHolder: property.name,
+                            style: "width: 450px"
+                        });
+                        domConstruct.place("<label for='"+propertyTextBox.id+"'>"+property.name+" </h1>", cp_form.id);
+                        cp_form.addChild(propertyTextBox);
+                        domConstruct.place("<br/><br/>", cp_form.id);
+                      });
+
+                    }, function(err){
+                      console.error(err);
+                    });
+
+                    bc.addChild(cp_form);
           
+                    var validateAndSave=function() {
+                        var errorCount=editor.validate(true);
+                        if (errorCount==0) {
+                            alert("saved: "+json.stringify(editor.get("plainValue")));
+                        }
+                    }
+                    var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
+
+                    var updateButton = new Button({label: "Update", class:'dialogShadedButton'});
+                    on(updateButton, "click", validateAndSave);
+                    cp_buttons.addChild(updateButton);
+
+                    var cancelButton = new Button({label: "Clear", class:'dialogShadedButton'});
+                    on(cancelButton, "click", function(){editor.reset();});
+                    cp_buttons.addChild(cancelButton);
+                    
+                    bc.addChild(cp_buttons);
+
+                    bc.startup();
+
+                    this.addChild(bc);
+                  },
+                  onHide: function() {
+                    this.destroyDescendants();
+                  }
+              });
+              tabContainer.addChild(cp);
+            });
+
+            var dialog = new Dialog({
+                content: tabContainer,
+                onHide: function() {
+                  this.destroyRecursive();
+                }
+            });
+            dialog.show();
+          });
         },
 
         _updateProcessors: function() {
