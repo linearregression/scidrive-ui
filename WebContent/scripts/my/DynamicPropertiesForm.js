@@ -1,7 +1,7 @@
 define( [
 "dojo/_base/declare", 
 "dijit/form/Form",
-"dijit/form/TextBox",
+"dijit/form/ValidationTextBox",
 "dijit/form/Button",
 "dijit/layout/ContentPane",
 "dijit/layout/BorderContainer",
@@ -9,9 +9,10 @@ define( [
 "dojo/request/xhr",
 "dojo/on",
 "dojo/dom-form",
+"my/OAuth",
 ],
 
-function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstruct, xhr, on, domForm) {
+function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstruct, xhr, on, domForm, OAuth) {
     return declare( "my.DynamicPropertiesForm", Form, {
 
         constructor: function(args) {
@@ -23,6 +24,7 @@ function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstr
 
         postCreate: function() {
             var form = this;
+            var panel = this.panel;
             var bc = new BorderContainer({style: "height: 100%; width: 100%"});
 
             var cp_form = new ContentPane({
@@ -30,30 +32,40 @@ function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstr
               style: "overflow: auto; box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.75); margin: 10px; text-align: right;"
             });
 
-            xhr(this.panel.current_panel.store.vospace.url + "/1/account/service_schema/"+this.service.id, {
-              handleAs: "json"
-            }).then(function(data){
-              data.fields.map(function(property) {
-                var propertyTextBox = new TextBox({
-                    value: property.defaultValue,
-                    placeHolder: property.name,
-                    name: property.name,
-                    style: "width: 450px"
-                });
-                domConstruct.place("<label for='"+propertyTextBox.id+"'>"+property.name+" </h1>", cp_form.id);
-                cp_form.addChild(propertyTextBox);
-                domConstruct.place("<br/><br/>", cp_form.id);
-              });
+            xhr(this.panel.current_panel.store.vospace.url + "/1/account/service_schema/" + this.service.id, {
+                handleAs: "json"
+            }).then(function(schema) {
+                dojo.xhrGet(OAuth.sign("GET", {
+                    url: panel.current_panel.store.vospace.url + "/1/account/service/" + form.service.id,
+                    handleAs: "json",
+                    load: function(service_cred) {
+                        schema.fields.map(function(property) {
+                            var propertyTextBox = new TextBox({
+                                value: (service_cred[property.name] == null)?property.defaultValue:service_cred[property.name],
+                                placeHolder: property.name,
+                                name: property.name,
+                                required: property.required,
+                                style: "width: 450px"
+                            });
+                            domConstruct.place("<label for='" + propertyTextBox.id + "'>" + property.name + " </h1>", cp_form.id);
+                            cp_form.addChild(propertyTextBox);
+                            domConstruct.place("<br/><br/>", cp_form.id);
+                        });
 
-            }, function(err){
-              console.error(err);
+                    },
+                    error: function(data, ioargs) {
+                        panel.current_panel._handleError(data, ioargs);
+                    }
+                }, panel.current_panel.store.vospace.credentials));
+            }, function(err) {
+                console.error(err);
             });
 
             bc.addChild(cp_form);
 
             var validateAndSave=function() {
-                if (form.validate()) {
-                    alert("saved: "+domForm.toJson(form.id));
+                if (form.validate() && typeof(form.save) != "undefined") {
+                    form.save(domForm.toJson(form.id));
                 }
             }
             var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
@@ -62,9 +74,9 @@ function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstr
             on(updateButton, "click", validateAndSave);
             cp_buttons.addChild(updateButton);
 
-            var cancelButton = new Button({label: "Clear", class:'dialogShadedButton'});
-            on(cancelButton, "click", function(){editor.reset();});
-            cp_buttons.addChild(cancelButton);
+            // var cancelButton = new Button({label: "Clear", class:'dialogShadedButton'});
+            // on(cancelButton, "click", function(){editor.reset();});
+            // cp_buttons.addChild(cancelButton);
             
             bc.addChild(cp_buttons);
 

@@ -517,7 +517,18 @@ define([
                       style: "height: 100%; width: 100%",
                       panel: panel,
                       service: service,
+                      save: function(jsonValues) {
+                        dojo.xhrPut(OAuth.sign("PUT", {
+                          url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                          putData: jsonValues,
+                          headers: { "Content-Type": "application/json"},
+                          handleAs: "text",
+                          error: function(data, ioargs) {
+                            panel.current_panel._handleError(data, ioargs);
+                          }
 
+                        }, panel.current_panel.store.vospace.credentials));
+                      }
                     });
 
                     this.addChild(form);
