@@ -32,11 +32,12 @@ define([
   "my/DataGrid",
   "my/VosyncReadStore",
   "my/JobsManager",
+  "my/DynamicPropertiesForm",
   "dojo/text!./templates/VoboxPanel.html",
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, template) {
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, template) {
     return declare("my.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -512,55 +513,15 @@ define([
                   title: service.id,
                   onShow: function() {
 
-                    var bc = new BorderContainer({style: "height: 100%; width: 100%"});
-  
-                    var cp_form = new ContentPane({
-                      region: "center", 
-                      style: "overflow: auto; box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.75); margin: 10px; text-align: right;"
+                    var form = new DynamicPropertiesForm({
+                      style: "height: 100%; width: 100%",
+                      panel: panel,
+                      service: service,
+
                     });
 
-                    xhr(panel.current_panel.store.vospace.url + "/1/account/service_schema/"+service.id, {
-                      handleAs: "json"
-                    }).then(function(data){
-  
-                      data.fields.map(function(property) {
-                        var propertyTextBox = new TextBox({
-                            value: property.defaultValue,
-                            placeHolder: property.name,
-                            style: "width: 450px"
-                        });
-                        domConstruct.place("<label for='"+propertyTextBox.id+"'>"+property.name+" </h1>", cp_form.id);
-                        cp_form.addChild(propertyTextBox);
-                        domConstruct.place("<br/><br/>", cp_form.id);
-                      });
-
-                    }, function(err){
-                      console.error(err);
-                    });
-
-                    bc.addChild(cp_form);
-          
-                    var validateAndSave=function() {
-                        var errorCount=editor.validate(true);
-                        if (errorCount==0) {
-                            alert("saved: "+json.stringify(editor.get("plainValue")));
-                        }
-                    }
-                    var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
-
-                    var updateButton = new Button({label: "Update", class:'dialogShadedButton'});
-                    on(updateButton, "click", validateAndSave);
-                    cp_buttons.addChild(updateButton);
-
-                    var cancelButton = new Button({label: "Clear", class:'dialogShadedButton'});
-                    on(cancelButton, "click", function(){editor.reset();});
-                    cp_buttons.addChild(cancelButton);
-                    
-                    bc.addChild(cp_buttons);
-
-                    bc.startup();
-
-                    this.addChild(bc);
+                    this.addChild(form);
+                    form.startup();
                   },
                   onHide: function() {
                     this.destroyDescendants();
