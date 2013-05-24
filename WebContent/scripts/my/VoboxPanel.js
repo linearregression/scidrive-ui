@@ -526,6 +526,7 @@ define([
                             handleAs: "text",
                             load: function(data) {
                               cp.set("title",'✔'+cp.get("title").substring(1));
+                              service.enabled = true;
                             },
                             error: function(data, ioargs) {
                               panel.current_panel._handleError(data, ioargs);
@@ -538,6 +539,7 @@ define([
                             handleAs: "text",
                             load: function(data) {
                               cp.set("title",'✘'+cp.get("title").substring(1));
+                              service.enabled = false;
                             },
                             error: function(data, ioargs) {
                               panel.current_panel._handleError(data, ioargs);
@@ -570,12 +572,6 @@ define([
             dialog.show();
           });
         },
-
-        _updateProcessors: function() {
-          
-        }
-
-
     });
 
 });
