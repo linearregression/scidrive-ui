@@ -44,6 +44,7 @@ function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstr
                                 value: (service_cred[property.name] == null)?property.defaultValue:service_cred[property.name],
                                 placeHolder: property.name,
                                 name: property.name,
+                                type: (property.password)?"password":"text",
                                 required: property.required,
                                 style: "width: 450px"
                             });
@@ -70,7 +71,7 @@ function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstr
             }
             var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
 
-            var updateButton = new Button({label: "Update", class:'dialogShadedButton'});
+            var updateButton = new Button({label: "Save", class:'dialogShadedButton'});
             on(updateButton, "click", validateAndSave);
             cp_buttons.addChild(updateButton);
 

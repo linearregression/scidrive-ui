@@ -542,6 +542,7 @@ define([
             });
 
             var dialog = new Dialog({
+                title: "Metadata extractors configuration",
                 content: tabContainer,
                 onHide: function() {
                   this.destroyRecursive();
