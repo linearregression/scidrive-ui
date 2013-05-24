@@ -3,23 +3,23 @@ define( [
 "dijit/form/Form",
 "dijit/form/ValidationTextBox",
 "dijit/form/Button",
+"dijit/form/ToggleButton",
 "dijit/layout/ContentPane",
 "dijit/layout/BorderContainer",
 "dojo/dom-construct",
+"dojo/dom-style",
 "dojo/request/xhr",
 "dojo/on",
 "dojo/dom-form",
 "my/OAuth",
 ],
 
-function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstruct, xhr, on, domForm, OAuth) {
+function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContainer, domConstruct, domStyle, xhr, on, domForm, OAuth) {
     return declare( "my.DynamicPropertiesForm", Form, {
 
         constructor: function(args) {
             declare.safeMixin(this, args);
-        },
-
-        onSubmit: function() { 
+            this.form_fields = [];
         },
 
         postCreate: function() {
@@ -35,24 +35,27 @@ function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstr
             xhr(this.panel.current_panel.store.vospace.url + "/1/account/service_schema/" + this.service.id, {
                 handleAs: "json"
             }).then(function(schema) {
+                domConstruct.place("<div style='text-align: left; margin: 15px;'><h3>"+schema.description+"</h3></div>", cp_form.id);
                 dojo.xhrGet(OAuth.sign("GET", {
                     url: panel.current_panel.store.vospace.url + "/1/account/service/" + form.service.id,
                     handleAs: "json",
+                    async: true,
                     load: function(service_cred) {
                         schema.fields.map(function(property) {
                             var propertyTextBox = new TextBox({
-                                value: (service_cred[property.name] == null)?property.defaultValue:service_cred[property.name],
+                                value: (!form.service.enabled)?property.defaultValue:((service_cred[property.name] == null)?"":service_cred[property.name]),
                                 placeHolder: property.name,
                                 name: property.name,
                                 type: (property.password)?"password":"text",
                                 required: property.required,
-                                style: "width: 450px"
+                                style: "width: 450px",
+                                disabled: !form.service.enabled
                             });
                             domConstruct.place("<label for='" + propertyTextBox.id + "'>" + property.name + " </h1>", cp_form.id);
                             cp_form.addChild(propertyTextBox);
+                            form.form_fields.push(propertyTextBox);
                             domConstruct.place("<br/><br/>", cp_form.id);
                         });
-
                     },
                     error: function(data, ioargs) {
                         panel.current_panel._handleError(data, ioargs);
@@ -70,6 +73,20 @@ function(declare, Form, TextBox, Button, ContentPane, BorderContainer, domConstr
                 }
             }
             var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
+
+            this.onOffButton = new ToggleButton({
+                class:'dialogShadedButton',
+                checked: this.service.enabled,
+                onChange: function(val){
+                    form.form_fields.map(function(field){
+                        field.set("disabled", !val);
+                    });
+                    this.set('label',val?'✔ Enabled':'✘ Disabled');
+                },
+                label: (this.service.enabled)?"✔ Enabled":"✘ Disabled"
+            });
+            domStyle.set(this.onOffButton, "width", "200px");
+            cp_buttons.addChild(this.onOffButton);
 
             var updateButton = new Button({label: "Save", class:'dialogShadedButton'});
             on(updateButton, "click", validateAndSave);

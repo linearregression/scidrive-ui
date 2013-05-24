@@ -510,7 +510,7 @@ define([
 
             userInfo.services.map(function(service) {
               var cp = new ContentPane({
-                  title: service.id,
+                  title: ((service.enabled)?'✔ ':'✘ ')+service.title,
                   onShow: function() {
 
                     var form = new DynamicPropertiesForm({
@@ -518,16 +518,35 @@ define([
                       panel: panel,
                       service: service,
                       save: function(jsonValues) {
-                        dojo.xhrPut(OAuth.sign("PUT", {
-                          url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
-                          putData: jsonValues,
-                          headers: { "Content-Type": "application/json"},
-                          handleAs: "text",
-                          error: function(data, ioargs) {
-                            panel.current_panel._handleError(data, ioargs);
-                          }
+                        if(this.onOffButton.get("checked")) {
+                          dojo.xhrPut(OAuth.sign("PUT", {
+                            url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                            putData: jsonValues,
+                            headers: { "Content-Type": "application/json"},
+                            handleAs: "text",
+                            load: function(data) {
+                              cp.set("title",'✔'+cp.get("title").substring(1));
+                            },
+                            error: function(data, ioargs) {
+                              panel.current_panel._handleError(data, ioargs);
+                            }
 
-                        }, panel.current_panel.store.vospace.credentials));
+                          }, panel.current_panel.store.vospace.credentials));
+                        } else {
+                          dojo.xhrDelete(OAuth.sign("DELETE", {
+                            url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                            handleAs: "text",
+                            load: function(data) {
+                              cp.set("title",'✘'+cp.get("title").substring(1));
+                            },
+                            error: function(data, ioargs) {
+                              panel.current_panel._handleError(data, ioargs);
+                            }
+
+                          }, panel.current_panel.store.vospace.credentials));
+
+                        }
+
                       }
                     });
 

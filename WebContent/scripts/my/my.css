@@ -259,7 +259,8 @@ html, body {
 /* Dialogs buttons */
 
 /* text button dialog border */
-.dijitInline.dialogShadedButton.dijitButton, .dialogShadedButton.dijitButton.dijitButtonHover.dijitHover {
+.dijitInline.dialogShadedButton.dijitButton, .dialogShadedButton.dijitButton.dijitButtonHover.dijitHover,
+.dijitInline.dialogShadedButton.dijitToggleButton, .dialogShadedButton.dijitToggleButton.dijitButtonHover.dijitHover {
 	border-style: solid;
 	border-width: 6px;
     -moz-border-image:url("../../images/interface/button.png") 10 round; /* Firefox */
