@@ -41,21 +41,25 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
                     handleAs: "json",
                     async: true,
                     load: function(service_cred) {
-                        schema.fields.map(function(property) {
-                            var propertyTextBox = new TextBox({
-                                value: (!form.service.enabled)?property.defaultValue:((service_cred[property.name] == null)?"":service_cred[property.name]),
-                                placeHolder: property.name,
-                                name: property.name,
-                                type: (property.password)?"password":"text",
-                                required: property.required,
-                                style: "width: 450px",
-                                disabled: !form.service.enabled
+                        if(schema.fields.length > 0) {
+                            schema.fields.map(function(property) {
+                                var propertyTextBox = new TextBox({
+                                    value: (!form.service.enabled)?property.defaultValue:((service_cred[property.name] == null)?"":service_cred[property.name]),
+                                    placeHolder: property.name,
+                                    name: property.name,
+                                    type: (property.password)?"password":"text",
+                                    required: property.required,
+                                    style: "width: 450px",
+                                    disabled: !form.service.enabled
+                                });
+                                domConstruct.place("<label for='" + propertyTextBox.id + "'>" + property.name + " </h1>", cp_form.id);
+                                cp_form.addChild(propertyTextBox);
+                                form.form_fields.push(propertyTextBox);
+                                domConstruct.place("<br/><br/>", cp_form.id);
                             });
-                            domConstruct.place("<label for='" + propertyTextBox.id + "'>" + property.name + " </h1>", cp_form.id);
-                            cp_form.addChild(propertyTextBox);
-                            form.form_fields.push(propertyTextBox);
-                            domConstruct.place("<br/><br/>", cp_form.id);
-                        });
+                        } else {
+                            domConstruct.place("<div style='text-align: left; margin: 15px;'><h6 id='meta_extr_no_fields_label'>This metadata extractor has no additional configuration options.</h6></div>", cp_form.id);
+                        }
                     },
                     error: function(data, ioargs) {
                         panel.current_panel._handleError(data, ioargs);
@@ -81,6 +85,9 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
                     form.form_fields.map(function(field){
                         field.set("disabled", !val);
                     });
+                    if(dojo.byId('meta_extr_no_fields_label')) {
+                        domStyle.set('meta_extr_no_fields_label', "color", val?"black":"gray");
+                    }
                     this.set('label',val?'✔ Enabled':'✘ Disabled');
                 },
                 label: (this.service.enabled)?"✔ Enabled":"✘ Disabled"
