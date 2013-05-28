@@ -381,20 +381,6 @@ define([
       }
     },
 
-    _setCasJobsCredentials: function(casJobsCredentials) {			
-      var panel = this;
-      dojo.xhrPut(my.OAuth.sign("PUT", {
-        url: this.store.vospace.url +"/1/account/service",
-        putData: JSON.stringify(casJobsCredentials),
-        headers: { "Content-Type": "application/json"},
-        handleAs: "text",
-        error: function(data, ioargs) {
-          panel._handleError(data, ioargs);
-        }
-
-      }, this.store.vospace.credentials));
-    },
-
     _dragIn: function(sourcePlugin, isCopy) {
       var selectedArray = sourcePlugin.selector.getSelected("row", true);
 
@@ -489,58 +475,63 @@ define([
       },
 
     _showMetadata: function(path) {
-     var panel = this;
+      var panel = this;
 
-     dojo.xhrGet(OAuth.sign("GET", {
-       url: encodeURI(this.store.vospace.url+"/nodes/"+path),
-       handleAs: "text",
-       load: function(data){
-         var editNodeDialog = new dijit.Dialog({
-          title: path,
-          style: "background-color:white, width: 500px",
-          id : "editNodeDialog",
-          onCancel: function() {
-           dijit.popup.close(this);
-           this.destroyRecursive(false);
-         }
-       });
-         var editMetaDiv = dojo.create("div",{id: "metaDiv"});
+      dojo.xhrGet(OAuth.sign("GET", {
+        url: encodeURI(this.store.vospace.url+"/nodes/"+path),
+        handleAs: "xml",
+        load: function(data){
 
-         var metaEditBox = new InlineEditBox({
-          editor: Textarea,
-          autoSave:false, 
-          value: data,
-          id: "nodeXmlContent",
-          style: "width: 600px",
-          width: "600px",
-          onChange: function(value) {
-            dojo.xhrPost(my.OAuth.sign("POST", {
-              url: encodeURI(panel.store.vospace.url+"/nodes/"+path),
-              postData: value,
-              handleAs: "text",
-              headers: { "Content-Type": "application/xml"},
-              sync: false,
-              load: function(data){
-               dijit.popup.close(editNodeDialog);
-               editNodeDialog.destroyRecursive(false);
-             },
-              error: function(data, ioargs) {
-                panel._handleError(data, ioargs);
-              }
-          }, panel.store.vospace.credentials));
+          var meta_form = new ContentPane({
+            style: "overflow: auto; width: 700px; height: 500px;",
+          });
 
+          var editNodeDialog = new Dialog({
+            title: path,
+            content: meta_form,
+            onCancel: function() {
+              dijit.popup.close(this);
+              this.destroyRecursive(false);
+            }
+          });
+
+          var selectPropertyValue = function(propertyId) {
+            var retNode = selectSingleNode(data.documentElement, "//vos:property[@uri='"+propertyId+"']/text()", {vos: "http://www.ivoa.net/xml/VOSpace/v2.0"});
+            if(null != retNode)
+              return retNode.nodeValue;
+            return null;
+          };
+
+          var modifyTime = selectPropertyValue("ivo://ivoa.net/vospace/core#date");
+          if(null != modifyTime)
+            domConstruct.place("<div>Modified: "+modifyTime+"</div>", meta_form.id);
+
+          var simulationId = selectPropertyValue("ivo://ivoa.net/vospace/core#simulation_id");
+          if(null != simulationId)
+            domConstruct.place("<div>ENZO simulation ID: "+simulationId+"</div>", meta_form.id);
+
+          var simulationDataSets = selectPropertyValue("ivo://ivoa.net/vospace/core#simulation_dataset");
+          if(null != simulationDataSets) {
+            simulationDataSets.split(" ").map(function(datasetId) {
+              domConstruct.place("<div>ENZO simulation dataset: "+datasetId+"</div>", meta_form.id);
+            });
           }
-        }, editMetaDiv);
 
-         editNodeDialog.attr("content", metaEditBox.domNode);
-         editNodeDialog.show();
+          var extLinks = selectPropertyValue("ivo://ivoa.net/vospace/core#external_link");
+          var max_len = 80;
+          if(null != extLinks) {
+            extLinks.split(" ").map(function(link) {
+              var display = (link.length < max_len)?link:link.substring(0, max_len)+"...";
+              domConstruct.place("<div>Link to data: <a href='"+link+"' target='_blank'>"+display+"</a></div>", meta_form.id);
+            });
+          }
 
-       },
-      error: function(data, ioargs) {
-        panel._handleError(data, ioargs);
-      }
-     }, this.store.vospace.credentials));
-
+          editNodeDialog.show();
+        },
+        error: function(data, ioargs) {
+          panel._handleError(data, ioargs);
+        }
+      }, this.store.vospace.credentials));
     },
 
     _pullToVo: function() {

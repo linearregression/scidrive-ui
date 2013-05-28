@@ -66,34 +66,6 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 			</div>
 		</div>
 
-		<!-- Set CasJobs Credentials -->
-		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="setCasJobsCredentialsDialog" autofocus="false" title="Set your CasJobs credentials">
-			<table>
-				<tr>
-					<td>Service at:</td>
-					<td> <a href="http://skyserver.sdss3.org/CasJobs" target="_blanc">http://skyserver.sdss3.org/CasJobs</a></td>
-				</tr>
-				<tr>
-					<td><label for="wsid"> WSID: </label></td>
-					<td><input dojoType="dijit.form.TextBox" trim="true" data-dojo-attach-point="casJobsWSID" type="text" style="width: 500px;"></td>
-				</tr>
-				<tr>
-					<td><label for="password"> Password: </label></td>
-					<td><input dojoType="dijit.form.TextBox" trim="true" data-dojo-attach-point="casJobsPassword" type="password" style="width: 500px;"></td>
-				</tr>
-				<tr>
-					<td><label for="serviceEndpoint"> Service endpoint: </label></td>
-					<td><input dojoType="dijit.form.TextBox" trim="true" data-dojo-attach-point="casJobsServiceEndpoint" type="text" style="width: 500px;" value="http://skyserver.sdss3.org/CasJobs/services/jobs.asmx"></td>
-				</tr>
-				
-				<tr>
-					<td align="center" colspan="2">
-						<button dojoType="dijit.form.Button" type="submit" data-dojo-props="class:'dialogShadedButton'" data-dojo-attach-event="onClick:_setCasJobsCredentials">Set</button>
-					</td>
-				</tr>
-			</table>
-		</div>
-		
 		<!-- New file dialog -->
 		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkfileDialog" title="Create new file"
 			data-dojo-attach-event="execute:_mkfile">
