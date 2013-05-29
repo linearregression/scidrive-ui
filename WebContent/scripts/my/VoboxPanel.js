@@ -481,7 +481,7 @@ define([
                       panel: panel,
                       service: service,
                       save: function(jsonValues) {
-                        if(this.onOffButton.get("checked")) {
+                        if(this.onOffButton.get("value") == "on") {
                           dojo.xhrPut(OAuth.sign("PUT", {
                             url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
                             putData: jsonValues,
