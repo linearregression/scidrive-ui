@@ -21,6 +21,7 @@ define([
   "dojox/image/Lightbox",
   "my/OAuth",
   "my/ConfirmDialog",
+  "my/MetadataViewer",
   "dijit/_TemplatedMixin",
   "dijit/_WidgetsInTemplateMixin",
   "dijit/layout/_ContentPaneResizeMixin",
@@ -48,7 +49,7 @@ define([
   "dijit/TitlePane",
   ],
   function(declare, connect, fx, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin, 
-    MenuPlugin, DataGrid, Menu, LightBox, OAuth, ConfirmDialog, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
+    MenuPlugin, DataGrid, Menu, LightBox, OAuth, ConfirmDialog, MetadataViewer, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
     Form, Button, Select, CheckBox, ValidationTextBox, TextBox, Textarea, 
     FilteringSelect, PopupMenuBarItem, DropDownMenu, InlineEditBox, Toolbar, ProgressBar, Dialog, registry, dojox_Dialog, ItemFileWriteStore
     ){
@@ -495,36 +496,7 @@ define([
             }
           });
 
-          var selectPropertyValue = function(propertyId) {
-            var retNode = selectSingleNode(data.documentElement, "//vos:property[@uri='"+propertyId+"']/text()", {vos: "http://www.ivoa.net/xml/VOSpace/v2.0"});
-            if(null != retNode)
-              return retNode.nodeValue;
-            return null;
-          };
-
-          var modifyTime = selectPropertyValue("ivo://ivoa.net/vospace/core#date");
-          if(null != modifyTime)
-            domConstruct.place("<div>Modified: "+modifyTime+"</div>", meta_form.id);
-
-          var simulationId = selectPropertyValue("ivo://ivoa.net/vospace/core#simulation_id");
-          if(null != simulationId)
-            domConstruct.place("<div>ENZO simulation ID: "+simulationId+"</div>", meta_form.id);
-
-          var simulationDataSets = selectPropertyValue("ivo://ivoa.net/vospace/core#simulation_dataset");
-          if(null != simulationDataSets) {
-            simulationDataSets.split(" ").map(function(datasetId) {
-              domConstruct.place("<div>ENZO simulation dataset: "+datasetId+"</div>", meta_form.id);
-            });
-          }
-
-          var extLinks = selectPropertyValue("ivo://ivoa.net/vospace/core#external_link");
-          var max_len = 80;
-          if(null != extLinks) {
-            extLinks.split(" ").map(function(link) {
-              var display = (link.length < max_len)?link:link.substring(0, max_len)+"...";
-              domConstruct.place("<div>Link to data: <a href='"+link+"' target='_blank'>"+display+"</a></div>", meta_form.id);
-            });
-          }
+          new MetadataViewer().parse(data, meta_form.id);
 
           editNodeDialog.show();
         },

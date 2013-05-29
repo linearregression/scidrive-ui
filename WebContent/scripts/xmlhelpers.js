@@ -41,13 +41,12 @@ function selectNodes(context, expression, namespaces){ //selecting multiple node
           nsresolver = function(prefix){return namespaces[prefix];};
       }
       
-      var result = doc.evaluate(expression, context, nsresolver, XPathResult.ORDERED_SNAPSHOT_TYPE, null);
-      
+      var result = doc.evaluate(expression, context, nsresolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
       var nodes = new Array();
       
-      if(result != null){
+      if(result !== null){
           for (var i=0, len=result.snapshotLength; i < len; i++){
-              nodes.push(result.snapshotItem[i]);
+              nodes.push(result.snapshotItem(i));
           }
       }
       
