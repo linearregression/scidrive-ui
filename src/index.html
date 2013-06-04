@@ -1,42 +1,19 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Johns Hopkins University VOSpace</title>
+	<title>Johns Hopkins University VOBox</title>
 	
 	<style type="text/css">
-		@import "scripts/my/my.css";
+		@import "vobox/my.css";
 	</style>
 	<link href='http://fonts.googleapis.com/css?family=Anaheim&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-	
-	<script>
-		dojoConfig={
-				baseUrl: 'scripts/', 
-				packages: [{
-				    name: "my",
-				    location: "my"
-				},
-				{
-					name:"gform",
-					location:"gform"
-				}
-				],
-				has: {
-            		"dojo-debug-messages": true
-        		}
-			};
-	</script>
-	<script src="scripts/numeral.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojo/dojo.js"></script>
+
+    <script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1, cacheBust: false" src="dojo/dojo.js"></script>
+    <script src="vobox/run.js"></script>
 </head>
 <body class="tundra vobox">
-	<div id="loader" class="center"><img width="150" height="150" src="images/loading.gif"></img></div>
+	<div id="loader" class="center"><img width="150" height="150" src="vobox/resources/loading.gif"/></div>
 	<div id="voboxWidgetDiv"></div>
 </body>
-
-
-<script src="scripts/XMLWriter.js" type="text/javascript"></script>
-<script src="scripts/xmlhelpers.js" type="text/javascript"></script>
-<script src="scripts/oauthHelpers.js" type="text/javascript"></script>
-<script src="scripts/index_dojo.js" type="text/javascript"></script>
 
 </html>
