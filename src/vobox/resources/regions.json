@@ -1,0 +1,20 @@
+[
+	{
+		"id":"zinc26.pha.jhu.edu",
+		"defaultRegion":true,
+		"url":"http://zinc26.pha.jhu.edu/vospace-2.0",
+		"display":"JHU main"
+	},
+	{
+		"id":"dimm.pha.jhu.edu",
+		"defaultRegion":false,
+		"url":"http://dimm.pha.jhu.edu:8080/vospace-2.0",
+		"display":"Dimm"
+	},
+	{
+		"id":"vospace.sdsc.edu",
+		"defaultRegion":false,
+		"url":"http://vospace.sdsc.edu:8080/vospace-2.0",
+		"display":"SDSC main"
+	}
+]
