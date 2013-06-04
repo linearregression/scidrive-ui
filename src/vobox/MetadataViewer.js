@@ -1,10 +1,11 @@
 define( [
   "dojo/_base/declare",
   "dojo/dom-construct",
+  "vobox/XMLWriter"
 ],
 
-function(declare, domConstruct) {
-    return declare( "my.MetadataViewer", null, {
+function(declare, domConstruct, XMLWriter) {
+    return declare( "vobox.MetadataViewer", null, {
 
         constructor: function(args) {
             declare.safeMixin(this, args);
@@ -49,7 +50,8 @@ function(declare, domConstruct) {
 
         parse: function(meta, element) {
             var metaRules = this.metaRules;
-            var propertyNodes = selectNodes(meta.documentElement, "/vos:node/vos:properties/vos:property", {"vos": "http://www.ivoa.net/xml/VOSpace/v2.0"});
+            var writer = new XMLWriter();
+            var propertyNodes = writer.selectNodes(meta.documentElement, "/vos:node/vos:properties/vos:property", {"vos": "http://www.ivoa.net/xml/VOSpace/v2.0"});
             if(typeof propertyNodes !== "undefined" && propertyNodes instanceof Array) {
                 propertyNodes.map(function(property) {
                     var propertyId = property.attributes.getNamedItem("uri").value;
@@ -59,7 +61,7 @@ function(declare, domConstruct) {
                     }
                 });
             }
-        },
+        }
     });
 }
 );

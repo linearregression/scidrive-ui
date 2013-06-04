@@ -1,12 +1,11 @@
-
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojo/resources/dojo.css";
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dijit/themes/tundra/tundra.css";
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/grid/enhanced/resources/tundra/EnhancedGrid.css";
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/layout/resources/FloatingPane.css";
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/image/resources/Lightbox.css";
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/grid/resources/tundraGrid.css";
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/widget/Dialog/Dialog.css";
-@import "//ajax.googleapis.com/ajax/libs/dojo/1.9.0/dojox/mobile/themes/iphone/Switch.css";
+@import "../dojo/resources/dojo.css";
+@import "../dijit/themes/tundra/tundra.css";
+@import "../dojox/grid/enhanced/resources/tundra/EnhancedGrid.css";
+@import "../dojox/layout/resources/FloatingPane.css";
+@import "../dojox/image/resources/Lightbox.css";
+@import "../dojox/grid/resources/tundraGrid.css";
+@import "../dojox/widget/Dialog/Dialog.css";
+@import "../dojox/mobile/themes/iphone/Switch.css";
 
 html, body {
 	width: 100%;
@@ -36,7 +35,7 @@ html, body {
 }
 
 .topPanel {
-	background: url("../../images/interface/toolbar_bg.png") repeat-x scroll left top #EAEAEA;
+	background: url("resources/interface/toolbar_bg.png") repeat-x scroll left top #EAEAEA;
 }
 
 .vobox .shadow {
@@ -56,7 +55,7 @@ html, body {
 }
 
 .dijitToolbar.bottomToolbar, .bottomPanel {
-	background: url("../../images/interface/toolbar_bg2.png") repeat-x scroll left top #EAEAEA;
+	background: url("resources/interface/toolbar_bg2.png") repeat-x scroll left top #EAEAEA;
 	background-size: 1px 45px;
 	height: 45px;
 	border-bottom: none;
@@ -73,7 +72,7 @@ html, body {
 
 /* Grid header img */
 .vobox .dojoxGridHeader .dojoxGridCell {
-	background: url("../../images/interface/tabEnabled.png") repeat-x scroll center top #E9E9E9;
+	background: url("resources/interface/tabEnabled.png") repeat-x scroll center top #E9E9E9;
 	color: #58595b !important;
 	border-left: 2px solid white !important;
 	border-top: none;
@@ -126,10 +125,10 @@ html, body {
 .vobox .dijitProgressBarEmpty {
 	border-style: solid;
 	border-width: 2px 3px;
-    border-image:url("../../images/interface/progress_shadow.png") 5 fill round;
-    -moz-border-image:url("../../images/interface/progress_shadow.png") 5 fill round; /* Firefox */
-    -webkit-border-image:url("../../images/interface/progress_shadow.png") 5 round; /* Safari */
-    -o-border-image:url("../../images/interface/progress_shadow.png") 5 round; /* Opera */
+    border-image:url("resources/interface/progress_shadow.png") 5 fill round;
+    -moz-border-image:url("resources/interface/progress_shadow.png") 5 fill round; /* Firefox */
+    -webkit-border-image:url("resources/interface/progress_shadow.png") 5 round; /* Safari */
+    -o-border-image:url("resources/interface/progress_shadow.png") 5 round; /* Opera */
 
 
 }
@@ -165,10 +164,10 @@ html, body {
 .dijitInline.toolbarShadedButton.dijitButton, .toolbarShadedButton.dijitButton.dijitButtonHover.dijitHover {
 	border-style: solid;
 	border-width: 7px;
-    -moz-border-image:url("../../images/interface/button.png") 10 round; /* Firefox */
-    -webkit-border-image:url("../../images/interface/button.png") 10 round; /* Safari */
-    -o-border-image:url("../../images/interface/button.png") 10 round; /* Opera */
-    border-image:url("../../images/interface/button.png") 10 fill round;
+    -moz-border-image:url("resources/interface/button.png") 10 round; /* Firefox */
+    -webkit-border-image:url("resources/interface/button.png") 10 round; /* Safari */
+    -o-border-image:url("resources/interface/button.png") 10 round; /* Opera */
+    border-image:url("resources/interface/button.png") 10 fill round;
 }
 
 /* Text button toolbar font */
@@ -192,20 +191,20 @@ html, body {
 .toolbarDropdown .dijitReset.dijitStretch.dijitButtonContents {
 	border-style: solid;
 	border-width: 8px;
-	-moz-border-image: url("../../images/interface/dropdown_border_left.png") 13 round;
-	-webkit-border-image: url("../../images/interface/dropdown_border_left.png") 13 round;
-	-o-border-image: url("../../images/interface/dropdown_border_left.png") 13 round;
-	border-image: url("../../images/interface/dropdown_border_left.png") 13 fill round;
+	-moz-border-image: url("resources/interface/dropdown_border_left.png") 13 round;
+	-webkit-border-image: url("resources/interface/dropdown_border_left.png") 13 round;
+	-o-border-image: url("resources/interface/dropdown_border_left.png") 13 round;
+	border-image: url("resources/interface/dropdown_border_left.png") 13 fill round;
 }
 
 /* dropdown right part border */
 .toolbarDropdown .dijitReset.dijitRight.dijitButtonNode.dijitArrowButton.dijitDownArrowButton.dijitArrowButtonContainer {
 	border-style: solid;
 	border-width: 8px;
-	-moz-border-image: url("../../images/interface/dropdown_border_right.png") 13 round;
-	-webkit-border-image: url("../../images/interface/dropdown_border_right.png") 13 round;
-	-o-border-image: url("../../images/interface/dropdown_border_right.png") 13 round;
-	border-image: url("../../images/interface/dropdown_border_right.png") 13 fill round;
+	-moz-border-image: url("resources/interface/dropdown_border_right.png") 13 round;
+	-webkit-border-image: url("resources/interface/dropdown_border_right.png") 13 round;
+	-o-border-image: url("resources/interface/dropdown_border_right.png") 13 round;
+	border-image: url("resources/interface/dropdown_border_right.png") 13 fill round;
 
 }
 
@@ -217,13 +216,13 @@ html, body {
 	cursor: pointer;
 }
 
-.refreshToolbarButton {background-image: url(../../images/interface/refresh_btn.gif)}
-.mkdirToolbarButton {background-image: url(../../images/interface/mkdir_btn.gif)}
-.mkfileToolbarButton {background-image: url(../../images/interface/mkfile_btn.gif)}
-.linkToolbarButton {background-image: url(../../images/interface/link_btn.gif)}
-.casjobsToolbarButton {background-image: url(../../images/interface/sdss3_logo.png)}
-.secpanToolbarButton {background-image: url(../../images/interface/2nd_pan_btn.gif)}
-.jobsToolbarButton {background-image: url(../../images/interface/jobs_btn.png)}
+.refreshToolbarButton {background-image: url(resources/interface/refresh_btn.gif)}
+.mkdirToolbarButton {background-image: url(resources/interface/mkdir_btn.gif)}
+.mkfileToolbarButton {background-image: url(resources/interface/mkfile_btn.gif)}
+.linkToolbarButton {background-image: url(resources/interface/link_btn.gif)}
+.casjobsToolbarButton {background-image: url(resources/interface/sdss3_logo.png)}
+.secpanToolbarButton {background-image: url(resources/interface/2nd_pan_btn.gif)}
+.jobsToolbarButton {background-image: url(resources/interface/jobs_btn.png)}
 
 .ConfirmDialog .dijitDialogPaneContentArea {
   margin: -10px -8px;
@@ -264,10 +263,10 @@ html, body {
 .dijitInline.dialogShadedButton.dijitToggleButton, .dialogShadedButton.dijitToggleButton.dijitButtonHover.dijitHover {
 	border-style: solid;
 	border-width: 6px;
-    -moz-border-image:url("../../images/interface/button.png") 10 round; /* Firefox */
-    -webkit-border-image:url("../../images/interface/button.png") 10 round; /* Safari */
-    -o-border-image:url("../../images/interface/button.png") 10 round; /* Opera */
-    border-image:url("../../images/interface/button.png") 10 fill round;
+    -moz-border-image:url("resources/interface/button.png") 10 round; /* Firefox */
+    -webkit-border-image:url("resources/interface/button.png") 10 round; /* Safari */
+    -o-border-image:url("resources/interface/button.png") 10 round; /* Opera */
+    border-image:url("resources/interface/button.png") 10 fill round;
 }
 
 .dialogShadedButton .dijitButtonNode, .dialogShadedButton .dijitInline.dijitButtonNode {

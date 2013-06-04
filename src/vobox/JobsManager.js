@@ -10,7 +10,7 @@ define([
         "dojo/mouse",
         "dijit/Tooltip",
         "dojo/on",
-        "my/OAuth",
+        "vobox/OAuth",
         "dojo/text!./templates/JobsManager.html"
         ],
     function(declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, connect, dom, Memory, ObjectStore, 
@@ -28,7 +28,7 @@ define([
 		        {name: "id", field: "id", formatter: formatId, width: "100px"},
 		        //{name: "starttime", field: "starttime", width: "13%"},
 		        {name: "endtime", field: "endtime", width: "180px"},
-		        {name: "path", field: "path", width: "343px"},
+		        {name: "path", field: "path", width: "343px"}
 		    ]
 		}],
         
@@ -78,7 +78,7 @@ define([
 						alert("Error loading the jobs: "+error);
 					}
 				},this.vospace.credentials));
-        },
+        }
         
     });
         
@@ -86,26 +86,26 @@ define([
     function formatJobDirection(value){
     	switch(value){
     		case 'PULLFROMVOSPACE':
-    			return "<img src='images/PullFrom.png' title='PullFromVoSpace' alt='PullFromVoSpace' height='32'/>";
+    			return "<img src='vobox/resources/PullFrom.png' title='PullFromVoSpace' alt='PullFromVoSpace' height='32'/>";
     		case 'PULLTOVOSPACE':
-    			return "<img src='images/PullTo.png' title='PullToVoSpace' alt='PullToVoSpace' height='32'/>";
+    			return "<img src='vobox/resources/PullTo.png' title='PullToVoSpace' alt='PullToVoSpace' height='32'/>";
     		case 'PUSHFROMVOSPACE':
-    			return "<img src='images/PushFrom.png' title='PushFromVoSpace' alt='PushFromVoSpace' height='32'/>";
+    			return "<img src='vobox/resources/PushFrom.png' title='PushFromVoSpace' alt='PushFromVoSpace' height='32'/>";
     		case 'PUSHTOVOSPACE':
-    			return "<img src='images/PushTo.png' title='PushToVoSpace' alt='PushToVoSpace' height='32'/>";
+    			return "<img src='vobox/resources/PushTo.png' title='PushToVoSpace' alt='PushToVoSpace' height='32'/>";
     	}
     }
 
     function formatJobState(value){
         switch(value){
             case 'PENDING':
-                return "<img src='images/submited.png' title='PENDING' alt='PENDING' height='32'/>";
+                return "<img src='vobox/resources/submited.png' title='PENDING' alt='PENDING' height='32'/>";
             case 'RUN':
-                return "<img src='images/start.png' title='RUN' alt='RUN' height='32'/>";
+                return "<img src='vobox/resources/start.png' title='RUN' alt='RUN' height='32'/>";
             case 'COMPLETED':
-                return "<img src='images/finished.gif' title='COMPLETED' alt='COMPLETED' height='32'/>";
+                return "<img src='vobox/resources/finished.gif' title='COMPLETED' alt='COMPLETED' height='32'/>";
             case 'ERROR':
-                return "<img src='images/error.png' title='ERROR' alt='ERROR' height='32'/>";
+                return "<img src='vobox/resources/error.png' title='ERROR' alt='ERROR' height='32'/>";
         }
     }
 

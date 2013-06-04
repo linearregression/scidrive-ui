@@ -1,6 +1,6 @@
-define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "dojo/_base/lang", "dojo/_base/html",], 
+define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "dojo/_base/lang", "dojo/_base/html"], 
           function(EnhancedGrid, declare, array, lang, html) {
-    declare("my.DataGrid", [dojox.grid.EnhancedGrid], {
+    var DataGrid =  declare("vobox.DataGrid", [EnhancedGrid], {
     	
 	_currentPath : '/',
 	pathWidget : null,
@@ -60,7 +60,7 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
 
         var panel = this;
 
-        if(undefined != this._eventSource) {
+        if(null != this._eventSource) {
           this._eventSource.close();
           this._eventSource = null;
         }
@@ -88,10 +88,10 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
 		if(null != oldStore){
 			oldStore.close();
 		}
-	},
+	}
 
   	
 	});
 
-    return my.DataGrid;
+    return DataGrid;
 });

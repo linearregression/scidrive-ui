@@ -1,5 +1,5 @@
-define(["dojox/data/QueryReadStore", "dojo/_base/declare", "my/OAuth"], function(QueryReadStore, declare, OAuth) {
-    declare("my.VosyncReadStore", [QueryReadStore], {
+define(["dojox/data/QueryReadStore", "dojo/_base/declare", "vobox/OAuth", "dojo/json", "dojo/request/xhr", "vobox/XMLWriter"], function(QueryReadStore, declare, OAuth, JSON, xhr, XMLWriter) {
+    declare("vobox.VosyncReadStore", [QueryReadStore], {
 	
     	_lastPath : null,
     	vospace:null,
@@ -12,9 +12,6 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "my/OAuth"], function
 			return "vos://"+this.vospace.id+"!vospace"+path;
 		},
 		
-		pullFromVoJob: function(vospace, id) {},
-		pullToVoJob: function(vospace, id, endpoint) {},
-		moveJob: function(vospace, id, endpoint) {},
 		parentPanel: null,
 
 		_fetchItems: function(request, fetchHandler, errorHandler){
@@ -42,7 +39,7 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "my/OAuth"], function
 			// Compare the last query and the current query by simply json-encoding them,
 			// so we dont have to do any deep object compare ... is there some dojo.areObjectsEqual()???
 			if(this.doClientPaging && this._lastServerQuery !== null &&
-				dojo.toJson(serverQuery) == dojo.toJson(this._lastServerQuery) &&
+				JSON.stringify(serverQuery) == JSON.stringify(this._lastServerQuery) &&
 				this._lastPath == request.path
 				){
 				this._numRows = (this._numRows === -1) ? this._items.length : this._numRows;
@@ -130,9 +127,73 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "my/OAuth"], function
 			numRows = this._numRows = (numRows === -1) ? this._items.length : numRows;
 			fetchHandler(this._items, request, numRows);
 			this._numRows = numRows;
-		}
+		},
+
+		pullFromVoJob: function(vospace, id, handler/*function*/, args/*handler args*/) {
+            var writer = new XMLWriter();
+            var reqData = writer.createPullFromVoJob(id);
+
+            var writer = new XMLWriter();
+            dojo.xhrPost(OAuth.sign("POST", {
+                url: vospace.url+"/transfers",
+                headers: { "Content-Type": "application/xml"},
+                postData: reqData,
+                handleAs: "xml",
+                sync: false,
+                handle: function(data, ioargs){
+                    if(undefined != data) {
+                        var endpoint = writer.selectSingleNode(data.documentElement, "//vos:protocolEndpoint/text()", {vos: "http://www.ivoa.net/xml/VOSpace/v2.0"}).nodeValue;
+                        console.debug("Got endpoint for pullFrom job: "+endpoint);
+                        if(null != handler) {
+                            if(null == args)
+                                args = [];
+                            args.push(endpoint);
+                            handler.apply(this, args);
+                        }
+                    } else {
+                        console.error("Error creating new pullFrom task");
+                    }
+                }, error: function(err) {
+                    console.debug(err);
+                }
+            }, vospace.credentials));
+        },
+
+        pullToVoJob: function(vospace, id, endpoint) {
+            console.debug("Pulling "+endpoint+" to "+id);
+            var writer = new XMLWriter();
+            var reqData = writer.createPullToVoJob(id, endpoint);
+            dojo.xhrPost(OAuth.sign("POST", {
+                url: vospace.url+"/transfers",
+                headers: { "Content-Type": "application/xml"},
+                postData: reqData,
+                handleAs: "xml",
+                sync: false,
+                handle: function(data, ioargs){
+                    console.debug("Created pullToJob");
+                }
+            }, vospace.credentials));
+        },
+
+        moveJob: function(vospace, from, to) {
+            console.debug("Moving from"+from+" to "+to);
+            var writer = new XMLWriter();
+            var reqData = writer.createMoveJob(from, to);
+            dojo.xhrPost(OAuth.sign("POST", {
+                url: vospace.url+"/transfers",
+                headers: { "Content-Type": "application/xml"},
+                postData: reqData,
+                handleAs: "xml",
+                sync: false,
+                handle: function(data, ioargs){
+                    console.debug("Created move Job");
+                }
+            }, vospace.credentials));
+        }
+
+
 		
 	});
 	
-    return my.VosyncReadStore;
+    return vobox.VosyncReadStore;
 });

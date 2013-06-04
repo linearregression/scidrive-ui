@@ -6,9 +6,9 @@ define([
 	"dojo/dom", // byId
 	"dojox/encoding/digests/SHA1" // SHA1
 ], function(dojo, lang, array, xhr, dom, SHA1){
-lang.getObject("my.OAuth", true);
+lang.getObject("vobox.OAuth", true);
 
-my.OAuth = new (function(){
+vobox.OAuth = new (function(){
 	//	summary:
 	//		Helper singleton for signing any kind of Ajax request using the OAuth 1.0 protocol.
 	//	description:
@@ -322,6 +322,6 @@ my.OAuth = new (function(){
 	};
 })();
 
-return my.OAuth;
+return vobox.OAuth;
 
 });

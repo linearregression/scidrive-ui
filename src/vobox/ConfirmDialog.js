@@ -33,12 +33,12 @@ define([
     Dialog,
     template){
 
-    var ConfirmDialog = declare("my.ConfirmDialog", [Dialog, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    var ConfirmDialog = declare("vobox.ConfirmDialog", [Dialog, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
       title: "Confirm",
       message: "Are you sure?",
 
         constructor: function(/*Object*/ kwArgs) {
-            lang.mixin(this, kwArgs);
+            declare.safeMixin(this, kwArgs);
             
             //var template = dojo.cache("my.ConfirmDialog", "templates/ConfirmDialog.html");
             var message = this.message;
@@ -46,9 +46,9 @@ define([
             var contentWidget = new (declare(
                 [_Widget, _TemplatedMixin, _WidgetsInTemplateMixin],
                 {
-                    templateString: template,
-                    message: message,
-                    class: "ConfirmDialog"
+                    'templateString': template,
+                    'message': message,
+                    'class': "ConfirmDialog"
                 }
             )); 
             contentWidget.startup();
@@ -61,11 +61,11 @@ define([
         },
  
         onExecute: function() {
-            //console.log("OK");
+            // console.log("OK");
         },
         
         onCancel: function() {
-            //console.log("Cancel");            
+            // console.log("Cancel");            
         }
     
     });
@@ -77,7 +77,6 @@ define([
             
             var deferred = new Deferred();
             var signal, signals = [];
-            
             var destroyDialog = function() {
                 array.forEach(signals, function(signal) {
                     signal.remove();

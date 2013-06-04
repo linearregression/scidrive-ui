@@ -27,24 +27,25 @@ define([
   "dijit/form/TextBox",
   "dijit/Dialog",
   "dojox/layout/TableContainer",
-  "my/OAuth",
-  "my/FilePanel",
-  "my/DataGrid",
-  "my/VosyncReadStore",
-  "my/JobsManager",
-  "my/DynamicPropertiesForm",
-  "dojo/text!./templates/VoboxPanel.html",
+  "vobox/VoBox",
+  "vobox/OAuth",
+  "vobox/FilePanel",
+  "vobox/DataGrid",
+  "vobox/VosyncReadStore",
+  "vobox/JobsManager",
+  "vobox/DynamicPropertiesForm",
+  "numeral/numeral",
+  "dojo/text!./templates/VoboxPanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
-    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, template) {
-    return declare("my.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
+    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer, VoBox,
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, template) {
+    return declare("vobox.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
         panel1: null,
         panel2: null,
         current_panel: null,
-        vospaces: null,
 
         uploadPanelToggler: null,
         uploadPanelTogglerState: false,
@@ -90,6 +91,8 @@ define([
         postCreate: function() {
             this.inherited(arguments);
 
+            var panel = this;
+
             this.uploadPanelToggler = new Toggler({
               node: this.fileuploads.id,
               showFunc: coreFx.wipeIn,
@@ -98,7 +101,7 @@ define([
             this.uploadPanelToggler.hide();
 
             this.connect(this.loginSelect, "onChange", function(id) {
-              var vospaceChosenArr = vospaces.filter(function(elm, index, array) {
+              var vospaceChosenArr = panel.app.vospaces.filter(function(elm, index, array) {
                 return elm.id == id;
               });
               if(vospaceChosenArr.length > 0)
@@ -295,7 +298,7 @@ define([
             var panel = this;
 
             if(!vospace.credentials) {
-                login(vospace, component, true);
+                this.app.login(vospace, component, true);
             } else {
                 if(component != null) {
                     var store = this.createStore(vospace);
@@ -308,8 +311,6 @@ define([
                         this.panel1 = new FilePanel({
                             login: this.loginToVO,
                             store: this.createStore(vospace),
-                            vospaces: vospaces,
-                            createNewNodeXml: createNewNodeXml,
                             parentPanel: this
                             }).placeAt(this.panel1contentpane);
                         this.panel1.store.parentPanel = this.panel1;
@@ -321,8 +322,6 @@ define([
                             login: this.loginToVO,
                             store: this.createStore(vospace),
                             style: {height: "100%"},
-                            vospaces: vospaces,
-                            createNewNodeXml: createNewNodeXml,
                             parentPanel: this
                             }).placeAt(this.panel2contentpane);
                         this.panel2.store.parentPanel = this.panel2;
@@ -334,22 +333,19 @@ define([
         },
 
         createStore: function(vospace) {
-            return new my.VosyncReadStore({
+            return new vobox.VosyncReadStore({
                 vospace: vospace,
-                numRows: "items",
-                pullFromVoJob: pullFromVoJob,
-                pullToVoJob: pullToVoJob,
-                moveJob: moveJob
+                numRows: "items"
             });
         },
 
         /* Returns the list of region options for regions select */
         _getCurrentRegions: function() {
           var myOptions = null;
-          if(vospaces != null) {
+          if(typeof this.app.vospaces !== 'undefined') {
 
-              myOptions = vospaces.map(function(vospace) {
-                var authenticated = (undefined != vospace.credentials)?"* ":"  ";
+              myOptions = this.app.vospaces.map(function(vospace) {
+                var authenticated = (typeof vospace.credentials !== 'undefined')?"* ":"  ";
                 var selected = vospace.id == this.current_panel.store.vospace.id;
                 var option = {value: vospace.id, 
                               selected : selected,
@@ -446,7 +442,7 @@ define([
           var transfersManager = new JobsManager({
             vospace: this.current_panel.store.vospace,
             transfers_url: this.current_panel.store.vospace.url+"/1/transfers",
-            style: "width: 800px; height: 500px;",
+            style: "width: 800px; height: 500px;"
           });
           
           var dialog = new Dialog({
@@ -534,7 +530,7 @@ define([
             });
             dialog.show();
           });
-        },
+        }
     });
 
 });

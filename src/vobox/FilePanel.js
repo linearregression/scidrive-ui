@@ -16,12 +16,12 @@ define([
   "dojox/grid/enhanced/plugins/DnD", 
   "dojox/grid/enhanced/plugins/Selector",
   "dojox/grid/enhanced/plugins/Menu",
-  "my/DataGrid",
+  "vobox/DataGrid",
   "dijit/Menu",
   "dojox/image/Lightbox",
-  "my/OAuth",
-  "my/ConfirmDialog",
-  "my/MetadataViewer",
+  "vobox/OAuth",
+  "vobox/ConfirmDialog",
+  "vobox/MetadataViewer",
   "dijit/_TemplatedMixin",
   "dijit/_WidgetsInTemplateMixin",
   "dijit/layout/_ContentPaneResizeMixin",
@@ -47,11 +47,12 @@ define([
   "dojox/widget/Dialog",
   "dojo/data/ItemFileWriteStore",
   "dijit/TitlePane",
+  "vobox/XMLWriter"
   ],
   function(declare, connect, fx, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin, 
     MenuPlugin, DataGrid, Menu, LightBox, OAuth, ConfirmDialog, MetadataViewer, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
     Form, Button, Select, CheckBox, ValidationTextBox, TextBox, Textarea, 
-    FilteringSelect, PopupMenuBarItem, DropDownMenu, InlineEditBox, Toolbar, ProgressBar, Dialog, registry, dojox_Dialog, ItemFileWriteStore
+    FilteringSelect, PopupMenuBarItem, DropDownMenu, InlineEditBox, Toolbar, ProgressBar, Dialog, registry, dojox_Dialog, ItemFileWriteStore, TitlePane, XMLWriter
     ){
     return declare([WidgetBase, _LayoutWidget, _ContentPaneResizeMixin /* These 2 make it resizing in height on window resize */, TemplatedMixin, WidgetsInTemplateMixin], {
 
@@ -84,7 +85,7 @@ define([
           rowMenuObject.addChild(new dijit.MenuItem({ 
             label: "Download", 
             onClick:function(e) {
-              dojo.xhrGet(my.OAuth.sign("GET", {
+              dojo.xhrGet(vobox.OAuth.sign("GET", {
                 url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
                 handleAs: "json",
                 sync: false,
@@ -115,7 +116,7 @@ define([
           this._menuItems['previewMenuItem'] = new dijit.MenuItem({ 
             label: "Preview...",
             onClick:function(e) {
-              dojo.xhrGet(my.OAuth.sign("GET", {
+              dojo.xhrGet(vobox.OAuth.sign("GET", {
                 url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
                 handleAs: "json",
                 sync: false,
@@ -167,7 +168,7 @@ define([
         this._menuItems['mediaMenuItem'] = new dijit.MenuItem({ 
           label: "Quick Share URL...", 
           onClick:function(e) {
-            dojo.xhrGet(my.OAuth.sign("GET", {
+            dojo.xhrGet(vobox.OAuth.sign("GET", {
               url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
               handleAs: "json",
               sync: false,
@@ -198,7 +199,7 @@ define([
         this._menuItems['shareMenuItem'] = new dijit.MenuItem({ 
           label: "Share...", 
           onClick:function(e) {
-            dojo.xhrGet(my.OAuth.sign("GET", {
+            dojo.xhrGet(vobox.OAuth.sign("GET", {
              url: encodeURI(panel.store.vospace.url+"/1/share_groups"),
              handleAs: "json",
              load: function(data){
@@ -208,7 +209,7 @@ define([
 
                 panel.shareSelect.store = sharesStore;
                 connect.connect(panel.shareSelect, "onChange", function(e) {
-                  dojo.xhrGet(my.OAuth.sign("GET", {
+                  dojo.xhrGet(vobox.OAuth.sign("GET", {
                    url: encodeURI(panel.store.vospace.url+"/1/share_groups/"+this.item.id),
                    handleAs: "json",
                    load: function(data){
@@ -286,7 +287,7 @@ define([
                this.setCurrentPath(item.i.path);
                panel.parentPanel.updateCurrentPanel(panel);
              } else {
-               dojo.xhrGet(my.OAuth.sign("GET", {
+               dojo.xhrGet(vobox.OAuth.sign("GET", {
                  url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+item.i.path),
                  handleAs: "json",
                  sync: false,
@@ -339,23 +340,22 @@ define([
 
     _mkdir: function(name) {
       var panel = this;
-      if(this.createNewNodeXml != null) {
-          var nodeid = this.store.getNodeVoId(this.gridWidget._currentPath+"/"+name);
-          var nodeTemplate = formatXml(this.createNewNodeXml("ContainerNode", nodeid, this.store.vospace.id));
+      var nodeid = this.store.getNodeVoId(this.gridWidget._currentPath+"/"+name);
+      var writer = new XMLWriter();
+      var nodeTemplate = writer.formatXml(writer.createNewNodeXml("ContainerNode", nodeid, this.store.vospace.id));
 
-          dojo.xhrPut(my.OAuth.sign("PUT", {
-           url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
-           putData: nodeTemplate,
-           headers: { "Content-Type": "application/xml"},
-           handleAs: "text",
-           load: function(data){
-            //!!panel._refresh();
-            },
-            error: function(data, ioargs) {
-              panel._handleError(data, ioargs);
-            }
-        }, this.store.vospace.credentials));
-      }
+      dojo.xhrPut(vobox.OAuth.sign("PUT", {
+       url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
+       putData: nodeTemplate,
+       headers: { "Content-Type": "application/xml"},
+       handleAs: "text",
+       load: function(data){
+        //!!panel._refresh();
+        },
+        error: function(data, ioargs) {
+          panel._handleError(data, ioargs);
+        }
+    }, this.store.vospace.credentials));
     },
 
     _mkfile: function(name) {
@@ -363,11 +363,11 @@ define([
 
       if(panel.gridWidget._currentPath == '/' && !panel.store.vospace.isShare) {
           alert("Regular files can't be created in root folder.");
-      } else if(this.createNewNodeXml != null) {
+      } else {
+          var writer = new XMLWriter();
           var nodeid = this.store.getNodeVoId(this.gridWidget._currentPath+"/"+name);
-          var nodeTemplate = formatXml(this.createNewNodeXml("DataNode", nodeid, this.store.vospace.id));
-
-          dojo.xhrPut(my.OAuth.sign("PUT", {
+          var nodeTemplate = writer.formatXml(writer.createNewNodeXml("DataNode", nodeid, this.store.vospace.id));
+          dojo.xhrPut(vobox.OAuth.sign("PUT", {
            url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
            putData: nodeTemplate,
            headers: { "Content-Type": "application/xml"},
@@ -432,7 +432,6 @@ define([
             }
          }, panel.store.vospace.credentials));
        }
-
      });
    },
 
@@ -448,21 +447,13 @@ define([
          this.parentPanel.updateCurrentPanel(this);
        },
 
-       /*_formatFileIcon: function(isDir){
-         if(isDir){
-          return "<img src='images/folder.jpg' title='Folder' alt='Folder' height='16'/>";
-         } else {
-          return "<img src='images/file.svg' title='File' alt='File' height='16'/>";
-        }
-      },*/
-      
       _getName: function(path, rowIndex) {
         var pathTokens = path.split('/');
 
         if(this.grid.getItem(rowIndex).i.is_dir){
-          return "<img src='images/folder.gif' title='Folder' alt='Folder' height='10'/>&nbsp;"+pathTokens[pathTokens.length-1];
+          return "<img src='vobox/resources/folder.gif' title='Folder' alt='Folder' height='10'/>&nbsp;"+pathTokens[pathTokens.length-1];
         } else {
-          return "<img src='images/file.svg' title='File' alt='File' height='16'/>&nbsp;"+pathTokens[pathTokens.length-1];
+          return "<img src='vobox/resources/file.svg' title='File' alt='File' height='16'/>&nbsp;"+pathTokens[pathTokens.length-1];
         }
       },
       
@@ -484,7 +475,7 @@ define([
         load: function(data){
 
           var meta_form = new ContentPane({
-            style: "overflow: auto; width: 700px; height: 500px;",
+            style: "overflow: auto; width: 700px; height: 500px;"
           });
 
           var editNodeDialog = new Dialog({
@@ -513,9 +504,7 @@ define([
     },
 
     _logout: function() {
-      if(undefined != logout) {
-        logout(this.store.vospace, this);
-      }
+      this.parentPanel.app.logout(this.store.vospace, this);
     },
 
     getUserInfo: function(updateInfo /* callback */) {
@@ -646,7 +635,7 @@ define([
               min: "0",
               max: "100",
               value: "0",
-              class: "fileUploadProgress"
+              'class': "fileUploadProgress"
             })
 
             domConstruct.place(progressNode, uploadNode);
@@ -684,7 +673,7 @@ define([
       params += (params == "")?"?":"&";
       params += "write_perm="+!this.readOnlyCheckBox.checked;
 
-      dojo.xhrPut(my.OAuth.sign("PUT", {
+      dojo.xhrPut(vobox.OAuth.sign("PUT", {
         //url: encodeURI(panel.store.vospace.url+"/1/shares/sandbox"+panel._menuSelectedItem.i.path),
         url: encodeURI(panel.store.vospace.url+"/1/shares/sandbox"+panel._menuSelectedItem.i.path+params),
         handleAs: "json",
@@ -776,7 +765,7 @@ define([
 
     _handleError: function(data, ioargs) {
       if(ioargs.xhr.status == 401) {
-        login(this.store.vospace, this, true);
+        this.parentPanel.app.login(this.store.vospace, this, true);
       } else {
         alert("Error: "+data);
       }

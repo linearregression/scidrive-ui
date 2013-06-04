@@ -12,11 +12,11 @@ define( [
 "dojo/on",
 "dojo/dom-form",
 "dojox/mobile/Switch",
-"my/OAuth",
+"vobox/OAuth"
 ],
 
 function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContainer, domConstruct, domStyle, xhr, on, domForm, Switch, OAuth) {
-    return declare( "my.DynamicPropertiesForm", Form, {
+    return declare( "vobox.DynamicPropertiesForm", Form, {
 
         constructor: function(args) {
             declare.safeMixin(this, args);
@@ -37,7 +37,7 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
 
             this.onOffButton = new Switch({
                 value: ((this.service.enabled)?"on":"off"),
-                class: "mblSwArcShape2",
+                'class': "mblSwArcShape2"
             });
 
             on(this.onOffButton, "stateChanged", function(e){
@@ -99,11 +99,11 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
             }
             var cp_buttons = new ContentPane({region: "bottom", style: "height: 45px; border: none; text-align: center;"});
 
-            var updateButton = new Button({label: "Save", class:'dialogShadedButton'});
+            var updateButton = new Button({label: "Save", 'class':'dialogShadedButton'});
             on(updateButton, "click", validateAndSave);
             cp_buttons.addChild(updateButton);
 
-            // var cancelButton = new Button({label: "Clear", class:'dialogShadedButton'});
+            // var cancelButton = new Button({label: "Clear", 'class':'dialogShadedButton'});
             // on(cancelButton, "click", function(){editor.reset();});
             // cp_buttons.addChild(cancelButton);
             
