@@ -293,6 +293,8 @@ define([
                 this.setCasJobsCredentialsButton.destroyRecursive();
               if(this.sharesButton)
                 this.sharesButton.destroyRecursive();
+              if(this.jobsPanelButton)
+                this.jobsPanelButton.destroyRecursive();
             }
 
             var panel = this;
