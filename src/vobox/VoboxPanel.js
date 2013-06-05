@@ -211,22 +211,16 @@ define([
                 var dlg = new dijit.Dialog({
                   title: "Containers Shares",
                   style: "width: 680px; height: 450px",
-                  content: grid.domNode,
+                  content: grid,
+                  autofocus: false,
                   onHide: function() {
                     this.destroyRecursive();
                   }
                 });
 
-                dlg.show();
-
                 grid.startup();
+                dlg.show();
                 dojo.setSelectable(grid.id, true);
-
-
-                //dlg.attr("content", grid.domNode);
-
-
-
               },
               error: function(data, ioargs) {
                 panel.current_panel._handleError(data, ioargs);
