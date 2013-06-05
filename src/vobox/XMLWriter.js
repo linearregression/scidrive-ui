@@ -166,7 +166,6 @@ var XMLWriter = declare( "vobox.XMLWriter", null, {
         {
             this.BeginNode("vos:transfer");
             this.Attrib("xsi:schemaLocation", "http://www.ivoa.net/xml/UWS/v1.0 UWS.xsd");
-            this.Attrib("xmlns:xml", "http://www.w3.org/this/1998/namespace");
             this.Attrib("xmlns:uws", "http://www.ivoa.net/xml/UWS/v1.0");
             this.Attrib("xmlns:xlink", "http://www.w3.org/1999/xlink");
             this.Attrib("xmlns:vos", "http://www.ivoa.net/xml/VOSpace/v2.0");
@@ -191,7 +190,6 @@ var XMLWriter = declare( "vobox.XMLWriter", null, {
         try
         {
             this.BeginNode("vos:transfer");
-            this.Attrib("xmlns:xml", "http://www.w3.org/this/1998/namespace");
             this.Attrib("xmlns:uws", "http://www.ivoa.net/xml/UWS/v1.0");
             this.Attrib("xmlns:xlink", "http://www.w3.org/1999/xlink");
             this.Attrib("xmlns:vos", "http://www.ivoa.net/xml/VOSpace/v2.0");
@@ -218,7 +216,6 @@ var XMLWriter = declare( "vobox.XMLWriter", null, {
         try
         {
             this.BeginNode("vos:transfer");
-            this.Attrib("xmlns:xml", "http://www.w3.org/this/1998/namespace");
             this.Attrib("xmlns:uws", "http://www.ivoa.net/xml/UWS/v1.0");
             this.Attrib("xmlns:xlink", "http://www.w3.org/1999/xlink");
             this.Attrib("xmlns:vos", "http://www.ivoa.net/xml/VOSpace/v2.0");
@@ -245,7 +242,6 @@ var XMLWriter = declare( "vobox.XMLWriter", null, {
         {
             this.BeginNode("vos:transfer");
             this.Attrib("xsi:schemaLocation", "http://www.ivoa.net/xml/UWS/v1.0 UWS.xsd");
-            this.Attrib("xmlns:xml", "http://www.w3.org/this/1998/namespace");
             this.Attrib("xmlns:uws", "http://www.ivoa.net/xml/UWS/v1.0");
             this.Attrib("xmlns:xlink", "http://www.w3.org/1999/xlink");
             this.Attrib("xmlns:vos", "http://www.ivoa.net/xml/VOSpace/v2.0");
