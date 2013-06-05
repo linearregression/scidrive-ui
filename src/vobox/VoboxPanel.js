@@ -35,11 +35,12 @@ define([
   "vobox/JobsManager",
   "vobox/DynamicPropertiesForm",
   "numeral/numeral",
+  "dojox/grid/DataGrid",
   "dojo/text!./templates/VoboxPanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer, VoBox,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, template) {
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, DojoDataGrid, template) {
     return declare("vobox.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -185,10 +186,26 @@ define([
                 }
                 ]];
 
-                var grid = new DataGrid({
-                    store: store,
-                    structure: layout,
-                    rowSelector: '0px'}, sharesGridDiv);
+                // allowing browser menu in grid
+                dojo.declare('vobox.dojox.grid._FocusManager', dojox.grid._FocusManager, {
+                    doContextMenu: function() {}
+                });
+                
+                dojo.declare('vobox.dojox.grid.DataGrid', dojox.grid.DataGrid, {
+                    createManagers: function() {
+                        this.rows = new dojox.grid._RowManager(this);
+                        this.focus = new vobox.dojox.grid._FocusManager(this);
+                        this.edit = new dojox.grid._EditManager(this);
+                    },
+                    onRowContextMenu: function(e) {},
+                    onHeaderContextMenu: function(e) {}
+                });
+                
+                var grid = new vobox.dojox.grid.DataGrid({
+                  store: store,
+                  structure: layout,
+                  rowSelector: '0px'
+                }, sharesGridDiv);
 
 
                 var dlg = new dijit.Dialog({
@@ -203,6 +220,7 @@ define([
                 dlg.show();
 
                 grid.startup();
+                dojo.setSelectable(grid.id, true);
 
 
                 //dlg.attr("content", grid.domNode);
