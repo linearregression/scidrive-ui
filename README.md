@@ -2,8 +2,8 @@ VOBox UI - the web interface to VOBox scientific cloud storage
 ==============================================================
 
 The application is based on [Dojo Toolkit](http://dojotoolkit.org) JavaScript framework
-and [Dojo Boilerplate](https://github.com/csnover/dojo-boilerplate) to compile the JavaScript into
-a smaller files for faster startup. The Boilerplate project page contains additional documentation on building the project.
+and uses [Dojo Boilerplate](https://github.com/csnover/dojo-boilerplate) to compile the JavaScript code into
+a smaller file for faster startup. The Boilerplate project page contains additional documentation on building the project.
 
 Quick Start
 -----------
@@ -17,9 +17,9 @@ Quick Start
 A brief tour
 ------------
 
-* You can upload your files to the storage by drag-and-dropping it from your local machine into the VOBox panel.
-  For example, enter the first_container folder created on your first login and drag any file from your desktop into it.
+* You can upload your files to the storage by draging-and-dropping it from your local machine into the VOBox panel.
+  For example, open the first_container folder created on your first login and drag any file from your desktop into it.
 * To download a file, double-click on it.
-* To download a folder as .tar archive, select "Download" from folder's context menu.
+* To download a folder as a .tar archive, select "Download" from the folder's context menu.
 * There is additional documentation available in Help dialog of VOBox.
 
