@@ -1,14 +1,21 @@
 
 define( [
   "dojo/_base/declare",
-  "dojo/request/xhr", 
   "dojo/_base/lang",
+  "dojo/_base/fx",
+  "dojo/_base/connect",
+  "dojo/fx",
+  "dojo/aspect",
+  "dojo/dom-construct",
+  "dojo/request/xhr", 
   "dojo/json",
   "dojo/io-query",
+  "dijit/Dialog",
+  "vobox/OAuth",
   "dojo/text!vobox/resources/regions.json"
 ],
 
-function(declare, xhr, lang, JSON, ioQuery, regions) {
+function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, Dialog, OAuth, regions) {
     return declare( "vobox.VoBox", null, {
 
         identity_ver: "1.4",
@@ -83,8 +90,8 @@ function(declare, xhr, lang, JSON, ioQuery, regions) {
                     if(vospace.credentials.stage == "request") { // contains request token
                         this.login2(vospace, null);
                     } else if(vospace.credentials.stage == "access") {
-                        require(["vobox/VoboxPanel", "dojo/_base/fx", "dojo/fx", "dojo/aspect", "dojo/dom-construct"], 
-                            function(VoboxPanel, fx, coreFx, aspect, domConstruct){
+                        require(["vobox/VoboxPanel"], 
+                            function(VoboxPanel){
                             if(undefined == dijit.byId("voboxWidget")) {
                                 new VoboxPanel({
                                     id: "voboxWidget",
@@ -122,12 +129,10 @@ function(declare, xhr, lang, JSON, ioQuery, regions) {
 
 
         dialogAlert: function(txtTitle, txtContent) {
-            require(["dijit/Dialog"], function(Dialog){
-                var dialog = new dijit.Dialog({title: txtTitle, content: txtContent});
-                dojo.body().appendChild(dialog.domNode);
-                dialog.startup();
-                dialog.show();
-            });
+            var dialog = new Dialog({title: txtTitle, content: txtContent});
+            dojo.body().appendChild(dialog.domNode);
+            dialog.startup();
+            dialog.show();
         },
 
 
@@ -191,128 +196,122 @@ function(declare, xhr, lang, JSON, ioQuery, regions) {
 
         login: function(vospace, component, openWindow) {
             var app = this;
-            require(["dojo/_base/json", "vobox/OAuth", "dojo/io-query"], function(dojo, OAuth, ioQuery){
+            var config = { consumer: {key: "sclient", secret: "ssecret"}};
+            function success_reload(data) {
+                var respObject = ioQuery.queryToObject(data);
+                var reqToken = respObject.oauth_token;
+                var tokenSecret = respObject.oauth_token_secret;
 
-                var config = { consumer: {key: "sclient", secret: "ssecret"}};
-                function success_reload(data) {
-                    var respObject = ioQuery.queryToObject(data);
-                    var reqToken = respObject.oauth_token;
-                    var tokenSecret = respObject.oauth_token_secret;
-
-                    vospace.credentials = {
-                        stage:"request",
-                        sig_method: 'HMAC-SHA1',
-                        consumer: {
-                            key: 'sclient',
-                            secret: 'ssecret'
-                        },
-                        token: {
-                            key: reqToken,
-                            secret: tokenSecret
-                        }
-                    };
-
-                    var identity = JSON.parse(localStorage.getItem('vospace_oauth_s'));
-
-                    identity.regions[vospace.id] = vospace.credentials;
-
-                    localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
-
-                    var authorizeUrl = vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+reqToken;
-                    authorizeUrl += "&oauth_callback="+document.location.href.slice(0,document.location.href.lastIndexOf('/')+1);
-                    if(vospace.isShare) {
-                        authorizeUrl += "&share="+vospace.id;
+                vospace.credentials = {
+                    stage:"request",
+                    sig_method: 'HMAC-SHA1',
+                    consumer: {
+                        key: 'sclient',
+                        secret: 'ssecret'
+                    },
+                    token: {
+                        key: reqToken,
+                        secret: tokenSecret
                     }
-                    document.location.href = authorizeUrl;
-                }
-                
-                function success_open_window(data) {
-                    require(["dojo/dom-construct", "dijit/Dialog", "dojo/_base/connect"], function(domConstruct, Dialog, connect){
-                        var respObject = ioQuery.queryToObject(data);
-                        var reqToken = respObject.oauth_token;
-                        var tokenSecret = respObject.oauth_token_secret;
-
-                        if(dijit.byId('formDialog') != undefined){
-                            dijit.byId('formDialog').destroyRecursive();
-                        }
-
-                        var div = domConstruct.create("div", {
-                                innerHTML: "Please authenticate at <a href='"+
-                                vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+
-                                reqToken+"' target='_blanc'>VAO</a> and click ",
-                                align: "center"
-                            });
-
-                        var button = new dijit.form.Button({
-                            label: 'Done',
-                            onClick: function () {
-                                vospace.credentials = {
-                                    stage: "request",
-                                    sig_method: 'HMAC-SHA1',
-                                    consumer: {
-                                        key: 'sclient',
-                                        secret: 'ssecret'
-                                    },
-                                    token: {
-                                        key: reqToken,
-                                        secret: tokenSecret
-                                    }
-                                };
-                                var identity = JSON.parse(localStorage.getItem('vospace_oauth_s'));
-                                identity.regions[vospace.id] = vospace.credentials;
-                                localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
-
-                                dijit.byId('formDialog').hide();
-                                app.login2(vospace, component);
-                            }
-                        });
-                        div.appendChild(button.domNode);
-
-                        var loginDialog = new dijit.Dialog({
-                            id: 'formDialog',
-                            title: "Authentication",
-                            style: {width: "300px"},
-                            content: div
-                        });
-                        dijit.byId('formDialog').show();
-                    });
-                }
-
-
-                function failure(data, ioargs) { 
-                    if(ioargs.xhr.status == 400 || ioargs.xhr.status == 401 || ioargs.xhr.status == 503) { // OAuth errors
-                        var errorResponse = ioargs.xhr.responseText;
-                        if(errorResponse.split("&")[0] != undefined) {
-                            var problem = errorResponse.split("&")[0].slice("oauth_problem=".length);
-                            if(problem == "timestamp_refused"){
-                                alert("Error logging in: request timestamp incorrect. Please check your computer system time.");
-                            } else {
-                                alert("Error logging in: "+ problem);
-                            }
-
-                        } else {
-                            alert("Error logging in: "+ errorResponse);
-                        }
-                    }
-                }
-
-                var xhrArgs = {
-                    url: vospace.url+'/request_token'+((vospace.isShare)?"?share="+vospace.id:""),
-                    handleAs: "text",
-                    preventCache: false,
-                    load: (openWindow?success_open_window:success_reload),
-                    error: failure
                 };
-                var args = OAuth.sign("POST", xhrArgs, config);
-                dojo.xhrPost(args);
-            });
+
+                var identity = JSON.parse(localStorage.getItem('vospace_oauth_s'));
+
+                identity.regions[vospace.id] = vospace.credentials;
+
+                localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
+
+                var authorizeUrl = vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+reqToken;
+                authorizeUrl += "&oauth_callback="+document.location.href.slice(0,document.location.href.lastIndexOf('/')+1);
+                if(vospace.isShare) {
+                    authorizeUrl += "&share="+vospace.id;
+                }
+                document.location.href = authorizeUrl;
+            }
+            
+            function success_open_window(data) {
+                var respObject = ioQuery.queryToObject(data);
+                var reqToken = respObject.oauth_token;
+                var tokenSecret = respObject.oauth_token_secret;
+
+                if(dijit.byId('formDialog') != undefined){
+                    dijit.byId('formDialog').destroyRecursive();
+                }
+
+                var div = domConstruct.create("div", {
+                        innerHTML: "Please authenticate at <a href='"+
+                        vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+
+                        reqToken+"' target='_blanc'>VAO</a> and click ",
+                        align: "center"
+                    });
+
+                var button = new dijit.form.Button({
+                    label: 'Done',
+                    onClick: function () {
+                        vospace.credentials = {
+                            stage: "request",
+                            sig_method: 'HMAC-SHA1',
+                            consumer: {
+                                key: 'sclient',
+                                secret: 'ssecret'
+                            },
+                            token: {
+                                key: reqToken,
+                                secret: tokenSecret
+                            }
+                        };
+                        var identity = JSON.parse(localStorage.getItem('vospace_oauth_s'));
+                        identity.regions[vospace.id] = vospace.credentials;
+                        localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
+
+                        dijit.byId('formDialog').hide();
+                        app.login2(vospace, component);
+                    }
+                });
+                div.appendChild(button.domNode);
+
+                var loginDialog = new dijit.Dialog({
+                    id: 'formDialog',
+                    title: "Authentication",
+                    style: {width: "300px"},
+                    content: div
+                });
+                dijit.byId('formDialog').show();
+            }
+
+
+            function failure(data, ioargs) { 
+                if(ioargs.xhr.status == 400 || ioargs.xhr.status == 401 || ioargs.xhr.status == 503) { // OAuth errors
+                    var errorResponse = ioargs.xhr.responseText;
+                    if(errorResponse.split("&")[0] != undefined) {
+                        var problem = errorResponse.split("&")[0].slice("oauth_problem=".length);
+                        if(problem == "timestamp_refused"){
+                            alert("Error logging in: request timestamp incorrect. Please check your computer system time.");
+                        } else {
+                            alert("Error logging in: "+ problem);
+                        }
+
+                    } else {
+                        alert("Error logging in: "+ errorResponse);
+                    }
+                }
+            }
+
+            var xhrArgs = {
+                url: vospace.url+'/request_token'+((vospace.isShare)?"?share="+vospace.id:""),
+                handleAs: "text",
+                preventCache: false,
+                load: (openWindow?success_open_window:success_reload),
+                error: failure
+            };
+            var args = OAuth.sign("POST", xhrArgs, config);
+            dojo.xhrPost(args);
 
         },
 
         login2: function(vospace, component) {
             var panel = this;
-            require(["dojo/_base/json", "vobox/OAuth", "vobox/VoboxPanel", "dojo/io-query", "dojo/_base/fx", "dojo/fx", "dojo/aspect", "dojo/dom-construct"], 
-                function(dojo, OAuth, VoboxPanel, ioQuery, fx, coreFx, aspect, domConstruct){
+            require(["vobox/VoboxPanel"], function(VoboxPanel){
                 var url = vospace.url+"/access_token";
 
                 dojo.xhrPost(OAuth.sign("POST", {
