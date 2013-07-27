@@ -26,9 +26,9 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             declare.safeMixin(this, args);
 
             if(has("ie")){
-                require(["vobox/killie.js"], function(killie) {
-                    var killie = new killie();
-                    killie.init();
+                require(["vobox/killie"], function(killie) {
+                    var kie = new killie();
+                    kie.init();
                 });
             }
 

@@ -63,7 +63,7 @@
             return c * (t * t * t + 1) + b;
         }
 
-        function animate() {
+        function animateFunc() {
             for (var i in properties) {
                 if (properties.hasOwnProperty(i)) {
                     el.style[i] = Math.round(cubicOut(itt, properties[i].from, properties[i].to - properties[i].from, intDur)) + 'px';
@@ -88,7 +88,7 @@
                     }
                 if (timer)
                     clear();
-                timer = setInterval(animate, interval);
+                timer = setInterval(animateFunc, interval);
             }
         };
     },
@@ -113,18 +113,6 @@
         return file;
     },
 
-    show: function() {
-        this.msgAnim.animate({
-            'top' : 0
-        });
-    },
-
-    hide: function() {
-        this.msgAnim.animate({
-            'top' : -this.msg.offsetHeight
-        });
-    },
-
     init: function() {
         var killie = this;
         var inner = document.createElement('div'),
@@ -132,7 +120,11 @@
         //close button
         cls.className = 'close';
         cls.innerHTML = '<strong>x</strong><span> close</span>';
-        cls.onclick = this.hide;
+        cls.onclick = function() {
+            killie.msgAnim.animate({
+                'top' : -killie.msg.offsetHeight
+            });
+        };
         //the inner content
         inner.className = "inner";
         inner.innerHTML = '<h3>' + this.MESSAGE_TITLE + '</h3><p>' + this.MESSAGE_OPTIONS + '</p><p>' +this.MESSAGE_FRAME + '</p>';
@@ -142,13 +134,16 @@
         this.msg.appendChild(inner);
         //create the global animation class that we will use
         this.msgAnim = new this.Animation(this.msg, 700);
+        console.debug(this.msgAnim);
         //add css and fire the show event when the css is loaded
         this.loadCSS(this.CSS_FILE, function () {
             document.body.appendChild(killie.msg);
             //hide it by default
             killie.msg.style.top = '-' + killie.msg.offsetHeight + 'px';
             //scroll it down
-            killie.show();
+            killie.msgAnim.animate({
+                'top' : 0
+            });
         });
     }
 
