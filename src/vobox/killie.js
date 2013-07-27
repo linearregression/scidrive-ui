@@ -3,14 +3,17 @@
  This will offer better alternatives to an unsupported browser
  Freely distributable under MIT-style license to use, modify or publish as required
  */
- define([], function () {
+ define([
+      "dojo/_base/declare"
+    ], function (declare) {
+    return declare( "vobox.killie", null, {
     /*************************/
     /* Configure the message */
     /*************************/
-    var CSS_FILE = 'vobox/killie.css',
-    MESSAGE_TITLE = "Your browser is not supported!",
-    MESSAGE_OPTIONS = "To start enjoying a better and more secure web we recommend installing:",
-    BROWSERS = [{
+    CSS_FILE: 'vobox/killie.css',
+    MESSAGE_TITLE: "Your browser is not supported!",
+    MESSAGE_OPTIONS: "To start enjoying a better and more secure web we recommend installing:",
+    BROWSERS: [{
         "href" : "http://www.google.com/chrome",
         "name" : "Chrome"
     },{
@@ -24,25 +27,26 @@
         "name" : "Opera"
     }
     ],
-    MESSAGE_FRAME = "If you're unable to install a new browser, try the <a href=\"http://www.google.com/chromeframe/\" class=\"icon chrome-frame\">Chrome Frame</a> plugin for Internet Explorer.",
+    MESSAGE_FRAME: "If you're unable to install a new browser, try the <a href=\"http://www.google.com/chromeframe/\" class=\"icon chrome-frame\">Chrome Frame</a> plugin for Internet Explorer.",
 
     /**********************************/
     /* No need to configure this part */
     /**********************************/
-    msg = document.createElement('div'),
-    msgAnim = null,
-    Animation, il, i;
+    msg: document.createElement('div'),
+    msgAnim: null,
+    // Animation, il, i,
 
-    //finish off the message options by adding the browsers in the order provided above
-    for (i = 0, il = BROWSERS.length; i < il; i += 1) {
-        if (i) {
-            MESSAGE_OPTIONS += (i + 1 < il) ? ',' : ' or';
+    constructor: function(args) {
+        for (i = 0, il = this.BROWSERS.length; i < il; i += 1) {
+            if (i) {
+                this.MESSAGE_OPTIONS += (i + 1 < il) ? ',' : ' or';
+            }
+            this.MESSAGE_OPTIONS += ' <a class="icon ' + this.BROWSERS[i].name.toLowerCase() + '" href="' + this.BROWSERS[i].href + '">' + this.BROWSERS[i].name + '</a>';
         }
-        MESSAGE_OPTIONS += ' <a class="icon ' + BROWSERS[i].name.toLowerCase() + '" href="' + BROWSERS[i].href + '">' + BROWSERS[i].name + '</a>';
-    }
+    },
 
     //quick and dirty animation class
-    Animation = function (el, duration) {
+    Animation: function (el, duration) {
         var properties = {},
         interval = 25,
         intDur = duration / interval,
@@ -87,9 +91,9 @@
                 timer = setInterval(animate, interval);
             }
         };
-    };
+    },
     //css file loader with callback on complete
-    function loadCSS(url, callback) {
+    loadCSS: function(url, callback) {
         var file = document.createElement('link'),
         html = document.getElementsByTagName('html')[0],
         img = document.createElement('img');
@@ -107,51 +111,46 @@
             html.appendChild(img);
         }
         return file;
-    }
+    },
 
-    function show() {
-        msgAnim.animate({
+    show: function() {
+        this.msgAnim.animate({
             'top' : 0
         });
-    }
+    },
 
-    function hide() {
-        msgAnim.animate({
-            'top' : -msg.offsetHeight
+    hide: function() {
+        this.msgAnim.animate({
+            'top' : -this.msg.offsetHeight
         });
-    }
+    },
 
-    function init() {
+    init: function() {
+        var killie = this;
         var inner = document.createElement('div'),
         cls = document.createElement('a');
         //close button
         cls.className = 'close';
         cls.innerHTML = '<strong>x</strong><span> close</span>';
-        cls.onclick = hide;
+        cls.onclick = this.hide;
         //the inner content
         inner.className = "inner";
-        inner.innerHTML = '<h3>' + MESSAGE_TITLE + '</h3><p>' + MESSAGE_OPTIONS + '</p><p>' + MESSAGE_FRAME + '</p>';
+        inner.innerHTML = '<h3>' + this.MESSAGE_TITLE + '</h3><p>' + this.MESSAGE_OPTIONS + '</p><p>' +this.MESSAGE_FRAME + '</p>';
         inner.appendChild(cls);
         //message
-        msg.id = 'browser-user-message';
-        msg.appendChild(inner);
+        this.msg.id = 'browser-user-message';
+        this.msg.appendChild(inner);
         //create the global animation class that we will use
-        msgAnim = new Animation(msg, 700);
+        this.msgAnim = new this.Animation(this.msg, 700);
         //add css and fire the show event when the css is loaded
-        loadCSS(CSS_FILE, function () {
-            document.body.appendChild(msg);
+        this.loadCSS(this.CSS_FILE, function () {
+            document.body.appendChild(killie.msg);
             //hide it by default
-            msg.style.top = '-' + msg.offsetHeight + 'px';
+            killie.msg.style.top = '-' + killie.msg.offsetHeight + 'px';
             //scroll it down
-            show();
+            killie.show();
         });
     }
 
-    // //wait till page is loaded
-    // if (WIN.addEventListener) {
-    //     WIN.addEventListener('load', init, false);
-    // } else {
-    //     WIN.attachEvent('onload', init);
-    // }
-    init();
+    });
 });
