@@ -164,6 +164,7 @@ html, body {
 .dijitInline.toolbarShadedButton.dijitButton, .toolbarShadedButton.dijitButton.dijitButtonHover.dijitHover {
 	border-style: solid;
 	border-width: 7px;
+	border-color: #D1E4F6;
     -moz-border-image:url("resources/interface/button.png") 10 round; /* Firefox */
     -webkit-border-image:url("resources/interface/button.png") 10 round; /* Safari */
     -o-border-image:url("resources/interface/button.png") 10 round; /* Opera */
@@ -191,6 +192,7 @@ html, body {
 .toolbarDropdown .dijitReset.dijitStretch.dijitButtonContents {
 	border-style: solid;
 	border-width: 8px;
+	border-color: #D1E4F6;
 	-moz-border-image: url("resources/interface/dropdown_border_left.png") 13 round;
 	-webkit-border-image: url("resources/interface/dropdown_border_left.png") 13 round;
 	-o-border-image: url("resources/interface/dropdown_border_left.png") 13 round;
@@ -201,6 +203,7 @@ html, body {
 .toolbarDropdown .dijitReset.dijitRight.dijitButtonNode.dijitArrowButton.dijitDownArrowButton.dijitArrowButtonContainer {
 	border-style: solid;
 	border-width: 8px;
+	border-color: #D1E4F6;
 	-moz-border-image: url("resources/interface/dropdown_border_right.png") 13 round;
 	-webkit-border-image: url("resources/interface/dropdown_border_right.png") 13 round;
 	-o-border-image: url("resources/interface/dropdown_border_right.png") 13 round;

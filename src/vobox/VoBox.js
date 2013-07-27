@@ -10,18 +10,24 @@ define( [
   "dojo/request/xhr", 
   "dojo/json",
   "dojo/io-query",
+  "dojo/has",
+  "dojo/sniff",
   "dijit/Dialog",
   "vobox/OAuth",
   "dojo/text!vobox/resources/regions.json"
 ],
 
-function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, Dialog, OAuth, regions) {
+function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog, OAuth, regions) {
     return declare( "vobox.VoBox", null, {
 
         identity_ver: "1.4",
 
         constructor: function(args) {
             declare.safeMixin(this, args);
+
+            if(has("ie")){
+                require(["vobox/killie.js"], function(killie) {});
+            }
 
             /* Init identity object and make sure it's current version */
             var identity = {
