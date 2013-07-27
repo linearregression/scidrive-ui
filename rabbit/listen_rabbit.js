@@ -5,7 +5,7 @@ var rabbitHub = require('rabbitmq-nodejs-client');
 
 var ghub = null;
 
-var subHub = rabbitHub.create( { task: 'sub', channel: 'jhu.pha.vospace.nodechanged', host: 'zinc27.pha.jhu.edu'  } );
+var subHub = rabbitHub.create( { task: 'sub', channel: 'jhu.pha.vospace.nodechanged', host: 'zinc26.pha.jhu.edu'  } );
 subHub.on('connection', function(hub) {
 
     ghub = hub;
@@ -25,10 +25,14 @@ http.createServer(function (req, res) {
     
 	var watchPath = queryData.path;
 	if(watchPath.match(".*/$")==watchPath)
-	    watchPath = watchPath.slice(0, - 1);
+	    watchPath = watchPath.slice(0, -1);
 
-	watchPath = "^"+watchPath+"$";
-
+	if(watchPath.match(".*/[*]$")==watchPath){
+	    watchPath = watchPath.slice(0, -1)+".*";
+	}else{
+	    watchPath = "^"+watchPath+"$";
+	}
+	
 	var procMsg = function(msg) {
 		var msg_json = JSON.parse(msg);
 		var path = msg_json.container;
