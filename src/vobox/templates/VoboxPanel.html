@@ -59,7 +59,7 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 			data-dojo-attach-event="execute:_mkdir">
 			<div style="margin: 10px;">
 				<label for="name"> Folder name: </label>
-				<input data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey">
+				<input data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*" trim="true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey">
 			</div>
 			<div style="text-align: center; margin: 10px;">
 				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="submit" onClick="return this.getParent().validate();">Create</button>
@@ -71,7 +71,7 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 			data-dojo-attach-event="execute:_mkfile">
 			<div style="margin: 10px;">
 				<label for="name"> File name: </label>
-				<input dojoType="dijit.form.ValidationTextBox" required="true" regExp="[A-Za-z0-9-_~\.]+" trim="true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey">
+				<input dojoType="dijit.form.ValidationTextBox" required="true" regExp="[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*" trim="true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey">
 			</div>
 			<div style="text-align: center; margin: 10px;">
 					<button dojoType="dijit.form.Button" type="submit" onClick="return this.getParent().validate();" data-dojo-props="class:'dialogShadedButton'">Create</button>
