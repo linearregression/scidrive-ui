@@ -2,8 +2,8 @@
 	<div dojoType="dijit.TitlePane" open="false" title="Intro">
 		<h4>Welcome to VOBox!</h4>
 		<p>VOBox is a network storage for scientific data. We provide free storage to scientists who want to publish their data without need to organize it in any way or have own infrastructure to support it.</p>
-		<p>To start using VOBox, create a folder using the "Create folder" button. To enter the folder, double click on it.</p>
-		<p>Once you are inside your folder, you can start uploading files by Drag-and-Dropping it to your browser window.</p>
+		<p>To start using VOBox, create a folder using the "Create folder" button. Double click a folder to view its contents.</p>
+		<p>Once you are inside a folder you can start uploading files by Drag-and-Dropping these to the browser window.</p>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="Data publication: Uploading files">
 		<div style="display: table;">
@@ -12,9 +12,9 @@
 				<br/>(Folder uploading is not supported by browsers yet)<br/><img src="vobox/resources/help/dnd.png"></img>
 			</div>
 			<div style="width:45%; display: table-cell; float: none; border: 1px;">
-				To pull any http URL contents into existing file, choose "Pull from URL..." from file's context menu:
+				To pull any http URL contents into existing file, choose "Pull from URL..." from the file's context menu:
 				<br/><img src="vobox/resources/help/Pull_from_URL.png"></img><br/>
-				The file will be asynchronously downloaded by the service.
+				The data will be asynchronously downloaded by the service.
 			</div>
 		</div>
 		<p>You can only upload files into a folder. Uploading files to root is not permitted.</p>
@@ -59,10 +59,8 @@
 		</div>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="Metadata extraction">
-		<p>There is background process watching for all file changes in the storage. Filetypes are automatically recognized by its contents signatures. For some filetypes there are plugins enabled that extract metadata and store it in side services.</p>
-		<div dojoType="dijit.TitlePane" open="false" title="Tabular data from FITS, CSV, Excel files">
-			If a file is recognized as having tabular data, this data will be uploaded to CasJobs service if user has his credentials setup. To register and add credentials, use the CasJobs toolbar button. 
-		</div>
+		<p>The service provides automatic extraction of metadata from uploaded files in the background. Filetypes are automatically recognized by its contents signatures. For some filetypes there are plugins to extract metadata and store it in side services. The needed plugins should be enabled using the metadata exctractors configurator.</p>
+		<p>The available metadata extractors arelisted on the left of the dialog. The symbol in extrctor name shows the current enabled/disabled status of the plugin. To change the status, use the switch and save button to save the state to the service.</p>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="REST API">
 		<p>The service supports both VOSpace 2.0 and Dropbox REST API to access the data.</p>
