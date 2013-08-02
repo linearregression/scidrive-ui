@@ -536,7 +536,7 @@ define([
       xhr.open('PUT', url, true);
       // xhr.onload = function(e) { 
       // };
-      xhr.setRequestHeader('Authorization', OAuth.sign("PUT", {url: url}, panel.store.vospace.credentials).headers["Authorization"]);
+      xhr.setRequestHeader('Authorization', OAuth.sign("PUT", {url: url}, curFileStruct.credentials).headers["Authorization"]);
 
       // Listen to the upload progress.
       xhr.upload.onprogress = function(e) {
@@ -644,7 +644,8 @@ define([
               file: curFile,
               fileUploadNode: uploadNode,
               fileProgressNode: progressNode,
-              containerUrl: url
+              containerUrl: url,
+              credentials: panel.store.vospace.credentials
             });
 
             if(!panel._isUploading) {
