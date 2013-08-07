@@ -43,6 +43,8 @@ html, body {
 
 .topPanel {
 	background: url("resources/interface/toolbar_bg.png") repeat-x scroll left top #EAEAEA;
+	height: 90px;
+	margin: 0px;
 }
 
 .vobox .shadow {
@@ -51,6 +53,16 @@ html, body {
 
 .vobox .topshadow {
 	box-shadow: 0px 7px 9px rgba(40, 40, 40, 0.6);
+}
+
+.vobox .logo {
+	 height: 70px;
+	 margin: 10px;
+}
+
+.dj_ie .vobox .logo {
+	 height: 70px;
+	 margin: 7px;
 }
 
 .dijitToolbar.topToolbar {
@@ -178,6 +190,13 @@ html, body {
     border-image:url("resources/interface/button.png") 10 fill round;
 }
 
+.dj_ie .dijitInline.toolbarShadedButton.dijitButton, .dj_ie .toolbarShadedButton.dijitButton.dijitButtonHover.dijitHover {
+	border-style: solid;
+	border-width: 7px;
+	background-color: #C6D9E9;
+	border-color: #C6D9E9;
+}
+
 /* Text button toolbar font */
 .toolbarShadedButton .dijitInline.dijitButtonText {
 	color: #326EB7;
@@ -206,6 +225,13 @@ html, body {
 	border-image: url("resources/interface/dropdown_border_left.png") 13 fill round;
 }
 
+.dj_ie .toolbarDropdown .dijitReset.dijitStretch.dijitButtonContents {
+	border-style: solid;
+	border-width: 8px;
+	border-color: #C6D9E9;
+	background-color: #C6D9E9;
+}
+
 /* dropdown right part border */
 .toolbarDropdown .dijitReset.dijitRight.dijitButtonNode.dijitArrowButton.dijitDownArrowButton.dijitArrowButtonContainer {
 	border-style: solid;
@@ -216,6 +242,13 @@ html, body {
 	-o-border-image: url("resources/interface/dropdown_border_right.png") 13 round;
 	border-image: url("resources/interface/dropdown_border_right.png") 13 fill round;
 
+}
+
+.dj_ie .toolbarDropdown .dijitReset.dijitRight.dijitButtonNode.dijitArrowButton.dijitDownArrowButton.dijitArrowButtonContainer {
+	border-style: solid;
+	border-width: 8px;
+	border-color: #C6D9E9;
+	background-color: #C6D9E9;
 }
 
 .vobox .dojoxGRidMasterView {
@@ -277,6 +310,12 @@ html, body {
     -webkit-border-image:url("resources/interface/button.png") 10 round; /* Safari */
     -o-border-image:url("resources/interface/button.png") 10 round; /* Opera */
     border-image:url("resources/interface/button.png") 10 fill round;
+}
+
+.dj_ie .dijitInline.dialogShadedButton.dijitButton, .dj_ie .dialogShadedButton.dijitButton.dijitButtonHover.dijitHover,
+.dj_ie .dijitInline.dialogShadedButton.dijitToggleButton, .dj_ie .dialogShadedButton.dijitToggleButton.dijitButtonHover.dijitHover {
+	border-width: 0px;
+	background-color: #C6D9E9;
 }
 
 .dialogShadedButton .dijitButtonNode, .dialogShadedButton .dijitInline.dijitButtonNode {

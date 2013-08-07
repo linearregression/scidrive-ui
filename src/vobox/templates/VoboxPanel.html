@@ -3,7 +3,7 @@
 margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="rootContainer">
 	    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', style:'z-index: 5;', class: 'shadow'">
 	    	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="class:'topPanel'">
-	        	<img src="vobox/resources/interface/vobox_logo.png" style="height: 70px; margin: 10px;"/>
+	        	<img src="vobox/resources/interface/vobox_logo.png" class="logo"/>
 				<!-- Toolbar -->
 				<div data-dojo-attach-point="toolbar" data-dojo-type="dijit.Toolbar" data-dojo-props="class:'topToolbar'">
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="refreshButton" data-dojo-attach-event="onClick:_refresh" data-dojo-props="iconClass:'toolbarButton refreshToolbarButton', showLabel: false">Refresh
@@ -59,10 +59,18 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 			data-dojo-attach-event="execute:_mkdir">
 			<div style="margin: 10px;">
 				<label for="name"> Folder name: </label>
-				<input data-dojo-type="dijit/form/ValidationTextBox" required="true" regExp="[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*" trim="true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey">
+				<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', required:true, trim:true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey">
 			</div>
 			<div style="text-align: center; margin: 10px;">
-				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="submit" onClick="return this.getParent().validate();">Create</button>
+				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="button">Create
+					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+						var dialog = this.getParent();
+						if(dialog.validate()) {
+							dialog.execute();
+							dialog.hide();
+						}
+				    </script>
+				</button>
 			</div>
 		</div>
 
@@ -71,10 +79,18 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 			data-dojo-attach-event="execute:_mkfile">
 			<div style="margin: 10px;">
 				<label for="name"> File name: </label>
-				<input dojoType="dijit.form.ValidationTextBox" required="true" regExp="[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*" trim="true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey">
+				<input dojoType="dijit.form.ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', trim:true, required:true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey">
 			</div>
 			<div style="text-align: center; margin: 10px;">
-					<button dojoType="dijit.form.Button" type="submit" onClick="return this.getParent().validate();" data-dojo-props="class:'dialogShadedButton'">Create</button>
+					<button dojoType="dijit.form.Button" type="button" data-dojo-props="class:'dialogShadedButton'">Create
+						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
+							var dialog = this.getParent();
+							if(dialog.validate()) {
+								dialog.execute();
+								dialog.hide();
+							}
+					    </script>
+					</button>
 			</div>
 		</div>
 
