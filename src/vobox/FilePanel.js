@@ -329,8 +329,12 @@ define([
 
     },
 
+    /*
+    * Function reloads the contents of the panel.
+    * Parameter notRefreshIfUpdating specifies if the panel should refresh when SSE is available
+    */
     _refresh: function(notRefreshIfUpdating) {
-        var gridIsUpdating = (undefined != this.gridWidget._eventSource && this.gridWidget._eventSource.readyState == 1);
+        var gridIsUpdating = ((typeof this.gridWidget._eventSource != "undefined") && (this.gridWidget._eventSource.readyState == 1));
 
         if(!(gridIsUpdating && notRefreshIfUpdating)) {
           this.gridWidget._refresh(true);
@@ -350,7 +354,7 @@ define([
        headers: { "Content-Type": "application/xml"},
        handleAs: "text",
        load: function(data){
-        //!!panel._refresh();
+          panel._refresh();
         },
         error: function(data, ioargs) {
           panel._handleError(data, ioargs);
@@ -373,7 +377,7 @@ define([
            headers: { "Content-Type": "application/xml"},
            handleAs: "text",
            load: function(data){
-            //!!panel._refresh();
+             panel._refresh();
           },
           error: function(data, ioargs) {
             panel._handleError(data, ioargs);
@@ -417,9 +421,12 @@ define([
              dojo.xhrDelete(OAuth.sign("DELETE", {
                url: encodeURI(panel.store.vospace.url+"/nodes"+path[i].i.path),
                handleAs: "text",
-              error: function(data, ioargs) {
-                panel._handleError(data, ioargs);
-              }
+               load: function(data) {
+                 panel._refresh(true);
+               },
+               error: function(data, ioargs) {
+                 panel._handleError(data, ioargs);
+               }
              }, panel.store.vospace.credentials));
           }
 
@@ -427,9 +434,12 @@ define([
          dojo.xhrDelete(OAuth.sign("DELETE", {
            url: encodeURI(panel.store.vospace.url+"/nodes"+path.i.path),
            handleAs: "text",
-            error: function(data, ioargs) {
-              panel._handleError(data, ioargs);
-            }
+             load: function(data) {
+               panel._refresh(true);
+             },
+             error: function(data, ioargs) {
+               panel._handleError(data, ioargs);
+             }
          }, panel.store.vospace.credentials));
        }
      });
@@ -554,7 +564,7 @@ define([
           panel.parentPanel.hideUploadPanel();
         }
         domConstruct.destroy(curFileStruct.fileUploadNode);
-        //!!panel._refresh(true);
+        panel._refresh(true);
       });
 
       xhr.onreadystatechange = function(evt){

@@ -3,9 +3,6 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
     var DataGrid =  declare("vobox.DataGrid", [EnhancedGrid], {
     	
 	_currentPath : '/',
-	pathWidget : null,
-    _eventSource: null,
-    _user: null,
 
     _fetch: function(start, isRender){
         // summary:
@@ -60,12 +57,12 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
 
         var panel = this;
 
-        if(null != this._eventSource) {
+        if(typeof this._eventSource != "undefined") {
           this._eventSource.close();
-          this._eventSource = null;
+          delete this._eventSource;
         }
 
-        if(undefined != this._user && !!window.EventSource) {
+        if(typeof this._user != undefined && !!window.EventSource) {
 
             var shareRootPath = (this.store.vospace.isShare)?"/.*":""
             this._eventSource = new EventSource('updates?user='+this._user+'&path='+shareRootPath+this._currentPath);
