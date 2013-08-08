@@ -132,7 +132,7 @@ define([
               load: function(shares) {
 
                 var sharesGridDiv = domConstruct.create("div", {
-                  style: {width: '100%', height: '100%'}
+                  style: {height: '400px'}
                 });
 
                 var data = {
@@ -148,8 +148,8 @@ define([
                       return "<a href=\""+url+"?share="+col+"\" target=\"_blank\">"+col+"</a>";
                     }
                   },
-                  {'name': 'Container', 'field': 'container', 'width': '30%'},
-                  {'name': 'Group', 'field': 'group', 'width': '28%'},
+                  {'name': 'Container', 'field': 'container', 'width': '25%'},
+                  {'name': 'Group', 'field': 'group', 'width': '23%'},
                   {'name': 'Write', 'field': 'write_permission', 'width': '10%', 
                     formatter: function(col, rowIndex) {
                         return col?"✔":"✘";
@@ -169,9 +169,7 @@ define([
                             dojo.xhrDelete(OAuth.sign("DELETE", {
                                 url: panel.current_panel.store.vospace.url + "/1/shares/"+share_id,
                                 load: function(data) {
-                                  console.debug("refresh!");
                                   store.deleteItem(rowdata); 
-                                  //grid._refresh();!!!!!!!!!
                                 },
                                 error: function(data, ioargs) {
                                   panel.current_panel._handleError(data, ioargs);
@@ -461,6 +459,7 @@ define([
           
           var dialog = new Dialog({
               content: transfersManager,
+              title: "Jobs list",
               onHide: function() {
                 transfersManager.destroyRecursive();
                 this.destroyRecursive();

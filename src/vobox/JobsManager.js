@@ -27,7 +27,7 @@ define([
 		        {name: "state", field: "state", width: "50px", formatter: formatJobState, style: "text-align: center"},
 		        {name: "id", field: "id", formatter: formatId, width: "100px"},
 		        //{name: "starttime", field: "starttime", width: "13%"},
-		        {name: "endtime", field: "endtime", width: "180px"},
+		        {name: "endtime", field: "endtime", width: "175px"},
 		        {name: "path", field: "path", width: "343px"}
 		    ]
 		}],
@@ -67,7 +67,7 @@ define([
 								    },panel.vospace.credentials));
 		    		        	}
 		    		        }
-		    		    },panel.jobsgrid);
+		    		    }, panel.jobsgridelm);
 		    		    
 		    			panel._supportingWidgets.push(panel.jobsgrid);
 		    		    panel.jobsgrid.startup();

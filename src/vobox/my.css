@@ -314,8 +314,10 @@ html, body {
 
 .dj_ie .dijitInline.dialogShadedButton.dijitButton, .dj_ie .dialogShadedButton.dijitButton.dijitButtonHover.dijitHover,
 .dj_ie .dijitInline.dialogShadedButton.dijitToggleButton, .dj_ie .dialogShadedButton.dijitToggleButton.dijitButtonHover.dijitHover {
-	border-width: 0px;
+	border-style: solid;
+	border-width: 7px;
 	background-color: #C6D9E9;
+	border-color: #C6D9E9;
 }
 
 .dialogShadedButton .dijitButtonNode, .dialogShadedButton .dijitInline.dijitButtonNode {
