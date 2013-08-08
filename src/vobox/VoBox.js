@@ -102,13 +102,14 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                         require(["vobox/VoboxPanel"], 
                             function(VoboxPanel){
                             if(undefined == dijit.byId("voboxWidget")) {
-                                new VoboxPanel({
+                                var pan = new VoboxPanel({
                                     id: "voboxWidget",
+                                    style: "width: 100%; height: 100%; opacity: 0;",
                                     app: panel
-                                }, dojo.byId("voboxWidgetDiv"));
+                                });
+                                pan.placeAt(document.body)
                                 dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
                                 dijit.byId("voboxWidget").startup();
-
                                 var anim = coreFx.combine([
                                     fx.fadeIn({
                                       node: "voboxWidget",

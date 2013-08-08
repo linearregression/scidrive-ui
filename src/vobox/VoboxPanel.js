@@ -91,15 +91,7 @@ define([
 
         postCreate: function() {
             this.inherited(arguments);
-
             var panel = this;
-
-            this.uploadPanelToggler = new Toggler({
-              node: this.fileuploads.id,
-              showFunc: coreFx.wipeIn,
-              hideFunc: coreFx.wipeOut
-            });
-            this.uploadPanelToggler.hide();
 
             this.connect(this.loginSelect, "onChange", function(id) {
               var vospaceChosenArr = panel.app.vospaces.filter(function(elm, index, array) {
@@ -110,8 +102,16 @@ define([
               else
                 console.debug("Something bad happened: can't find the region");
             });
-            
-            domStyle.set(this.id, "opacity", "0");
+        },
+
+        startup: function() {
+          this.inherited(arguments);
+          this.uploadPanelToggler = new Toggler({
+            node: this.fileuploads.id,
+            showFunc: coreFx.wipeIn,
+            hideFunc: coreFx.wipeOut
+          });
+          this.uploadPanelToggler.hide();
         },
 
         _mkdirDialog: function() {

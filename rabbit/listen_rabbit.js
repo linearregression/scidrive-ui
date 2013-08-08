@@ -21,7 +21,8 @@ http.createServer(function (req, res) {
 
 	res.writeHead(200, {'Content-Type': 'text/event-stream',
 			    'Cache-Control': 'no-cache',
-			    'Connection': 'Keep-Alive'});
+			    'Connection': 'Keep-Alive',
+				'Access-Control-Allow-Origin': '*'});
     
 	var watchPath = queryData.path;
 	if(watchPath.match(".*/$")==watchPath)

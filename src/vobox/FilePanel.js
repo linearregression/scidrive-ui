@@ -334,8 +334,7 @@ define([
     * Parameter notRefreshIfUpdating specifies if the panel should refresh when SSE is available
     */
     _refresh: function(notRefreshIfUpdating) {
-        var gridIsUpdating = ((typeof this.gridWidget._eventSource != "undefined") && (this.gridWidget._eventSource.readyState == 1));
-
+        var gridIsUpdating = ((this.gridWidget._eventSource != null) && (this.gridWidget._eventSource.readyState == 1));
         if(!(gridIsUpdating && notRefreshIfUpdating)) {
           this.gridWidget._refresh(true);
           this.gridWidget.plugin('selector').clear();

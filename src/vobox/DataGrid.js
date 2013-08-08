@@ -3,6 +3,7 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
     var DataGrid =  declare("vobox.DataGrid", [EnhancedGrid], {
     	
 	_currentPath : '/',
+    _eventSource: null,
 
     _fetch: function(start, isRender){
         // summary:
@@ -57,15 +58,19 @@ define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "do
 
         var panel = this;
 
-        if(typeof this._eventSource != "undefined") {
+        if(null != this._eventSource) {
           this._eventSource.close();
-          delete this._eventSource;
+          this._eventSource = null;
         }
 
         if(typeof this._user != undefined && !!window.EventSource) {
 
-            var shareRootPath = (this.store.vospace.isShare)?"/.*":""
-            this._eventSource = new EventSource('updates?user='+this._user+'&path='+shareRootPath+this._currentPath);
+            var shareRootPath = (this.store.vospace.isShare)?"/.*":"";
+
+            var parser = document.createElement('a');
+            parser.href = this.store.vospace.url;
+             
+            this._eventSource = new EventSource('//'+parser.host+'/updates?user='+this._user+'&path='+shareRootPath+this._currentPath);
             
             this._eventSource.onmessage = function(e) {
               panel.plugin('selector').clear();
