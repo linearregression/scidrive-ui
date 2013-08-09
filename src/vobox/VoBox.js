@@ -344,10 +344,12 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                         localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
 
                         if(undefined == dijit.byId("voboxWidget")) {
-                            new VoboxPanel({
+                            var pan = new VoboxPanel({
                                 id: "voboxWidget",
+                                style: "width: 100%; height: 100%; opacity: 0;",
                                 app: panel
-                            }, dojo.byId("voboxWidgetDiv"));
+                            });
+                            pan.placeAt(document.body)
                             dijit.byId("voboxWidget").loginToVO(vospace, component); // with updated credentials
                             dijit.byId("voboxWidget").startup();
 
