@@ -279,7 +279,8 @@ define([
                   progress: accountInfo.quota_info.normal
                 });
 
-                var tooltipText = "Used space: "+numeral(accountInfo.quota_info.normal*1024*1024*1024).format('0.0 b');
+                var tooltipText = numeral(accountInfo.quota_info.normal).format('0.0 b')+
+                " of "+numeral(accountInfo.quota_info.quota).format('0.0 b')+" used";
                 panel.userLimitTooltip.set("label", tooltipText);
                 dijit.Tooltip.defaultPosition=['below-centered'];
                 panel.userLimitTooltip.set("connectId",panel.userLimitBar.id);
