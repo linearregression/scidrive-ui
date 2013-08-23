@@ -120,7 +120,7 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
                         var contSel = new CheckedMultiSelect({
                             store: readStore,
                             multiple: true,
-                            class: "containersSelect",
+                            "class": "containersSelect",
                             name: "containers",
                             required: true,
                             style: {width: "100%"}
