@@ -12,10 +12,12 @@ define( [
 "dojo/on",
 "dojo/dom-form",
 "dojox/mobile/Switch",
-"vobox/OAuth"
+"vobox/OAuth",
+"dojo/data/ItemFileReadStore",
+"dojox/form/CheckedMultiSelect"
 ],
 
-function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContainer, domConstruct, domStyle, xhr, on, domForm, Switch, OAuth) {
+function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContainer, domConstruct, domStyle, xhr, on, domForm, Switch, OAuth, ItemFileReadStore, CheckedMultiSelect) {
     return declare( "vobox.DynamicPropertiesForm", Form, {
 
         constructor: function(args) {
@@ -48,23 +50,26 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
 
             cp_head.addChild(this.onOffButton);
 
+            var service_credentials = {}; // to be updated in first call
+
             xhr(this.panel.current_panel.store.vospace.url + "/1/account/service_schema/" + this.service.id, {
                 handleAs: "json"
             }).then(function(schema) {
 
-                domConstruct.place("<div style='text-align: left; margin: 15px;'><h3>"+schema.description+"</h3></div>", cp_head.id);
+                domConstruct.place("<div style='text-align: left;'><h3>"+schema.description+"</h3></div>", cp_head.id);
+                var cp_form = new ContentPane({
+                  region: "bottom", 
+                  style: "overflow: auto; box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.75); margin: 10px; padding: 10px; text-align: right;"
+                });
+                cp_head.addChild(cp_form);
+
                 dojo.xhrGet(OAuth.sign("GET", {
                     url: panel.current_panel.store.vospace.url + "/1/account/service/" + form.service.id,
                     handleAs: "json",
                     async: true,
                     load: function(service_cred) {
-
+                        service_credentials = service_cred;
                         if(schema.fields.length > 0) {
-                            var cp_form = new ContentPane({
-                              region: "bottom", 
-                              style: "overflow: auto; box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.75); margin: 10px; padding-top: 30px; text-align: right;"
-                            });
-                            cp_head.addChild(cp_form);
 
                             schema.fields.map(function(property) {
                                 var propertyTextBox = new TextBox({
@@ -73,15 +78,17 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
                                     name: property.name,
                                     type: (property.password)?"password":"text",
                                     required: property.required,
-                                    style: "width: 450px",
+                                    style: "width: 430px",
                                     disabled: !form.service.enabled
                                 });
                                 domConstruct.place("<label for='" + propertyTextBox.id + "'>" + property.name + " </h1>", cp_form.id);
                                 cp_form.addChild(propertyTextBox);
                                 form.form_fields.push(propertyTextBox);
-                                domConstruct.place("<br/><br/>", cp_form.id);
+                                domConstruct.place("<br/>", cp_form.id);
                             });
 
+                        } else {
+                            domStyle.set(cp_form.id, "visibility", "hidden");
                         }
                     },
                     error: function(data, ioargs) {
@@ -90,6 +97,46 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
                 }, panel.current_panel.store.vospace.credentials));
             }, function(err) {
                 console.error(err);
+            }).then(function() {
+                var cont_form = new ContentPane({
+                  region: "bottom", 
+                  style: "overflow: auto; box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.75); margin: 10px; padding: 3px;"
+                });
+                cp_head.addChild(cont_form);
+
+                domConstruct.place("<div style='padding: 3px;'>Enable extraction in containers:</div>", cont_form.id);
+
+                dojo.xhrGet(OAuth.sign("GET", {
+                    url: panel.current_panel.store.vospace.url + "/1/metadata/sandbox/",
+                    handleAs: "json",
+                    load: function(root_contents) {
+                        var data = {
+                          identifier: "path",
+                          label: "path",
+                          items: root_contents.contents
+                        };
+                        var readStore = new ItemFileReadStore({data:data});
+
+                        var contSel = new CheckedMultiSelect({
+                            store: readStore,
+                            multiple: true,
+                            class: "containersSelect",
+                            name: "containers",
+                            required: true,
+                            style: {width: "100%"}
+                        });
+                        contSel.setStore(readStore, 
+                            service_credentials.containers);
+                        cont_form.addChild(contSel);
+                        contSel.startup();
+                        contSel.set("disabled", !form.service.enabled);
+                        form.form_fields.push(contSel);
+                    },
+                    error: function(data, ioargs) {
+                        panel.current_panel._handleError(data, ioargs);
+                    }
+                }, panel.current_panel.store.vospace.credentials));
+
             });
 
             var validateAndSave=function() {

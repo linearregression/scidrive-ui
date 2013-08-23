@@ -6,6 +6,7 @@
 @import "../dojox/grid/resources/tundraGrid.css";
 @import "../dojox/widget/Dialog/Dialog.css";
 @import "../dojox/mobile/themes/iphone/Switch.css";
+@import "../dojox/form/resources/CheckedMultiSelect.css";
 
 html, body {
 	width: 100%;
@@ -285,6 +286,11 @@ html, body {
 
 .vobox .fileUploadProgress {
 	width: 320px;
+}
+
+.vobox .containersSelect .dojoxCheckedMultiSelectWrapper {
+    width: 99%;
+    height: 135px;
 }
 
 /* Dialogs buttons */
