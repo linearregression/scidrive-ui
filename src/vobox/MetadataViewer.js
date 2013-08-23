@@ -46,6 +46,18 @@ function(declare, domConstruct, XMLWriter) {
                 }
             }
 
+            this.metaRules['ivo://ivoa.net/vospace/core#processing'] = {
+                "output": function(item, element) {
+                    domConstruct.place("<div>Metadata extraction status: "+item+"</div>", element);
+                }
+            }
+
+            this.metaRules['ivo://ivoa.net/vospace/core#error_message'] = {
+                "output": function(item, element) {
+                    domConstruct.place("<div>Metadata extraction error: "+item+"</div>", element);
+                }
+            }
+
         },
 
         parse: function(meta, element) {
