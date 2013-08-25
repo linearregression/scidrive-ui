@@ -459,10 +459,13 @@ define([
       _getName: function(path, rowIndex) {
         var pathTokens = path.split('/');
 
-        if(this.grid.getItem(rowIndex).i.is_dir){
-          return "<img src='vobox/resources/folder.gif' title='Folder' alt='Folder' height='10'/>&nbsp;"+pathTokens[pathTokens.length-1];
-        } else {
-          return "<img src='vobox/resources/file.svg' title='File' alt='File' height='16'/>&nbsp;"+pathTokens[pathTokens.length-1];
+        switch (this.grid.getItem(rowIndex).i.icon) {
+          case "folder_public":
+            return "<img src='vobox/resources/folder.jpg' style='vertical-align:middle' title='Folder' alt='Folder' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
+          case "file":
+            return "<img src='vobox/resources/file.png' style='vertical-align:middle' title='File' alt='File' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
+          case "table":
+            return "<img src='vobox/resources/table.png' style='vertical-align:middle' title='File' alt='File' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
         }
       },
       
