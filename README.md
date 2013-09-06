@@ -15,6 +15,21 @@ Quick Start
 4. Upload `dist/` to a Web Server
 5. You can start using the VOBox Web UI.
 
+Installing push notifications node.js service
+---------------------------------------------
+
+1. install [node.js](http://nodejs.org/)
+2. run `npm install rabbitmq-nodejs-client amqp@0.1.6` in vobox-ui/rabbit folder
+3. run `npm install forever -g`
+4. add rabbitmq server address to listen_rabbit.js script 
+5. run the service: `forever start listen_rabbit.js`
+6. add redirect to apache proxy_ajp:
+
+```
+ProxyPass /updates http://localhost:1337/ timeout=60
+ProxyPassReverse /updates http://localhost:1337/ timeout=60
+```
+
 A brief tour
 ------------
 
