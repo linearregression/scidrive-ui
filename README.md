@@ -9,10 +9,11 @@ Quick Start
 -----------
 
 0. Clone the repository using `git clone --recursive`.
-1. Modify vobox-ui/src/vobox/resources/regions.json to point to the VOBox mirrors you'd like to use.
-2. Run `build.sh`, which will create an optimised build in `dist/`.
-3. Upload `dist/` to a Web Server
-4. You can start using the VOBox Web UI.
+1. Fix the error in dojo by modifying css according to https://bugs.dojotoolkit.org/ticket/16320
+2. Modify vobox-ui/src/vobox/resources/regions.json to point to the VOBox mirrors you'd like to use.
+3. Run `build.sh`, which will create an optimised build in `dist/`.
+4. Upload `dist/` to a Web Server
+5. You can start using the VOBox Web UI.
 
 A brief tour
 ------------
