@@ -1,6 +1,6 @@
 define(["dojox/grid/EnhancedGrid", "dojo/_base/declare", "dojo/_base/array", "dojo/_base/lang", "dojo/_base/html"], 
           function(EnhancedGrid, declare, array, lang, html) {
-    var DataGrid =  declare("vobox.DataGrid", [EnhancedGrid], {
+    var DataGrid =  declare("scidrive.DataGrid", [EnhancedGrid], {
     	
 	_currentPath : '/',
     _eventSource: null,

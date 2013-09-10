@@ -33,7 +33,7 @@ define([
     Dialog,
     template){
 
-    var ConfirmDialog = declare("vobox.ConfirmDialog", [Dialog, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    var ConfirmDialog = declare("scidrive.ConfirmDialog", [Dialog, _Widget, _TemplatedMixin, _WidgetsInTemplateMixin], {
       title: "Confirm",
       message: "Are you sure?",
 

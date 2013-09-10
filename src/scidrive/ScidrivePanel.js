@@ -27,21 +27,20 @@ define([
   "dijit/form/TextBox",
   "dijit/Dialog",
   "dojox/layout/TableContainer",
-  "vobox/VoBox",
-  "vobox/OAuth",
-  "vobox/FilePanel",
-  "vobox/DataGrid",
-  "vobox/VosyncReadStore",
-  "vobox/JobsManager",
-  "vobox/DynamicPropertiesForm",
+  "scidrive/OAuth",
+  "scidrive/FilePanel",
+  "scidrive/DataGrid",
+  "scidrive/VosyncReadStore",
+  "scidrive/JobsManager",
+  "scidrive/DynamicPropertiesForm",
   "numeral/numeral",
   "dojox/grid/DataGrid",
-  "dojo/text!./templates/VoboxPanel.html"
+  "dojo/text!./templates/ScidrivePanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
-    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer, VoBox,
+    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer,
     OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, DojoDataGrid, template) {
-    return declare("vobox.VoboxPanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
+    return declare("scidrive.ScidrivePanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
         panel1: null,
@@ -185,21 +184,21 @@ define([
                 ]];
 
                 // allowing browser menu in grid
-                dojo.declare('vobox.dojox.grid._FocusManager', dojox.grid._FocusManager, {
+                dojo.declare('scidrive.dojox.grid._FocusManager', dojox.grid._FocusManager, {
                     doContextMenu: function() {}
                 });
                 
-                dojo.declare('vobox.dojox.grid.DataGrid', dojox.grid.DataGrid, {
+                dojo.declare('scidrive.dojox.grid.DataGrid', dojox.grid.DataGrid, {
                     createManagers: function() {
                         this.rows = new dojox.grid._RowManager(this);
-                        this.focus = new vobox.dojox.grid._FocusManager(this);
+                        this.focus = new scidrive.dojox.grid._FocusManager(this);
                         this.edit = new dojox.grid._EditManager(this);
                     },
                     onRowContextMenu: function(e) {},
                     onHeaderContextMenu: function(e) {}
                 });
                 
-                var grid = new vobox.dojox.grid.DataGrid({
+                var grid = new scidrive.dojox.grid.DataGrid({
                   store: store,
                   structure: layout,
                   rowSelector: '0px'
@@ -346,7 +345,7 @@ define([
         },
 
         createStore: function(vospace) {
-            return new vobox.VosyncReadStore({
+            return new scidrive.VosyncReadStore({
                 vospace: vospace,
                 numRows: "items"
             });

@@ -1,7 +1,7 @@
 define( [
   "dojo/_base/declare"
 ], function(declare) {
-var XMLWriter = declare( "vobox.XMLWriter", null, {
+var XMLWriter = declare( "scidrive.XMLWriter", null, {
 
 
     constructor: function(args) {

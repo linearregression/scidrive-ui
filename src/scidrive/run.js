@@ -4,7 +4,7 @@ require({
 		'dojo',
 		'dijit',
 		'dojox',
-		{ name: 'vobox', location: 'vobox', map: {} },
+		{ name: 'scidrive', location: 'scidrive', map: {} },
 		{ name: 'numeral', location: 'numeral', map: {} }
 	]
-}, [ 'vobox' ]);
+}, [ 'scidrive' ]);

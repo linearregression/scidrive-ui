@@ -16,12 +16,12 @@ define([
   "dojox/grid/enhanced/plugins/DnD", 
   "dojox/grid/enhanced/plugins/Selector",
   "dojox/grid/enhanced/plugins/Menu",
-  "vobox/DataGrid",
+  "scidrive/DataGrid",
   "dijit/Menu",
   "dojox/image/Lightbox",
-  "vobox/OAuth",
-  "vobox/ConfirmDialog",
-  "vobox/MetadataViewer",
+  "scidrive/OAuth",
+  "scidrive/ConfirmDialog",
+  "scidrive/MetadataViewer",
   "dijit/_TemplatedMixin",
   "dijit/_WidgetsInTemplateMixin",
   "dijit/layout/_ContentPaneResizeMixin",
@@ -47,7 +47,7 @@ define([
   "dojox/widget/Dialog",
   "dojo/data/ItemFileWriteStore",
   "dijit/TitlePane",
-  "vobox/XMLWriter"
+  "scidrive/XMLWriter"
   ],
   function(declare, connect, fx, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin, 
     MenuPlugin, DataGrid, Menu, LightBox, OAuth, ConfirmDialog, MetadataViewer, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
@@ -85,7 +85,7 @@ define([
           rowMenuObject.addChild(new dijit.MenuItem({ 
             label: "Download", 
             onClick:function(e) {
-              dojo.xhrGet(vobox.OAuth.sign("GET", {
+              dojo.xhrGet(scidrive.OAuth.sign("GET", {
                 url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
                 handleAs: "json",
                 sync: false,
@@ -116,7 +116,7 @@ define([
           this._menuItems['previewMenuItem'] = new dijit.MenuItem({ 
             label: "Preview...",
             onClick:function(e) {
-              dojo.xhrGet(vobox.OAuth.sign("GET", {
+              dojo.xhrGet(scidrive.OAuth.sign("GET", {
                 url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
                 handleAs: "json",
                 sync: false,
@@ -168,7 +168,7 @@ define([
         this._menuItems['mediaMenuItem'] = new dijit.MenuItem({ 
           label: "Quick Share URL...", 
           onClick:function(e) {
-            dojo.xhrGet(vobox.OAuth.sign("GET", {
+            dojo.xhrGet(scidrive.OAuth.sign("GET", {
               url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
               handleAs: "json",
               sync: false,
@@ -199,7 +199,7 @@ define([
         this._menuItems['shareMenuItem'] = new dijit.MenuItem({ 
           label: "Share...", 
           onClick:function(e) {
-            dojo.xhrGet(vobox.OAuth.sign("GET", {
+            dojo.xhrGet(scidrive.OAuth.sign("GET", {
              url: encodeURI(panel.store.vospace.url+"/1/share_groups"),
              handleAs: "json",
              load: function(data){
@@ -209,7 +209,7 @@ define([
 
                 panel.shareSelect.store = sharesStore;
                 connect.connect(panel.shareSelect, "onChange", function(e) {
-                  dojo.xhrGet(vobox.OAuth.sign("GET", {
+                  dojo.xhrGet(scidrive.OAuth.sign("GET", {
                    url: encodeURI(panel.store.vospace.url+"/1/share_groups/"+this.item.id),
                    handleAs: "json",
                    load: function(data){
@@ -287,7 +287,7 @@ define([
                this.setCurrentPath(item.i.path);
                panel.parentPanel.updateCurrentPanel(panel);
              } else {
-               dojo.xhrGet(vobox.OAuth.sign("GET", {
+               dojo.xhrGet(scidrive.OAuth.sign("GET", {
                  url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+item.i.path),
                  handleAs: "json",
                  sync: false,
@@ -347,7 +347,7 @@ define([
       var writer = new XMLWriter();
       var nodeTemplate = writer.formatXml(writer.createNewNodeXml("ContainerNode", nodeid, this.store.vospace.id));
 
-      dojo.xhrPut(vobox.OAuth.sign("PUT", {
+      dojo.xhrPut(scidrive.OAuth.sign("PUT", {
        url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
        putData: nodeTemplate,
        headers: { "Content-Type": "application/xml"},
@@ -370,7 +370,7 @@ define([
           var writer = new XMLWriter();
           var nodeid = this.store.getNodeVoId(this.gridWidget._currentPath+"/"+name);
           var nodeTemplate = writer.formatXml(writer.createNewNodeXml("DataNode", nodeid, this.store.vospace.id));
-          dojo.xhrPut(vobox.OAuth.sign("PUT", {
+          dojo.xhrPut(scidrive.OAuth.sign("PUT", {
            url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
            putData: nodeTemplate,
            headers: { "Content-Type": "application/xml"},
@@ -461,11 +461,11 @@ define([
 
         switch (this.grid.getItem(rowIndex).i.icon) {
           case "folder_public":
-            return "<img src='vobox/resources/folder.jpg' style='vertical-align:middle' title='Folder' alt='Folder' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
+            return "<img src='scidrive/resources/folder.jpg' style='vertical-align:middle' title='Folder' alt='Folder' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
           case "file":
-            return "<img src='vobox/resources/file.png' style='vertical-align:middle' title='File' alt='File' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
+            return "<img src='scidrive/resources/file.png' style='vertical-align:middle' title='File' alt='File' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
           case "table":
-            return "<img src='vobox/resources/table.png' style='vertical-align:middle' title='File' alt='File' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
+            return "<img src='scidrive/resources/table.png' style='vertical-align:middle' title='File' alt='File' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
         }
       },
       
@@ -686,7 +686,7 @@ define([
       params += (params == "")?"?":"&";
       params += "write_perm="+!this.readOnlyCheckBox.checked;
 
-      dojo.xhrPut(vobox.OAuth.sign("PUT", {
+      dojo.xhrPut(scidrive.OAuth.sign("PUT", {
         //url: encodeURI(panel.store.vospace.url+"/1/shares/sandbox"+panel._menuSelectedItem.i.path),
         url: encodeURI(panel.store.vospace.url+"/1/shares/sandbox"+panel._menuSelectedItem.i.path+params),
         handleAs: "json",

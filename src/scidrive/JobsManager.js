@@ -10,7 +10,7 @@ define([
         "dojo/mouse",
         "dijit/Tooltip",
         "dojo/on",
-        "vobox/OAuth",
+        "scidrive/OAuth",
         "dojo/text!./templates/JobsManager.html"
         ],
     function(declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, connect, dom, Memory, ObjectStore, 
@@ -86,26 +86,26 @@ define([
     function formatJobDirection(value){
     	switch(value){
     		case 'PULLFROMVOSPACE':
-    			return "<img src='vobox/resources/PullFrom.png' title='PullFromVoSpace' alt='PullFromVoSpace' height='32'/>";
+    			return "<img src='scidrive/resources/PullFrom.png' title='PullFromVoSpace' alt='PullFromVoSpace' height='32'/>";
     		case 'PULLTOVOSPACE':
-    			return "<img src='vobox/resources/PullTo.png' title='PullToVoSpace' alt='PullToVoSpace' height='32'/>";
+    			return "<img src='scidrive/resources/PullTo.png' title='PullToVoSpace' alt='PullToVoSpace' height='32'/>";
     		case 'PUSHFROMVOSPACE':
-    			return "<img src='vobox/resources/PushFrom.png' title='PushFromVoSpace' alt='PushFromVoSpace' height='32'/>";
+    			return "<img src='scidrive/resources/PushFrom.png' title='PushFromVoSpace' alt='PushFromVoSpace' height='32'/>";
     		case 'PUSHTOVOSPACE':
-    			return "<img src='vobox/resources/PushTo.png' title='PushToVoSpace' alt='PushToVoSpace' height='32'/>";
+    			return "<img src='scidrive/resources/PushTo.png' title='PushToVoSpace' alt='PushToVoSpace' height='32'/>";
     	}
     }
 
     function formatJobState(value){
         switch(value){
             case 'PENDING':
-                return "<img src='vobox/resources/submited.png' title='PENDING' alt='PENDING' height='32'/>";
+                return "<img src='scidrive/resources/submited.png' title='PENDING' alt='PENDING' height='32'/>";
             case 'RUN':
-                return "<img src='vobox/resources/start.png' title='RUN' alt='RUN' height='32'/>";
+                return "<img src='scidrive/resources/start.png' title='RUN' alt='RUN' height='32'/>";
             case 'COMPLETED':
-                return "<img src='vobox/resources/finished.gif' title='COMPLETED' alt='COMPLETED' height='32'/>";
+                return "<img src='scidrive/resources/finished.gif' title='COMPLETED' alt='COMPLETED' height='32'/>";
             case 'ERROR':
-                return "<img src='vobox/resources/error.png' title='ERROR' alt='ERROR' height='32'/>";
+                return "<img src='scidrive/resources/error.png' title='ERROR' alt='ERROR' height='32'/>";
         }
     }
 

@@ -1,11 +1,11 @@
 define( [
   "dojo/_base/declare",
   "dojo/dom-construct",
-  "vobox/XMLWriter"
+  "scidrive/XMLWriter"
 ],
 
 function(declare, domConstruct, XMLWriter) {
-    return declare( "vobox.MetadataViewer", null, {
+    return declare( "scidrive.MetadataViewer", null, {
 
         constructor: function(args) {
             declare.safeMixin(this, args);

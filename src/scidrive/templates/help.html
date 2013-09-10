@@ -1,19 +1,18 @@
 <div class="help">
 	<div dojoType="dijit.TitlePane" open="false" title="Intro">
-		<h4>Welcome to VOBox!</h4>
-		<p>VOBox is a network storage for scientific data. We provide free storage to scientists who want to publish their data without need to organize it in any way or have own infrastructure to support it.</p>
-		<p>To start using VOBox, create a folder using the "Create folder" button. Double click a folder to view its contents.</p>
+		<p>SciDrive is a network storage for scientific data. We provide free storage to scientists who want to publish their data without need to organize it in any way or have own infrastructure to support it.</p>
+		<p>To start using SciDrive, create a folder using the "Create folder" button. Double click a folder to view its contents.</p>
 		<p>Once you are inside a folder you can start uploading files by Drag-and-Dropping these to the browser window.</p>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="Data publication: Uploading files">
 		<div style="display: table;">
 			<div style="width:45%; display: table-cell; float: none; border: 1px;">
 				To upload, drag and drop one or multiple files from your local drive into your browser window.
-				<br/>(Folder uploading is not supported by browsers yet)<br/><img src="vobox/resources/help/dnd.png"></img>
+				<br/>(Folder uploading is not supported by browsers yet)<br/><img src="scidrive/resources/help/dnd.png"></img>
 			</div>
 			<div style="width:45%; display: table-cell; float: none; border: 1px;">
 				To pull any http URL contents into existing file, choose "Pull from URL..." from the file's context menu:
-				<br/><img src="vobox/resources/help/Pull_from_URL.png"></img><br/>
+				<br/><img src="scidrive/resources/help/Pull_from_URL.png"></img><br/>
 				The data will be asynchronously downloaded by the service.
 			</div>
 		</div>
@@ -21,40 +20,40 @@
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="The interface">
 		<p>Files and folders have right-click context menu for operations on them.
-		<br/><img src="vobox/resources/help/Download.png"></p>
+		<br/><img src="scidrive/resources/help/Download.png"></p>
 		<p>To select one or multiple files, left-click one file or drag over multiple files. These selected items can be drag-and-dropped between panels to organize the space and transfer files between remote locations.</p>
 		The panel is usually updated after user's operations. To manually refresh the contents, use Refresh toolbar button.<br/>
-		<img src="vobox/resources/help/Refresh.png"></img>
+		<img src="scidrive/resources/help/Refresh.png"></img>
 		</p>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="Accessing the data">
-		<p>Files can be downloaded by double-clicking on it. Also to download a file or folder with all its contents, right-click on it and choose Download from context menu. <br/><img src="vobox/resources/help/Download.png"></img><br/>
+		<p>Files can be downloaded by double-clicking on it. Also to download a file or folder with all its contents, right-click on it and choose Download from context menu. <br/><img src="scidrive/resources/help/Download.png"></img><br/>
 		Folders are downloaded as .tar archives.<br/>
-		Online Preview is available for files recognized as vobox/resources.</p>
+		Online Preview is available for files recognized as scidrive/resources.</p>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="Multi-region support">
 		<p>The right dropdown element contains the list of available regions. Currently new SSO users registration is only supported in JHU region. SDSC only works for current users. Please send request if you need to be added to San Diego Supercomputing Center mirror users.<br/>
-		<img src="vobox/resources/help/Regions.png"></img>
+		<img src="scidrive/resources/help/Regions.png"></img>
 		</p>
 		<p>The star before the region ID means the user is authenticated in this region using <a href="https://vaossotest.ncsa.illinois.edu/" target="_blank">Single Sign On (SSO)</a> service. When choosing the region with no star, the user will be asked to authenticate. The Log off removes the stored user credentials for currently selected region and opens the first authenticated one. If user is not currently authenticated in any region, he will be redirected to default region SSO authentication page.<br/>
 	</div>
 	<div dojoType="dijit.TitlePane" open="false" title="Data sharing">
 		<div dojoType="dijit.TitlePane" open="false" title="Quick share">
-			To get world-accessible link to a file or folder, choose "Quick Share URL..." from file or folder context menu<br/><img src="vobox/resources/help/Share_URL.png"></img><br/>
+			To get world-accessible link to a file or folder, choose "Quick Share URL..." from file or folder context menu<br/><img src="scidrive/resources/help/Share_URL.png"></img><br/>
 			Containers will be downloaded as .tar archives.
 		</div>
 		<div dojoType="dijit.TitlePane" open="false" title="Groups share">
 			<p>You can share a top-level container for read-only or read+write access by a group of users or by everyone. To access the share dialog, choose "Share" menu item from the context menu of top-level container.<br/>
-			<img src="vobox/resources/help/Share.png"></img></p>
+			<img src="scidrive/resources/help/Share.png"></img></p>
 			<p>The dialog allows choosing the predefined group for the share or make it public.<br/>
-			<img src="vobox/resources/help/Share_dialog.png"></img></p>
+			<img src="scidrive/resources/help/Share_dialog.png"></img></p>
 			<p>"Create the share" button opens the dialog with new share URL and ID. The URL provides Web view of the share.<br/>
-			<img src="vobox/resources/help/Share_created.png"></img></p>
+			<img src="scidrive/resources/help/Share_created.png"></img></p>
 			<div dojoType="dijit.TitlePane" open="false" title="Using share ID in console scripts">
 				The share ID can be used to provide access to the share for console scripts. To get the OAuth token for shared container, the "share" parameter should be added to request_token and authorize OAuth URLs:
 				<p><code>http://server/vospace-2.0/request_token?share=&lt;share_id&gt;</code></p>
 				<p><code>http://server/vospace-2.0/authorize?provider=vao&share=&lt;share_id&gt;</code></p>
-				When accessing the authorize URL with anonymous share ID, no user acton is needed. The URL can be queried by the script in automatic mode, as described here: <a href="https://github.com/dimm0/vobox/wiki/Using-Dropbox-SDK" target="_blank">https://github.com/dimm0/vobox/wiki/Using-Dropbox-SDK</a>
+				When accessing the authorize URL with anonymous share ID, no user acton is needed. The URL can be queried by the script in automatic mode, as described here: <a href="https://github.com/dimm0/scidrive/wiki/Using-Dropbox-SDK" target="_blank">https://github.com/dimm0/scidrive/wiki/Using-Dropbox-SDK</a>
 			</div>
 		</div>
 	</div>

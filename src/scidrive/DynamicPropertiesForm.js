@@ -12,13 +12,13 @@ define( [
 "dojo/on",
 "dojo/dom-form",
 "dojox/mobile/Switch",
-"vobox/OAuth",
+"scidrive/OAuth",
 "dojo/data/ItemFileReadStore",
 "dojox/form/CheckedMultiSelect"
 ],
 
 function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContainer, domConstruct, domStyle, xhr, on, domForm, Switch, OAuth, ItemFileReadStore, CheckedMultiSelect) {
-    return declare( "vobox.DynamicPropertiesForm", Form, {
+    return declare( "scidrive.DynamicPropertiesForm", Form, {
 
         constructor: function(args) {
             declare.safeMixin(this, args);

@@ -1,9 +1,15 @@
 [
 	{
-		"id":"zinc26.pha.jhu.edu",
+		"id":"vobox.pha.jhu.edu",
 		"defaultRegion":true,
-		"url":"http://zinc26.pha.jhu.edu/vospace-2.0",
+		"url":"http://vobox.pha.jhu.edu/vospace-2.0",
 		"display":"JHU main"
+	},
+	{
+		"id":"zinc26.pha.jhu.edu",
+		"defaultRegion":false,
+		"url":"http://zinc26.pha.jhu.edu/vospace-2.0",
+		"display":"JHU dev"
 	},
 	{
 		"id":"dimm.pha.jhu.edu",

@@ -6,11 +6,11 @@
  define([
       "dojo/_base/declare"
     ], function (declare) {
-    return declare( "vobox.killie", null, {
+    return declare( "scidrive.killie", null, {
     /*************************/
     /* Configure the message */
     /*************************/
-    CSS_FILE: 'vobox/killie.css',
+    CSS_FILE: 'scidrive/killie.css',
     MESSAGE_TITLE: "Your browser is not supported!",
     MESSAGE_OPTIONS: "To start enjoying a better and more secure web we recommend installing:",
     BROWSERS: [{

@@ -13,12 +13,12 @@ define( [
   "dojo/has",
   "dojo/sniff",
   "dijit/Dialog",
-  "vobox/OAuth",
-  "dojo/text!vobox/resources/regions.json"
+  "scidrive/OAuth",
+  "dojo/text!scidrive/resources/regions.json"
 ],
 
 function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog, OAuth, regions) {
-    return declare( "vobox.VoBox", null, {
+    return declare( "scidrive.SciDrive", null, {
 
         identity_ver: "1.4",
 
@@ -26,7 +26,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             declare.safeMixin(this, args);
 
             if(has("ie")<= 8){
-                require(["vobox/killie"], function(killie) {
+                require(["scidrive/killie"], function(killie) {
                     var kie = new killie();
                     kie.init();
                 });
@@ -99,20 +99,20 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                     if(vospace.credentials.stage == "request") { // contains request token
                         this.login2(vospace, null);
                     } else if(vospace.credentials.stage == "access") {
-                        require(["vobox/VoboxPanel"], 
-                            function(VoboxPanel){
-                            if(undefined == dijit.byId("voboxWidget")) {
-                                var pan = new VoboxPanel({
-                                    id: "voboxWidget",
+                        require(["scidrive/ScidrivePanel"], 
+                            function(ScidrivePanel){
+                            if(undefined == dijit.byId("scidriveWidget")) {
+                                var pan = new ScidrivePanel({
+                                    id: "scidriveWidget",
                                     style: "width: 100%; height: 100%; opacity: 0;",
                                     app: panel
                                 });
                                 pan.placeAt(document.body)
-                                dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
-                                dijit.byId("voboxWidget").startup();
+                                dijit.byId("scidriveWidget").loginToVO(vospace, null); // with updated credentials
+                                dijit.byId("scidriveWidget").startup();
                                 var anim = coreFx.combine([
                                     fx.fadeIn({
-                                      node: "voboxWidget",
+                                      node: "scidriveWidget",
                                       duration: 1000
                                     }),
                                     fx.fadeOut({
@@ -125,7 +125,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                                     domConstruct.destroy("loader");
                                 }, true);
                             } else {
-                                dijit.byId("voboxWidget").loginToVO(vospace, null); // with updated credentials
+                                dijit.byId("scidriveWidget").loginToVO(vospace, null); // with updated credentials
                             }
                         });
                     }
@@ -321,7 +321,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
 
         login2: function(vospace, component) {
             var panel = this;
-            require(["vobox/VoboxPanel"], function(VoboxPanel){
+            require(["scidrive/ScidrivePanel"], function(ScidrivePanel){
                 var url = vospace.url+"/access_token";
 
                 dojo.xhrPost(OAuth.sign("POST", {
@@ -343,19 +343,19 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                         identity.regions[vospace.id] = vospace.credentials;
                         localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
 
-                        if(undefined == dijit.byId("voboxWidget")) {
-                            var pan = new VoboxPanel({
-                                id: "voboxWidget",
+                        if(undefined == dijit.byId("scidriveWidget")) {
+                            var pan = new ScidrivePanel({
+                                id: "scidriveWidget",
                                 style: "width: 100%; height: 100%; opacity: 0;",
                                 app: panel
                             });
                             pan.placeAt(document.body)
-                            dijit.byId("voboxWidget").loginToVO(vospace, component); // with updated credentials
-                            dijit.byId("voboxWidget").startup();
+                            dijit.byId("scidriveWidget").loginToVO(vospace, component); // with updated credentials
+                            dijit.byId("scidriveWidget").startup();
 
                             var anim = coreFx.combine([
                                 fx.fadeIn({
-                                  node: "voboxWidget",
+                                  node: "scidriveWidget",
                                   duration: 1000
                                 }),
                                 fx.fadeOut({
@@ -368,7 +368,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                                 domConstruct.destroy("loader");
                             }, true);
                         } else {
-                            dijit.byId("voboxWidget").loginToVO(vospace, component); // with updated credentials
+                            dijit.byId("scidriveWidget").loginToVO(vospace, component); // with updated credentials
                         }
                     },
                     error: function(data, ioargs) {
@@ -403,10 +403,10 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                 this.vospaces = this.vospaces.filter(function(curvospace, index, array) {
                     return curvospace.id != vospace.id;
                 });
-                dijit.byId("voboxWidget").loginSelect.removeOption(vospace.id);
+                dijit.byId("scidriveWidget").loginSelect.removeOption(vospace.id);
             }
 
-            dijit.byId("voboxWidget")._refreshRegions();
+            dijit.byId("scidriveWidget")._refreshRegions();
 
             var authenticatedVospace, defaultVospace;
 
@@ -422,14 +422,14 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
 
             //First try to login to default vospace if is authenticated or don't have any authenticated at all
             if(undefined != identity.regions[defaultVospace.id] || undefined == authenticatedVospace) {
-                dijit.byId("voboxWidget").loginToVO(defaultVospace, component);
+                dijit.byId("scidriveWidget").loginToVO(defaultVospace, component);
             } else {
-                dijit.byId("voboxWidget").loginToVO(authenticatedVospace, component);
+                dijit.byId("scidriveWidget").loginToVO(authenticatedVospace, component);
             }
 
             var otherComponent = (component == panel1)?panel2:panel1;
             if(otherComponent != undefined && otherComponent.store.vospace.id == vospace.id && authenticatedVospace != undefined) {
-                dijit.byId("voboxWidget").loginToVO(authenticatedVospace, otherComponent);
+                dijit.byId("scidriveWidget").loginToVO(authenticatedVospace, otherComponent);
             }
 
             //component._refreshRegions();

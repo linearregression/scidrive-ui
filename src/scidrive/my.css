@@ -26,12 +26,12 @@ html, body {
    margin-top: -75px;
 }
 
-.vobox {
+.scidrive {
 	font-size: 1em;
 	font-family: Anaheim,Helvetica,Tahoma,Arial,clean,sans-serif;
 }
 
-.vobox .dijitMenuItem {
+.scidrive .dijitMenuItem {
 	font: inherit;
 }
 
@@ -41,17 +41,17 @@ html, body {
 	margin: 0px;
 }
 
-.vobox .shadow {
+.scidrive .shadow {
 	box-shadow: 0px 3px 5px rgba(40, 40, 40, 0.6);
 }
 
-.vobox .topshadow {
+.scidrive .topshadow {
 	box-shadow: 0px 7px 9px rgba(40, 40, 40, 0.6);
 }
 
-.vobox .logo {
-	 height: 70px;
-	 margin: 7px;
+.scidrive .logo {
+	 height: 56px;
+	 margin-top: 16px;
 }
 
 .dijitToolbar.topToolbar {
@@ -69,7 +69,7 @@ html, body {
 	border-bottom: none;
 }
 
-.vobox .dojoxGrid {
+.scidrive .dojoxGrid {
 	font-family: inherit;
 	font-size: 1em;
 	background-color: white;
@@ -79,7 +79,7 @@ html, body {
 }
 
 /* Grid header img */
-.vobox .dojoxGridHeader .dojoxGridCell {
+.scidrive .dojoxGridHeader .dojoxGridCell {
 	background: url("resources/interface/tabEnabled.png") repeat-x scroll center top #E9E9E9;
 	color: #58595b !important;
 	border-left: 2px solid white !important;
@@ -89,7 +89,7 @@ html, body {
 }
 
 /* Regular grid cell text font */
-.vobox .dojoxGridCell, .vobox .dojoxGridCellFocus, .dojoxGridCellFocus {
+.scidrive .dojoxGridCell, .scidrive .dojoxGridCellFocus, .dojoxGridCellFocus {
 	color: #414141;
 	border-bottom: none;
 	border-top: none;
@@ -98,22 +98,22 @@ html, body {
 }
 
 /* Remove lines on the left of grid */
-.vobox .dojoxGridRowbarInner {
+.scidrive .dojoxGridRowbarInner {
 	width: 0px;
 	border: none;
 }
 
 /* All cells white */
-.vobox .dojoxGridRowOdd {
+.scidrive .dojoxGridRowOdd {
 	background-color: white;
 }
 
 /* No label in orange progress bar */
-.vobox .dijitProgressBarLabel {
+.scidrive .dijitProgressBarLabel {
 	visibility: hidden;
 }
 
-.vobox .dijitProgressBarTile {
+.scidrive .dijitProgressBarTile {
 	background-image: linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
 	background-image: -o-linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
 	background-image: -moz-linear-gradient(left , rgb(246,176,26) 0%, rgb(234,101,44) 100%);
@@ -130,7 +130,7 @@ html, body {
 
 }
 
-.vobox .dijitProgressBarEmpty {
+.scidrive .dijitProgressBarEmpty {
 	border-style: solid;
 	border-width: 2px 3px;
     border-image:url("resources/interface/progress_shadow.png") 5 fill round;
@@ -148,8 +148,8 @@ html, body {
 
 .dojoxDialogTitleBar {cursor: auto; padding-top: 10px; font-size: 1.3em;}
 
-.vobox .voboxButton {font-size: 1.5em;}
-.vobox .dijitTooltipContents {font-size: 1.1em;}
+.scidrive .scidriveButton {font-size: 1.5em;}
+.scidrive .dijitTooltipContents {font-size: 1.1em;}
 
 .hover {background: lightgrey;}
 .errhover {background: red;}
@@ -240,7 +240,7 @@ html, body {
 	background-color: #C6D9E9;
 }
 
-.vobox .dojoxGRidMasterView {
+.scidrive .dojoxGRidMasterView {
 	margin-top: 2px;
 }
 
@@ -271,7 +271,7 @@ html, body {
   margin: 10px -8px -10px;
 }
 
-.vobox .fileUploadPanel {
+.scidrive .fileUploadPanel {
 	position: fixed;
 	right: 20px;
 	bottom: 30px;
@@ -284,11 +284,11 @@ html, body {
 	padding: 8px;
 }
 
-.vobox .fileUploadProgress {
+.scidrive .fileUploadProgress {
 	width: 320px;
 }
 
-.vobox .containersSelect .dojoxCheckedMultiSelectWrapper {
+.scidrive .containersSelect .dojoxCheckedMultiSelectWrapper {
     width: 99%;
     height: 135px;
 }

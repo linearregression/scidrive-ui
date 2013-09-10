@@ -15,13 +15,13 @@ TOOLSDIR="$SRCDIR/util/buildscripts"
 DISTDIR="$BASEDIR/dist"
 
 # Module ID of the main application package loader configuration
-LOADERMID="vobox/run"
+LOADERMID="scidrive/run"
 
 # Main application package loader configuration
 LOADERCONF="$SRCDIR/$LOADERMID.js"
 
 # Main application package build configuration
-PROFILE="$BASEDIR/profiles/vobox.profile.js"
+PROFILE="$BASEDIR/profiles/scidrive.profile.js"
 
 # Configuration over. Main application start up!
 

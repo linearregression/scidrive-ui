@@ -1,5 +1,5 @@
-define(["dojox/data/QueryReadStore", "dojo/_base/declare", "vobox/OAuth", "dojo/json", "dojo/request/xhr", "vobox/XMLWriter"], function(QueryReadStore, declare, OAuth, JSON, xhr, XMLWriter) {
-    declare("vobox.VosyncReadStore", [QueryReadStore], {
+define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/OAuth", "dojo/json", "dojo/request/xhr", "scidrive/XMLWriter"], function(QueryReadStore, declare, OAuth, JSON, xhr, XMLWriter) {
+    declare("scidrive.VosyncReadStore", [QueryReadStore], {
 	
     	_lastPath : null,
     	vospace:null,
@@ -195,5 +195,5 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "vobox/OAuth", "dojo/
 		
 	});
 	
-    return vobox.VosyncReadStore;
+    return scidrive.VosyncReadStore;
 });
