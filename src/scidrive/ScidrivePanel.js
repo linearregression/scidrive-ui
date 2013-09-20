@@ -143,7 +143,7 @@ define([
                 var layout = [[
                   {'name': 'ID', 'field': 'share_id', 'width': '30%',
                     formatter: function(col, rowIndex) {
-                      var url = document.location.href.slice(0,document.location.href.lastIndexOf('/')+1);
+                      var url = location.protocol + '//' + location.host + location.pathname;
                       return "<a href=\""+url+"?share="+col+"\" target=\"_blank\">"+col+"</a>";
                     }
                   },

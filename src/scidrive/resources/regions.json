@@ -1,9 +1,9 @@
 [
 	{
-		"id":"vobox.pha.jhu.edu",
+		"id":"www.scidrive.org",
 		"defaultRegion":true,
-		"url":"http://vobox.pha.jhu.edu/vospace-2.0",
-		"display":"JHU main"
+		"url":"http://www.scidrive.org/vospace-2.0",
+		"display":"JHU primary region"
 	},
 	{
 		"id":"zinc26.pha.jhu.edu",

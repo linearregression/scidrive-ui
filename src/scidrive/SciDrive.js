@@ -232,7 +232,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                 localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
 
                 var authorizeUrl = vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+reqToken;
-                authorizeUrl += "&oauth_callback="+document.location.href.slice(0,document.location.href.lastIndexOf('/')+1);
+                authorizeUrl += "&oauth_callback="+document.location.href;
                 if(vospace.isShare) {
                     authorizeUrl += "&share="+vospace.id;
                 }
