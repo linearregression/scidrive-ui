@@ -25,10 +25,8 @@ define([
 		    rows: [
 		        {name: "direction", field: "direction", width: "70px", formatter: formatJobDirection, style: "text-align: center"},
 		        {name: "state", field: "state", width: "50px", formatter: formatJobState, style: "text-align: center"},
-		        {name: "id", field: "id", formatter: formatId, width: "100px"},
-		        //{name: "starttime", field: "starttime", width: "13%"},
 		        {name: "endtime", field: "endtime", width: "175px"},
-		        {name: "path", field: "path", width: "343px"}
+		        {name: "path", field: "path", width: "443px"}
 		    ]
 		}],
         
