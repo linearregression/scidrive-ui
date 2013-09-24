@@ -1,5 +1,5 @@
 <div>
-	<div data-dojo-type="dijit/layout/BorderContainer" style="min-width: 950px; width: 90%; height: 100%; margin-left:auto;
+	<div data-dojo-type="dijit/layout/BorderContainer" style="min-width: 1010px; width: 90%; height: 100%; margin-left:auto;
 margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="rootContainer">
 	    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', style:'z-index: 5;', class: 'shadow'">
 	    	<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="class:'topPanel'">
@@ -12,7 +12,9 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 					</button>
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="mkfileButton" data-dojo-attach-event="onClick:_mkfileDialog" data-dojo-props="iconClass:'toolbarButton mkfileToolbarButton', showLabel: false">Create file...
 					</button>
-					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="setCasJobsCredentialsButton" data-dojo-attach-event="onClick:_showProcessManagerDialog" data-dojo-props="iconClass:'toolbarButton casjobsToolbarButton', showLabel: false">Configure metadata extractors...
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="setCasJobsCredentialsButton" data-dojo-attach-event="onClick:_showProcessManagerDialog" data-dojo-props="iconClass:'toolbarButton settingsToolbarButton', showLabel: false">Configure metadata extractors...
+					</button>
+					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="setCasJobsCredentialsButton" onclick="window.open('http://skyserver.sdss3.org/CasJobs', target='_blank')" data-dojo-props="iconClass:'toolbarButton casjobsToolbarButton', showLabel: false">Open CasJobs/MyDB
 					</button>
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="sharesButton" data-dojo-attach-event="onClick:_sharesDialog" data-dojo-props="iconClass:'toolbarButton linkToolbarButton', showLabel: false">Shares...
 					</button>
@@ -20,7 +22,7 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 					</button>
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="jobsPanelButton" data-dojo-attach-event="onClick:_showJobsManagerDialog" data-dojo-props="iconClass:'toolbarButton jobsToolbarButton', showLabel: false">Jobs
 					</button>
-					<img src="scidrive/resources/blank.gif" style="width:60px; height: 1px;"/>
+					<img src="scidrive/resources/blank.gif" style="width:30px; height: 1px;"/>
 					<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="helpButton" data-dojo-attach-event="onClick:_help" data-dojo-props="class:'toolbarShadedButton'">Help
 					</button>
 					<img src="scidrive/resources/blank.gif" style="width:5px; height: 1px;"/>

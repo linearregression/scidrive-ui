@@ -252,6 +252,7 @@ html, body {
 .mkdirToolbarButton {background-image: url(resources/interface/mkdir_btn.gif)}
 .mkfileToolbarButton {background-image: url(resources/interface/mkfile_btn.gif)}
 .linkToolbarButton {background-image: url(resources/interface/link_btn.gif)}
+.settingsToolbarButton {background-image: url(resources/interface/settings_btn.png)}
 .casjobsToolbarButton {background-image: url(resources/interface/sdss3_logo.png)}
 .secpanToolbarButton {background-image: url(resources/interface/2nd_pan_btn.gif)}
 .jobsToolbarButton {background-image: url(resources/interface/jobs_btn.png)}
