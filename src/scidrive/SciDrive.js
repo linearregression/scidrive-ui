@@ -67,6 +67,13 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             this.loginFunc(JSON.parse(regions), identity, share);
         },
 
+        getRequestProvider: function() {
+            var provider = ioQuery.queryToObject(dojo.doc.location.search.substr((dojo.doc.location.search[0] === "?" ? 1 : 0))).provider;
+            if(!provider)
+                provider = "vao";
+            return provider;
+        },
+
         loginFunc: function(regions, identity, share){
             var panel = this;
             this.vospaces = regions.map(function(vospace) {
@@ -210,11 +217,11 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
         login: function(vospace, component, openWindow) {
             var app = this;
             var config = { consumer: {key: "sclient", secret: "ssecret"}};
+
             function success_reload(data) {
                 var respObject = ioQuery.queryToObject(data);
                 var reqToken = respObject.oauth_token;
                 var tokenSecret = respObject.oauth_token_secret;
-
                 vospace.credentials = {
                     stage:"request",
                     sig_method: 'HMAC-SHA1',
@@ -234,8 +241,8 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
 
                 localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
 
-                var authorizeUrl = vospace.url+"/authorize?provider=google&action=initiate&oauth_token="+reqToken;
-                authorizeUrl += "&oauth_callback="+document.location.href;
+                var authorizeUrl = vospace.url+"/authorize?provider="+app.getRequestProvider()+"&action=initiate&oauth_token="+reqToken;
+                authorizeUrl += "&oauth_callback="+escape(document.location.href);
                 if(vospace.isShare) {
                     authorizeUrl += "&share="+vospace.id;
                 }
@@ -254,7 +261,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                 var div = domConstruct.create("div", {
                         innerHTML:
                         "Please authenticate at <a href='"+
-                        vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+
+                        vospace.url+"/authorize?provider="+app.getRequestProvider()+"&action=initiate&oauth_token="+
                         reqToken+"' target='_blanc'>VAO</a> and click ",
                         align: "center"
                     });
@@ -288,7 +295,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                     label: 'Googl',
                     onClick: function () {
                         app._popupAuthWindow = window.open(
-                            "http://dimm.pha.jhu.edu:8080/vospace-2.0/authorize?provider=google&action=initiate&oauth_token="+reqToken, "",
+                            "http://dimm.pha.jhu.edu:8080/vospace-2.0/authorize?provider="+app.getRequestProvider()+"&action=initiate&oauth_token="+reqToken, "",
                             "width=" + 400 + ",height=" + 400 +
                             ",status=1,location=1,resizable=yes");
                         app._authCheckInterval = window.setInterval(function() {
