@@ -231,7 +231,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
 
                 localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
 
-                var authorizeUrl = vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+reqToken;
+                var authorizeUrl = vospace.url+"/authorize?provider=google&action=initiate&oauth_token="+reqToken;
                 authorizeUrl += "&oauth_callback="+document.location.href;
                 if(vospace.isShare) {
                     authorizeUrl += "&share="+vospace.id;
@@ -249,7 +249,8 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                 }
 
                 var div = domConstruct.create("div", {
-                        innerHTML: "Please authenticate at <a href='"+
+                        innerHTML:
+                        "Please authenticate at <a href='"+
                         vospace.url+"/authorize?provider=vao&action=initiate&oauth_token="+
                         reqToken+"' target='_blanc'>VAO</a> and click ",
                         align: "center"
@@ -279,6 +280,20 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                     }
                 });
                 div.appendChild(button.domNode);
+
+                var button2 = new dijit.form.Button({
+                    label: 'Googl',
+                    onClick: function () {
+
+                    
+                    var popupWindow_ = window.open(
+                        "http://dimm.pha.jhu.edu:8080/vospace-2.0/authorize?provider=google&action=initiate&oauth_token="+reqToken, "",
+                        "width=" + 400 + ",height=" + 400 +
+                        ",status=1,location=1,resizable=yes");
+                    // interval_ = window.setInterval(waitForPopupClose_, 80);
+                    }
+                });
+                div.appendChild(button2.domNode);
 
                 var loginDialog = new dijit.Dialog({
                     id: 'formDialog',
