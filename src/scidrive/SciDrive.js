@@ -13,14 +13,17 @@ define( [
   "dojo/has",
   "dojo/sniff",
   "dijit/Dialog",
+  "dijit/form/Button",
   "scidrive/OAuth",
   "dojo/text!scidrive/resources/regions.json"
 ],
 
-function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog, OAuth, regions) {
+function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog, Button, OAuth, regions) {
     return declare( "scidrive.SciDrive", null, {
 
         identity_ver: "1.4",
+        _popupAuthWindow: null,
+        _authCheckInterval: null,
 
         constructor: function(args) {
             declare.safeMixin(this, args);
@@ -256,7 +259,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                         align: "center"
                     });
 
-                var button = new dijit.form.Button({
+                var button = new Button({
                     label: 'Done',
                     onClick: function () {
                         vospace.credentials = {
@@ -281,16 +284,46 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                 });
                 div.appendChild(button.domNode);
 
-                var button2 = new dijit.form.Button({
+                var button2 = new Button({
                     label: 'Googl',
                     onClick: function () {
+                        app._popupAuthWindow = window.open(
+                            "http://dimm.pha.jhu.edu:8080/vospace-2.0/authorize?provider=google&action=initiate&oauth_token="+reqToken, "",
+                            "width=" + 400 + ",height=" + 400 +
+                            ",status=1,location=1,resizable=yes");
+                        app._authCheckInterval = window.setInterval(function() {
+                            console.debug("Checking window to close");
+                            if (!app._popupAuthWindow || app._popupAuthWindow.closed) {
+                                app._popupAuthWindow = null;
+                                // var darkCover = window.document.getElementById(window.popupManager.constants['darkCover']);
+                                // if (darkCover) {
+                                //     darkCover.style.visibility = 'hidden';
+                                // }
+                                if ((null !== app._authCheckInterval)) {
+                                    window.clearInterval(app._authCheckInterval);
+                                    app._authCheckInterval = null;
+                                }
 
-                    
-                    var popupWindow_ = window.open(
-                        "http://dimm.pha.jhu.edu:8080/vospace-2.0/authorize?provider=google&action=initiate&oauth_token="+reqToken, "",
-                        "width=" + 400 + ",height=" + 400 +
-                        ",status=1,location=1,resizable=yes");
-                    // interval_ = window.setInterval(waitForPopupClose_, 80);
+                                vospace.credentials = {
+                                    stage: "request",
+                                    sig_method: 'HMAC-SHA1',
+                                    consumer: {
+                                        key: 'sclient',
+                                        secret: 'ssecret'
+                                    },
+                                    token: {
+                                        key: reqToken,
+                                        secret: tokenSecret
+                                    }
+                                };
+                                var identity = JSON.parse(localStorage.getItem('vospace_oauth_s'));
+                                identity.regions[vospace.id] = vospace.credentials;
+                                localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
+
+                                dijit.byId('formDialog').hide();
+                                app.login2(vospace, component);
+                            }
+                        }, 80);
                     }
                 });
                 div.appendChild(button2.domNode);
