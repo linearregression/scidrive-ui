@@ -33,13 +33,15 @@ define([
   "scidrive/VosyncReadStore",
   "scidrive/JobsManager",
   "scidrive/DynamicPropertiesForm",
+  "scidrive/GroupSettings",
+  "scidrive/AccountSettings",
   "numeral/numeral",
   "dojox/grid/DataGrid",
   "dojo/text!./templates/ScidrivePanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, DojoDataGrid, template) {
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, GroupSettings, AccountSettings, numeral, DojoDataGrid, template) {
     return declare("scidrive.ScidrivePanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -111,6 +113,7 @@ define([
             hideFunc: coreFx.wipeOut
           });
           this.uploadPanelToggler.hide();
+            this._showSettingsManagerDialog();
         },
 
         _mkdirDialog: function() {
@@ -470,14 +473,35 @@ define([
       
         },
 
-        _showProcessManagerDialog: function() {
-          var panel = this;
-          panel.current_panel.getUserInfo(function(userInfo) {
+        _showSettingsManagerDialog: function() {
+
+          var set = new TabContainer({
+                  doLayout: false,
+                  style: "width: 100%; height: 100%;"
+                });
+          set.startup();
+
+          var dialog = new Dialog({
+            title: "Settings",
+            content: set,
+            style: "width: 90%; height: 90%;",
+            onHide: function() {
+              this.destroyRecursive();
+            }
+
+          });
+          dialog.startup();
+          dialog.show();
+
+
+          var that = this;
+          that.current_panel.getUserInfo(function(userInfo) {
             var tabContainer = new TabContainer({
                     doLayout: false,
                     tabPosition: "left-h",
-                    style: "height: 500px; width: 800px;",
-                    tabStrip: true
+                    // style: "height: 100%; width: 800px;",
+                    tabStrip: true,
+                    title: "Metadata extractors"
                 });
 
             userInfo.services.map(function(service) {
@@ -487,12 +511,12 @@ define([
 
                     var form = new DynamicPropertiesForm({
                       style: "height: 100%; width: 100%",
-                      panel: panel,
+                      panel: that,
                       service: service,
                       save: function(jsonValues) {
                         if(this.onOffButton.get("value") == "on") {
                           dojo.xhrPut(OAuth.sign("PUT", {
-                            url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                            url: that.current_panel.store.vospace.url +"/1/account/service/"+service.id,
                             putData: jsonValues,
                             headers: { "Content-Type": "application/json"},
                             handleAs: "text",
@@ -501,23 +525,23 @@ define([
                               service.enabled = true;
                             },
                             error: function(data, ioargs) {
-                              panel.current_panel._handleError(data, ioargs);
+                              that.current_panel._handleError(data, ioargs);
                             }
 
-                          }, panel.current_panel.store.vospace.credentials));
+                          }, that.current_panel.store.vospace.credentials));
                         } else {
                           dojo.xhrDelete(OAuth.sign("DELETE", {
-                            url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                            url: that.current_panel.store.vospace.url +"/1/account/service/"+service.id,
                             handleAs: "text",
                             load: function(data) {
                               cp.set("title",'✘'+cp.get("title").substring(1));
                               service.enabled = false;
                             },
                             error: function(data, ioargs) {
-                              panel.current_panel._handleError(data, ioargs);
+                              that.current_panel._handleError(data, ioargs);
                             }
 
-                          }, panel.current_panel.store.vospace.credentials));
+                          }, that.current_panel.store.vospace.credentials));
 
                         }
 
@@ -533,16 +557,22 @@ define([
               });
               tabContainer.addChild(cp);
             });
+        
+            set.addChild(tabContainer);
 
-            var dialog = new Dialog({
-                title: "Metadata extractors configuration",
-                content: tabContainer,
-                onHide: function() {
-                  this.destroyRecursive();
-                }
-            });
-            dialog.show();
           });
+
+          var accountSettingsPanel = new AccountSettings({
+            title: "Account",
+            panel: this
+          });
+          accountSettingsPanel.startup();
+          set.addChild(accountSettingsPanel);
+
+          var groupsSettingsPanel = new GroupSettings({title: "Users groups"});
+          set.addChild(groupsSettingsPanel);
+
+
         }
     });
 
