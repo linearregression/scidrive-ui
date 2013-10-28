@@ -300,7 +300,7 @@ html, body {
 .dijitInline.dialogShadedButton.dijitButton, .dialogShadedButton.dijitButton.dijitButtonHover.dijitHover,
 .dijitInline.dialogShadedButton.dijitToggleButton, .dialogShadedButton.dijitToggleButton.dijitButtonHover.dijitHover {
 	border-style: solid;
-	border-width: 6px;
+	border-width: 4px;
     -moz-border-image:url("resources/interface/button.png") 10 round; /* Firefox */
     -webkit-border-image:url("resources/interface/button.png") 10 round; /* Safari */
     -o-border-image:url("resources/interface/button.png") 10 round; /* Opera */
