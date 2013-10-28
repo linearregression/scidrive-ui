@@ -25,6 +25,7 @@ define([
   "dijit/form/MultiSelect",
   "dijit/form/ToggleButton",
   "dijit/form/TextBox",
+  "dijit/form/CheckBox",
   "dijit/Dialog",
   "dojox/layout/TableContainer",
   "scidrive/OAuth",
@@ -38,7 +39,7 @@ define([
   "dojo/text!./templates/ScidrivePanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
-    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer,
+    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
     OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, DojoDataGrid, template) {
     return declare("scidrive.ScidrivePanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
@@ -247,7 +248,14 @@ define([
         },
 
         _mkfile: function() {
-           this.current_panel._mkfile(this.newDataNodeName.get('value'));
+          if(this.autoFilenameCheckbox.get('value')) { // auto get name from contentdisposition of url
+            var store = this.current_panel.store;
+            store.pullToVoJob(store.vospace,
+              store.getNodeVoId(this.current_panel.gridWidget._currentPath+"/.auto"),
+              this.urlInput.get('value'));
+          } else { // create empty file
+            this.current_panel._mkfile(this.newDataNodeName.get('value'));
+          }
         },
 
         _onMkDirKey: function(evt) {
