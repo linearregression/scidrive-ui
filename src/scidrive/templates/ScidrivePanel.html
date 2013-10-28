@@ -76,36 +76,6 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 			</div>
 		</div>
 
-		<!-- New file dialog -->
-		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkfileDialog" style="width: 700px" title="Create new file"
-			data-dojo-attach-event="execute:_mkfile">
-			<div data-dojo-type="dojox.layout.TableContainer" data-dojo-props="cols:1, labelWidth:'180'">
-	            <div type="text" data-dojo-props="regExp: '(https?|ftp)://[A-Za-z0-9-_]+\.[A-Za-z0-9-_%&~\?\/\.=]+', required:false, trim:true, placeHolder: 'pull data from URL in background (optional)'" data-dojo-attach-point="urlInput" style="width: 100%;" data-dojo-type="dijit.form.ValidationTextBox" title="URL:" ></div>
-				<input data-dojo-attach-point="autoFilenameCheckbox" data-dojo-type="dijit/form/CheckBox" title="Auto file name from URL">
-				    <script type="dojo/on" data-dojo-event="change" data-dojo-args="evt">
-			            var dijits = dijit.byNode(this).getChildren();
-			            dijits.map(function(elm) {
-			            	if(elm.dojoAttachPoint === "newDataNodeName") {
-			            		elm.set("disabled", !elm.get("disabled"));
-			            	}
-			            });
-				    </script>
-				</input>
-				<input dojoType="dijit.form.ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', trim:true, placeHolder: 'file name to create'" data-dojo-attach-point="newDataNodeName" type="text" data-dojo-attach-event="onKeyPress: _onMkFileKey" style="width: 100%;" title="File name:"></input>
-			</div>
-			<div style="text-align: center; margin: 10px;">
-					<button dojoType="dijit.form.Button" type="button" data-dojo-props="class:'dialogShadedButton'">Create
-						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-							var dialog = this.getParent();
-							if(dialog.validate()) {
-								dialog.execute();
-								dialog.hide();
-							}
-					    </script>
-					</button>
-			</div>
-		</div>
-
 		<div data-dojo-attach-point="helpDialog" data-dojo-type="dojox.widget.Dialog" sizeToViewport="true" data-dojo-props="href:'scidrive/templates/help.html'" title="SciDrive user guide" showTitle="true" draggable="false">
 		</div>
 

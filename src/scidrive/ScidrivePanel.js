@@ -34,13 +34,14 @@ define([
   "scidrive/VosyncReadStore",
   "scidrive/JobsManager",
   "scidrive/DynamicPropertiesForm",
+  "scidrive/NewFilePanel",
   "numeral/numeral",
   "dojox/grid/DataGrid",
   "dojo/text!./templates/ScidrivePanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, DojoDataGrid, template) {
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, numeral, DojoDataGrid, template) {
     return declare("scidrive.ScidrivePanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -120,8 +121,23 @@ define([
         },
 
         _mkfileDialog: function() {
-            this.newDataNodeName.reset();
-            this.mkfileDialog.show();
+          console.debug(this.current_panel);
+            var newFilePanel = new NewFilePanel({
+              current_panel: this.current_panel
+            });
+            newFilePanel.startup();
+
+            var dialog = new Dialog({
+              title: "Create new file",
+              content: newFilePanel,
+              style: "width: 700px",
+              onHide: function() {
+                this.destroyRecursive();
+              }
+ 
+            });
+            dialog.startup();
+            dialog.show();
         },
 
         _sharesDialog: function() {
@@ -247,37 +263,11 @@ define([
             this.current_panel._refresh();
         },
 
-        _mkfile: function() {
-
-          var fileName = ".auto";
-          if(!this.autoFilenameCheckbox.get('value')) {
-            fileName = this.newDataNodeName.get('value');
-          }
-          
-          if(this.urlInput.get('value') !== ""){
-            var store = this.current_panel.store;
-            store.pullToVoJob(store.vospace,
-              store.getNodeVoId(this.current_panel.gridWidget._currentPath+"/.auto"),
-              this.urlInput.get('value'));
-          } else { // create empty file
-            this.current_panel._mkfile(this.newDataNodeName.get('value'));
-          }
-        },
-
         _onMkDirKey: function(evt) {
           if(!evt.altKey && !evt.metaKey && evt.keyCode === keys.ENTER){
             if(this.newContNodeName.isValid()) { // proper folder name
               this.mkdirDialog.hide();
               this._mkdir();
-            }
-          }
-        },
-
-        _onMkFileKey: function(evt) {
-          if(!evt.altKey && !evt.metaKey && evt.keyCode === keys.ENTER){
-            if(this.newDataNodeName.validate()) { // proper file name
-              this.mkfileDialog.hide();
-              this._mkfile();
             }
           }
         },
