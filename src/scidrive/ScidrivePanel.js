@@ -248,7 +248,13 @@ define([
         },
 
         _mkfile: function() {
-          if(this.autoFilenameCheckbox.get('value')) { // auto get name from contentdisposition of url
+
+          var fileName = ".auto";
+          if(!this.autoFilenameCheckbox.get('value')) {
+            fileName = this.newDataNodeName.get('value');
+          }
+          
+          if(this.urlInput.get('value') !== ""){
             var store = this.current_panel.store;
             store.pullToVoJob(store.vospace,
               store.getNodeVoId(this.current_panel.gridWidget._currentPath+"/.auto"),
