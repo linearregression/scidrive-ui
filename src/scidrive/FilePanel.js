@@ -358,31 +358,7 @@ define([
         error: function(data, ioargs) {
           panel._handleError(data, ioargs);
         }
-    }, this.store.vospace.credentials));
-    },
-
-    _mkfile: function(name) {
-      var panel = this;
-
-      if(panel.gridWidget._currentPath == '/' && !panel.store.vospace.isShare) {
-          alert("Regular files can't be created in root folder.");
-      } else {
-          var writer = new XMLWriter();
-          var nodeid = this.store.getNodeVoId(this.gridWidget._currentPath+"/"+name);
-          var nodeTemplate = writer.formatXml(writer.createNewNodeXml("DataNode", nodeid, this.store.vospace.id));
-          dojo.xhrPut(scidrive.OAuth.sign("PUT", {
-           url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
-           putData: nodeTemplate,
-           headers: { "Content-Type": "application/xml"},
-           handleAs: "text",
-           load: function(data){
-             panel._refresh();
-          },
-          error: function(data, ioargs) {
-            panel._handleError(data, ioargs);
-          }
-        }, this.store.vospace.credentials));
-      }
+      }, this.store.vospace.credentials));
     },
 
     _dragIn: function(sourcePlugin, isCopy) {
