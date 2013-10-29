@@ -3,29 +3,40 @@ define( [
     "dijit/_WidgetBase",
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
-    "dojox/grid/DataGrid",
-    "dojo/request/xhr",
-    "dojo/dom-construct",
-    "dojo/dom-style",
+    "dojo/on",
     "dijit/form/Form",
     "dijit/form/Button",
     "dojox/layout/TableContainer",
-    "scidrive/OAuth",
     "dojo/text!./templates/NewFilePanel.html"
 ],
 
-function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, ContentPane, xhr, domConstruct, domStyle, Form, Button, TableContainer, OAuth, template) {
+function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, Form, Button, TableContainer, template) {
     return declare( "scidrive.AccountSettings", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+        // summary:
+        //      Widget building the form for new file creation dialog
 
         templateString: template,
 
         postCreate: function(args) {
-            var that = this;
             this.inherited(arguments);
+            var that = this;
+            on(this.autoFilenameCheckbox, "change", function(evt) {
+                that.newDataNodeName.set("disabled", evt);
+                that.newDataNodeName.set("required", !evt);
+                that.urlInput.set("required", evt);
+            });
+
+            on(this.submitButton, "click", function(evt) {
+                if(that.newFileForm.validate()) {
+                    that.newFileForm.execute();
+                }
+            });
+
         },
 
         startup: function() {
             this.inherited(arguments);
+            this.newDataNodeName.set("required", false);
         },
 
         _mkfile: function() {
@@ -37,11 +48,12 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, Content
           if(this.urlInput.get('value') !== ""){
             var cur_panel = this.current_panel;
             cur_panel.store.pullToVoJob(cur_panel.store.vospace,
-              cur_panel.store.getNodeVoId(cur_panel.gridWidget._currentPath+"/.auto"),
+              cur_panel.store.getNodeVoId(cur_panel.gridWidget._currentPath+"/"+fileName),
               this.urlInput.get('value'));
           } else { // create empty file
-            cur_panel._mkfile(this.newDataNodeName.get('value'));
+            this.current_panel._mkfile(this.newDataNodeName.get('value'));
           }
+          this.getParent().hide();
         },
 
         _onMkFileKey: function(evt) {

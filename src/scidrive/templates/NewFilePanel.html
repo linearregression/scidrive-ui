@@ -1,33 +1,15 @@
 <div> <!--  data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkfileDialog" style="width: 700px" 
 	data-dojo-attach-event="execute:_mkfile"-->
-	<div data-dojo-type="dijit/form/Form" data-dojo-id="newFileForm" data-dojo-attach-event="execute:_mkfile">
+	<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="newFileForm" data-dojo-attach-event="execute:_mkfile">
 		<div data-dojo-type="dojox.layout.TableContainer" data-dojo-props="cols:1, labelWidth:'180'">
 	        <input type="text" data-dojo-props="regExp: '(https?|ftp)://[A-Za-z0-9-_]+\.[A-Za-z0-9-_%&~\?\/\.=]+', required:true, trim:true, placeHolder: 'pull data from URL in background'" data-dojo-attach-point="urlInput" style="width: 90%;" data-dojo-type="dijit.form.ValidationTextBox" title="URL:" />
 			<input data-dojo-attach-point="autoFilenameCheckbox" data-dojo-type="dijit/form/CheckBox" checked="true" title="Auto file name from URL">
-			    <script type="dojo/on" data-dojo-event="change" data-dojo-args="evt, evt2">
-		            var dijits = dijit.byNode(this).getChildren();
-		            dijits.map(function(elm) {
-		            	if(elm.dojoAttachPoint === "newDataNodeName") {
-		            		elm.set("disabled", evt.target.checked);
-		            		elm.set("required", !evt.target.checked);
-		            	} else if(elm.dojoAttachPoint === "urlInput") {
-		            		elm.set("required", evt.target.checked);
-		            	}
-		            });
-			    </script>
 			</input>
-			<input dojoType="dijit.form.ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', trim:true, required:false, disabled:true, placeHolder: 'file name to create'" data-dojo-attach-point="newDataNodeName" type="text" data-dojo-attach-event="onKeyPress: _onMkFileKey" style="width: 90%;" title="File name:"></input>
+			<input dojoType="dijit.form.ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', trim:true, disabled:'true', required:'false', placeHolder: 'file name to create'" data-dojo-attach-point="newDataNodeName" type="text" data-dojo-attach-event="onKeyPress: _onMkFileKey" style="width: 90%;" title="File name:"></input>
 		</div>
 		<div style="text-align: center; margin: 10px;">
-				<button dojoType="dijit.form.Button" type="button" data-dojo-props="class:'dialogShadedButton'">Create
-					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-						var form = this.getParent();
-						if(form.validate()) {
-							form.execute();
-							// form.hide();
-						}
-				    </script>
-				</button>
+			<button data-dojo-attach-point="submitButton"  data-dojo-type="dijit.form.Button" type="button" data-dojo-props="class:'dialogShadedButton'">Create
+			</button>
 		</div>
 	</div>
 </div>

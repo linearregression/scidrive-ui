@@ -121,7 +121,9 @@ define([
         },
 
         _mkfileDialog: function() {
-          console.debug(this.current_panel);
+          if(this.current_panel.gridWidget._currentPath == '/' && !this.current_panel.store.vospace.isShare) {
+              alert("Regular files can't be created in root folder.");
+          } else {
             var newFilePanel = new NewFilePanel({
               current_panel: this.current_panel
             });
@@ -138,6 +140,7 @@ define([
             });
             dialog.startup();
             dialog.show();
+          }
         },
 
         _sharesDialog: function() {
