@@ -55,47 +55,6 @@ margin-right:auto;" data-dojo-props="gutters:false" data-dojo-attach-point="root
 	</div>
     <div class="dijitHidden">
 		<span data-dojo-type="dijit.Tooltip" data-dojo-attach-point="userLimitTooltip" data-dojo-props="showDelay: 0"></span>
-		
-		<!-- New folder dialog -->
-		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkdirDialog" title="Create new folder"
-			data-dojo-attach-event="execute:_mkdir">
-			<div style="margin: 10px;">
-				<label for="name"> Folder name: </label>
-				<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', required:true, trim:true" data-dojo-attach-point="newContNodeName" type="text" name="newContNodeName" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkDirKey">
-			</div>
-			<div style="text-align: center; margin: 10px;">
-				<button data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="button">Create
-					<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-						var dialog = this.getParent();
-						if(dialog.validate()) {
-							dialog.execute();
-							dialog.hide();
-						}
-				    </script>
-				</button>
-			</div>
-		</div>
-
-		<!-- New file dialog -->
-		<div data-dojo-type="dijit.Dialog" data-dojo-attach-point="mkfileDialog" title="Create new file"
-			data-dojo-attach-event="execute:_mkfile">
-			<div style="margin: 10px;">
-				<label for="name"> File name: </label>
-				<input dojoType="dijit.form.ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', trim:true, required:true" data-dojo-attach-point="newDataNodeName" type="text" style="width: 500px;" data-dojo-attach-event="onKeyPress: _onMkFileKey">
-			</div>
-			<div style="text-align: center; margin: 10px;">
-					<button dojoType="dijit.form.Button" type="button" data-dojo-props="class:'dialogShadedButton'">Create
-						<script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-							var dialog = this.getParent();
-							if(dialog.validate()) {
-								dialog.execute();
-								dialog.hide();
-							}
-					    </script>
-					</button>
-			</div>
-		</div>
-
 		<div data-dojo-attach-point="helpDialog" data-dojo-type="dojox.widget.Dialog" sizeToViewport="true" data-dojo-props="href:'scidrive/templates/help.html'" title="SciDrive user guide" showTitle="true" draggable="false">
 		</div>
 

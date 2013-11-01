@@ -1,0 +1,14 @@
+<div> 
+	<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="newFileForm" data-dojo-attach-event="execute:_mkfile">
+		<div data-dojo-type="dojox.layout.TableContainer" data-dojo-props="cols:1, labelWidth:'180'">
+	        <input type="text" data-dojo-props="regExp: '(https?|ftp)://[A-Za-z0-9-_]+\.[A-Za-z0-9-_%&~\?\/\.=]+', required:true, trim:true, placeHolder: 'pull data from URL in background'" data-dojo-attach-point="urlInput" style="width: 90%;" data-dojo-type="dijit.form.ValidationTextBox" title="URL:" data-dojo-attach-event="onKeyPress: _onMkFileKey" />
+			<input data-dojo-attach-point="autoFilenameCheckbox" data-dojo-type="dijit/form/CheckBox" checked="true" title="Auto file name from URL">
+			</input>
+			<input dojoType="dijit.form.ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', trim:true, disabled:'true', required:'false', placeHolder: 'file name to create'" data-dojo-attach-point="newDataNodeName" type="text" data-dojo-attach-event="onKeyPress: _onMkFileKey" style="width: 90%;" title="File name:"></input>
+		</div>
+		<div style="text-align: center; margin: 10px;">
+			<button data-dojo-attach-point="submitButton"  data-dojo-type="dijit.form.Button" type="button" data-dojo-props="class:'dialogShadedButton'">Create
+			</button>
+		</div>
+	</div>
+</div>

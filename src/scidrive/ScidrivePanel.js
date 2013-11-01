@@ -25,6 +25,7 @@ define([
   "dijit/form/MultiSelect",
   "dijit/form/ToggleButton",
   "dijit/form/TextBox",
+  "dijit/form/CheckBox",
   "dijit/Dialog",
   "dojox/layout/TableContainer",
   "scidrive/OAuth",
@@ -33,13 +34,15 @@ define([
   "scidrive/VosyncReadStore",
   "scidrive/JobsManager",
   "scidrive/DynamicPropertiesForm",
+  "scidrive/NewFilePanel",
+  "scidrive/NewDirPanel",
   "numeral/numeral",
   "dojox/grid/DataGrid",
   "dojo/text!./templates/ScidrivePanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
-    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, Dialog, TableContainer,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, numeral, DojoDataGrid, template) {
+    BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, numeral, DojoDataGrid, template) {
     return declare("scidrive.ScidrivePanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -114,13 +117,45 @@ define([
         },
 
         _mkdirDialog: function() {
-            this.newContNodeName.reset();
-            this.mkdirDialog.show();
+            var newDirPanel = NewDirPanel({
+              current_panel: this.current_panel
+            });
+            newDirPanel.startup();
+
+            var dialog = new Dialog({
+              title: "Create new directory",
+              content: newDirPanel,
+              style: "width: 700px",
+              onHide: function() {
+                this.destroyRecursive();
+              }
+ 
+            });
+            dialog.startup();
+            dialog.show();
         },
 
         _mkfileDialog: function() {
-            this.newDataNodeName.reset();
-            this.mkfileDialog.show();
+          if(this.current_panel.gridWidget._currentPath == '/' && !this.current_panel.store.vospace.isShare) {
+              alert("Regular files can't be created in root folder.");
+          } else {
+            var newFilePanel = new NewFilePanel({
+              current_panel: this.current_panel
+            });
+            newFilePanel.startup();
+
+            var dialog = new Dialog({
+              title: "Create new file",
+              content: newFilePanel,
+              style: "width: 700px",
+              onHide: function() {
+                this.destroyRecursive();
+              }
+ 
+            });
+            dialog.startup();
+            dialog.show();
+          }
         },
 
         _sharesDialog: function() {
@@ -238,34 +273,8 @@ define([
             console.error("Not logged in.");
         },
 
-        _mkdir: function() {
-            this.current_panel._mkdir(this.newContNodeName.get('value'));
-        },
-
         _refresh: function() {
             this.current_panel._refresh();
-        },
-
-        _mkfile: function() {
-           this.current_panel._mkfile(this.newDataNodeName.get('value'));
-        },
-
-        _onMkDirKey: function(evt) {
-          if(!evt.altKey && !evt.metaKey && evt.keyCode === keys.ENTER){
-            if(this.newContNodeName.isValid()) { // proper folder name
-              this.mkdirDialog.hide();
-              this._mkdir();
-            }
-          }
-        },
-
-        _onMkFileKey: function(evt) {
-          if(!evt.altKey && !evt.metaKey && evt.keyCode === keys.ENTER){
-            if(this.newDataNodeName.validate()) { // proper file name
-              this.mkfileDialog.hide();
-              this._mkfile();
-            }
-          }
         },
 
         _updateUserInfo: function() {

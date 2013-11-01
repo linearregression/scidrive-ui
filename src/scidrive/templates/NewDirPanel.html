@@ -1,0 +1,12 @@
+<div> 
+	<div data-dojo-type="dijit/form/Form" data-dojo-attach-point="newDirForm" data-dojo-attach-event="execute:_mkdir">
+		<div style="margin: 10px;">
+			<label for="name"> Folder name: </label>
+			<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props="regExp: '[A-Za-z0-9\-_~]{1}[A-Za-z0-9\-_~\.]*', trim:true, required:true" data-dojo-attach-point="newContNodeName" type="text" style="width: 550px;" data-dojo-attach-event="onKeyPress: _onMkDirKey">
+		</div>
+		<div style="text-align: center; margin: 10px;">
+			<button data-dojo-attach-point="submitButton" data-dojo-type="dijit.form.Button" data-dojo-props="class:'dialogShadedButton'" type="button">Create
+			</button>
+		</div>
+	</div>
+</div>
