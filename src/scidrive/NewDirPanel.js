@@ -60,9 +60,8 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, key
 
     _onMkDirKey: function(evt) {
       if(!evt.altKey && !evt.metaKey && evt.keyCode === keys.ENTER){
-        if(this.newContNodeName.isValid()) { // proper folder name
-          this.mkdirDialog.hide();
-          this._mkdir();
+        if(this.newDirForm.validate()) {
+            this.newDirForm.execute();
         }
       }
     }

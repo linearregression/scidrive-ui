@@ -8,13 +8,14 @@ define( [
     "dijit/form/Form",
     "dijit/form/Button",
     "dijit/form/ValidationTextBox",
+    "dijit/focus",
     "dojox/layout/TableContainer",
     "scidrive/XMLWriter",
     "scidrive/OAuth",
     "dojo/text!./templates/NewFilePanel.html"
 ],
 
-function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, keys, Form, Button, ValidationTextBox, TableContainer, XMLWriter, OAuth, template) {
+function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, keys, Form, Button, ValidationTextBox, focusUtil, TableContainer, XMLWriter, OAuth, template) {
     return declare( "scidrive.NewFilePanel", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
         //      Widget building the form for new file creation dialog
@@ -28,6 +29,10 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, key
                 that.newDataNodeName.set("disabled", evt);
                 that.newDataNodeName.set("required", !evt);
                 that.urlInput.set("required", evt);
+                if(!evt)
+                  focusUtil.focus(that.newDataNodeName);
+                else
+                  focusUtil.focus(that.urlInput);
             });
 
             on(this.submitButton, "click", function(evt) {
@@ -80,10 +85,8 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, key
 
         _onMkFileKey: function(evt) {
           if(!evt.altKey && !evt.metaKey && evt.keyCode === keys.ENTER){
-            if(this.newDataNodeName.validate()) { // proper file name
-              this.mkfileDialog.hide();
-              if(typeof this._mkfile() !== "undefined" )
-                this._mkfile();
+            if(this.newFileForm.validate()) {
+                this.newFileForm.execute();
             }
           }
         }
