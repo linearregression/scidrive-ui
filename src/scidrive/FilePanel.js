@@ -341,26 +341,6 @@ define([
         }
     },
 
-    _mkdir: function(name) {
-      var panel = this;
-      var nodeid = this.store.getNodeVoId(this.gridWidget._currentPath+"/"+name);
-      var writer = new XMLWriter();
-      var nodeTemplate = writer.formatXml(writer.createNewNodeXml("ContainerNode", nodeid, this.store.vospace.id));
-
-      dojo.xhrPut(scidrive.OAuth.sign("PUT", {
-       url: encodeURI(this.store.vospace.url+"/nodes"+this.gridWidget._currentPath+"/"+name),
-       putData: nodeTemplate,
-       headers: { "Content-Type": "application/xml"},
-       handleAs: "text",
-       load: function(data){
-          panel._refresh();
-        },
-        error: function(data, ioargs) {
-          panel._handleError(data, ioargs);
-        }
-      }, this.store.vospace.credentials));
-    },
-
     _dragIn: function(sourcePlugin, isCopy) {
       var selectedArray = sourcePlugin.selector.getSelected("row", true);
 

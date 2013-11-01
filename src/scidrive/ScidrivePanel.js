@@ -35,13 +35,14 @@ define([
   "scidrive/JobsManager",
   "scidrive/DynamicPropertiesForm",
   "scidrive/NewFilePanel",
+  "scidrive/NewDirPanel",
   "numeral/numeral",
   "dojox/grid/DataGrid",
   "dojo/text!./templates/ScidrivePanel.html"
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, numeral, DojoDataGrid, template) {
+    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, numeral, DojoDataGrid, template) {
     return declare("scidrive.ScidrivePanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -116,8 +117,22 @@ define([
         },
 
         _mkdirDialog: function() {
-            this.newContNodeName.reset();
-            this.mkdirDialog.show();
+            var newDirPanel = NewDirPanel({
+              current_panel: this.current_panel
+            });
+            newDirPanel.startup();
+
+            var dialog = new Dialog({
+              title: "Create new directory",
+              content: newDirPanel,
+              style: "width: 700px",
+              onHide: function() {
+                this.destroyRecursive();
+              }
+ 
+            });
+            dialog.startup();
+            dialog.show();
         },
 
         _mkfileDialog: function() {
@@ -258,21 +273,8 @@ define([
             console.error("Not logged in.");
         },
 
-        _mkdir: function() {
-            this.current_panel._mkdir(this.newContNodeName.get('value'));
-        },
-
         _refresh: function() {
             this.current_panel._refresh();
-        },
-
-        _onMkDirKey: function(evt) {
-          if(!evt.altKey && !evt.metaKey && evt.keyCode === keys.ENTER){
-            if(this.newContNodeName.isValid()) { // proper folder name
-              this.mkdirDialog.hide();
-              this._mkdir();
-            }
-          }
         },
 
         _updateUserInfo: function() {

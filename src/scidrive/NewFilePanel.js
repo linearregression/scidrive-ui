@@ -4,15 +4,17 @@ define( [
     "dijit/_TemplatedMixin",
     "dijit/_WidgetsInTemplateMixin",
     "dojo/on",
+    "dojo/keys",
     "dijit/form/Form",
     "dijit/form/Button",
+    "dijit/form/ValidationTextBox",
     "dojox/layout/TableContainer",
     "scidrive/XMLWriter",
     "scidrive/OAuth",
     "dojo/text!./templates/NewFilePanel.html"
 ],
 
-function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, Form, Button, TableContainer, XMLWriter, OAuth, template) {
+function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, keys, Form, Button, ValidationTextBox, TableContainer, XMLWriter, OAuth, template) {
     return declare( "scidrive.AccountSettings", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
         //      Widget building the form for new file creation dialog
