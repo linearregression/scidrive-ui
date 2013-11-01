@@ -15,7 +15,7 @@ define( [
 ],
 
 function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, keys, Form, Button, ValidationTextBox, TableContainer, XMLWriter, OAuth, template) {
-    return declare( "scidrive.AccountSettings", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
+    return declare( "scidrive.NewFilePanel", [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
         // summary:
         //      Widget building the form for new file creation dialog
 
