@@ -82,12 +82,28 @@
         </div>
       </div>
 
+      <hr/>
+
+      <h4>Frequently Asked Questions</h4>
+      <b>How is the space allocated per user?</b>
+      <p>The suggested user quota is 1TB, not enforced. If more space is needed, it is recommended that you contact us to explain the purpose of using the storage.</p>
+
+      <b>What is the maximum supported file size?</b>
+      <p>The maximum file size is 5GB. Larger files can be uploaded in segmented mode using the Python client. Once uploaded, the file can be downloaded as a single file. The size for segmented uploads is not limited.</p>
+
+      <b>What is the maximum supported number of files?</b>
+      <p>The number of files is not limited. Single container can contain millions of files.</p>
+
+      <b>How is the data kept private? Will somebody be able to see my data after I upload it?</b>
+      <p>The data will be available to the owner only until some part of it is shared and the link is given to someone. The metadata extracted and uploaded to a 3rd party service will be handled according to the service policy.</p>
+
+      <b>The system searches for metadata in files, but this is only workable for reasonably standard-compliant and complete self-documenting formats. How does your system handle unknown file types?</b>
+      <p>A special plugin can be developed to handle such data if needed, otherwise nothing will be extracted from these files. You can limit the metadata extraction to containers where you have files in standard formats.</p>
+
       <div class="footer">
         <p>&copy; Johns Hopkins University 2013</p>
       </div>
 
-
     </div> <!-- /container -->
-
   </body>
 </html>
