@@ -274,7 +274,9 @@ define([
         },
 
         _refresh: function() {
-            this.current_panel._refresh();
+          this.panel1._refresh();
+          if(null != this.panel2)
+            this.panel2._refresh();
         },
 
         _updateUserInfo: function() {
