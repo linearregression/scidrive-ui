@@ -1,5 +1,5 @@
 define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/OAuth", "dojo/json", "dojo/request/xhr", "scidrive/XMLWriter"], function(QueryReadStore, declare, OAuth, JSON, xhr, XMLWriter) {
-    declare("scidrive.VosyncReadStore", [QueryReadStore], {
+    return declare([QueryReadStore], {
 	
     	_lastPath : null,
     	vospace:null,
@@ -86,6 +86,7 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/OAuth", "do
 			}
 		},
 		
+		// copied from QueryREadStore, uses data.contents instead of data.items
 		_xhrFetchHandler: function(data, request, fetchHandler, errorHandler){
 			data = this._filterResponse(data);
 			if(data.label){
@@ -194,6 +195,4 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/OAuth", "do
 
 		
 	});
-	
-    return scidrive.VosyncReadStore;
 });

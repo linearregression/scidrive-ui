@@ -43,7 +43,7 @@ define([
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
     OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, numeral, DojoDataGrid, template) {
-    return declare("scidrive.ScidrivePanel", [WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
+    return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
         panel1: null,
@@ -323,43 +323,42 @@ define([
             if(!vospace.credentials) {
                 this.app.login(vospace, component, true);
             } else {
-                if(component != null) {
-                    var store = this.createStore(vospace);
-                    store.parentPanel = component;
-                    component.setStore(store);
-                    this._updateUserInfo();
-                    this._refreshRegions();
-                } else { // init
-                    if(undefined == this.panel1) {
-                        this.panel1 = new FilePanel({
-                            login: this.loginToVO,
-                            store: this.createStore(vospace),
-                            parentPanel: this
-                            }).placeAt(this.panel1contentpane);
-                        this.panel1.store.parentPanel = this.panel1;
-                        this.updateCurrentPanel(this.panel1);
-                    } else {
-                        dojo.byId(this.panel2contentpane.id).style.width = "50%";
-                        this.rootContainer.resize();
-                        this.panel2 = new FilePanel({
-                            login: this.loginToVO,
-                            store: this.createStore(vospace),
-                            style: {height: "100%"},
-                            parentPanel: this
-                            }).placeAt(this.panel2contentpane);
-                        this.panel2.store.parentPanel = this.panel2;
-                        this.updateCurrentPanel(this.panel2);
-                        this.panel1.gridWidget.resize();
-                    }
-                }
-            }
-        },
 
-        createStore: function(vospace) {
-            return new scidrive.VosyncReadStore({
-                vospace: vospace,
-                numRows: "items"
-            });
+              var store = new VosyncReadStore({
+                  vospace: vospace,
+                  numRows: "items"
+              });
+
+              if(component != null) {
+                  var store = store;
+                  store.parentPanel = component;
+                  component.setStore(store);
+                  this._updateUserInfo();
+                  this._refreshRegions();
+              } else { // init
+                  if(undefined == this.panel1) {
+                      this.panel1 = new FilePanel({
+                          login: this.loginToVO,
+                          store: store,
+                          parentPanel: this
+                          }).placeAt(this.panel1contentpane);
+                      this.panel1.store.parentPanel = this.panel1;
+                      this.updateCurrentPanel(this.panel1);
+                  } else {
+                      dojo.byId(this.panel2contentpane.id).style.width = "50%";
+                      this.rootContainer.resize();
+                      this.panel2 = new FilePanel({
+                          login: this.loginToVO,
+                          store: store,
+                          style: {height: "100%"},
+                          parentPanel: this
+                          }).placeAt(this.panel2contentpane);
+                      this.panel2.store.parentPanel = this.panel2;
+                      this.updateCurrentPanel(this.panel2);
+                      this.panel1.gridWidget.resize();
+                  }
+              }
+            }
         },
 
         /* Returns the list of region options for regions select */
