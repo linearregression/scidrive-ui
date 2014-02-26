@@ -85,11 +85,12 @@ define([
           rowMenuObject.addChild(new dijit.MenuItem({ 
             label: "Download", 
             onClick:function(e) {
-              dojo.xhrGet(scidrive.OAuth.sign("GET", {
-                url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
-                handleAs: "json",
-                sync: false,
-                load: function(data) {
+              panel.store.vospace.request(
+                encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
+                "GET",
+                {handleAs: "json"}
+              ).then(
+                function(data) {
                   require(["dojo/request/iframe"], function(iframe){
                     iframe(data.url, {
                       method: "GET"
@@ -98,10 +99,10 @@ define([
                     }).cancel();
                   });
                 },
-                error: function(data, ioargs) {
-                  panel._handleError(data, ioargs);
+                function(error) {
+                  panel._handleError(error);
                 }
-              },panel.store.vospace.credentials));
+              );
             }
           })); 
           rowMenuObject.addChild(new dijit.MenuItem({ 

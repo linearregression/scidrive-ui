@@ -45,37 +45,21 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/auth/OAuth"
 				this._numRows = (this._numRows === -1) ? this._items.length : this._numRows;
 				fetchHandler(this._items, request, this._numRows);
 			}else{
-				var xhrFunc;
-				
-				switch(this.requestMethod.toLowerCase()){
-					case 'post': xhrFunc = dojo.xhrPost;
-					case 'put': xhrFunc = dojo.xhrPut;
-					case 'get': xhrFunc = dojo.xhrGet;
-					case 'delete': xhrFunc = dojo.xhrDelete;
-					default: xhrFunc = dojo.xhrGet;
-				}
-
 				var fullUrl = this.vospace.url+"/1/metadata/sandbox"+((request.path+"" != "")?request.path:"");
 				
-				var xhrHandler = xhrFunc(OAuth.sign(this.requestMethod.toUpperCase(),{
-					url:fullUrl, 
-					handleAs:"json-comment-optional", 
-					content:serverQuery,
-					failOk: true,
-					error: function(data, ioargs) {
-						 // OAuth error
-						if(ioargs.xhr.status == 401) {
-                  			cur.parentPanel._handleError(data, ioargs);
-                  		}
-                	}
-                }, this.vospace.credentials));
+				var xhrHandler = this.vospace.request(fullUrl, this.requestMethod.toUpperCase(), 
+					{
+						handleAs:"json", 
+						content:serverQuery,
+						failOk: true
+                	});
+
 				request.abort = function(){
 					xhrHandler.cancel();
 				};
-				xhrHandler.addCallback(dojo.hitch(this, function(data){
-					this._xhrFetchHandler(data, request, fetchHandler, errorHandler);
-				}));
-				xhrHandler.addErrback(function(error){
+				xhrHandler.then(function(data){
+					cur._xhrFetchHandler(data, request, fetchHandler, errorHandler);
+				}, function(error){
 					errorHandler(error, request);
 				});
 				// Generate the hash using the time in milliseconds and a randon number.

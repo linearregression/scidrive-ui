@@ -310,17 +310,21 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             
     },
 
-    request: function(url, method, credentials) {
-        return xhr(url, {
-            handleAs: 'json',
+    request: function(url, method, args) {
+        var params = {
             headers: {
                 'Authorization': OAuth.sign(
                     method, 
                     {url: url}, 
-                    credentials)
+                    this.credentials)
                 .headers["Authorization"]
             }
-        });
+        };
+
+        if("undefined" !== typeof args)
+            params = lang.mixin(params, args);
+
+        return xhr(url, params);
     }
   });
 });
