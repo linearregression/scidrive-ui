@@ -1,4 +1,4 @@
-define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/OAuth", "dojo/json", "dojo/request/xhr", "scidrive/XMLWriter"], function(QueryReadStore, declare, OAuth, JSON, xhr, XMLWriter) {
+define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/auth/OAuth", "dojo/json", "dojo/request/xhr", "scidrive/XMLWriter"], function(QueryReadStore, declare, OAuth, JSON, xhr, XMLWriter) {
     return declare([QueryReadStore], {
 	
     	_lastPath : null,

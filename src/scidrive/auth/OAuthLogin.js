@@ -12,7 +12,7 @@ define( [
     "dojo/has",
     "dojo/sniff",
     "dijit/Dialog",
-    "scidrive/OAuth"
+    "scidrive/auth/OAuth"
 ],
 
 function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog, OAuth) {

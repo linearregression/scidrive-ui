@@ -11,7 +11,7 @@ define( [
     "dijit/focus",
     "dojox/layout/TableContainer",
     "scidrive/XMLWriter",
-    "scidrive/OAuth",
+    "scidrive/auth/OAuth",
     "dojo/text!./templates/NewFilePanel.html"
 ],
 

@@ -28,7 +28,7 @@ define([
   "dijit/form/CheckBox",
   "dijit/Dialog",
   "dojox/layout/TableContainer",
-  "scidrive/OAuth",
+  "scidrive/auth/OAuth",
   "scidrive/FilePanel",
   "scidrive/DataGrid",
   "scidrive/VosyncReadStore",

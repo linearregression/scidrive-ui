@@ -13,9 +13,9 @@ define( [
   "dojo/has",
   "dojo/sniff",
   "dijit/Dialog",
-  "scidrive/OAuth",
-  "scidrive/OAuthLogin",
-  "scidrive/SciServerLogin",
+  "scidrive/auth/OAuth",
+  "scidrive/auth/OAuthLogin",
+  "scidrive/auth/SciServerLogin",
   "dojo/text!scidrive/resources/regions.json"
 ],
 

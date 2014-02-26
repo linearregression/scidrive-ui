@@ -10,7 +10,7 @@ define( [
     "dijit/form/ValidationTextBox",
     "dojox/layout/TableContainer",
     "scidrive/XMLWriter",
-    "scidrive/OAuth",
+    "scidrive/auth/OAuth",
     "dojo/text!./templates/NewDirPanel.html"
 ],
 

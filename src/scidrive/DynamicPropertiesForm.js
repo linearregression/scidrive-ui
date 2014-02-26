@@ -12,7 +12,7 @@ define( [
 "dojo/on",
 "dojo/dom-form",
 "dojox/mobile/Switch",
-"scidrive/OAuth",
+"scidrive/auth/OAuth",
 "dojo/data/ItemFileReadStore",
 "dojox/form/CheckedMultiSelect"
 ],

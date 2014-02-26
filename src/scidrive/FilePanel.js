@@ -19,7 +19,7 @@ define([
   "scidrive/DataGrid",
   "dijit/Menu",
   "dojox/image/Lightbox",
-  "scidrive/OAuth",
+  "scidrive/auth/OAuth",
   "scidrive/ConfirmDialog",
   "scidrive/MetadataViewer",
   "dijit/_TemplatedMixin",

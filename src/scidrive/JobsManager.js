@@ -10,7 +10,7 @@ define([
         "dojo/mouse",
         "dijit/Tooltip",
         "dojo/on",
-        "scidrive/OAuth",
+        "scidrive/auth/OAuth",
         "dojo/text!./templates/JobsManager.html"
         ],
     function(declare, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin, connect, dom, Memory, ObjectStore, 
