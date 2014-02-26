@@ -23,8 +23,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
     },
 
     loginFunc: function(identity, share){
-        var panel = this;
-            
+        var that = this;
         // if(share != undefined) {
         //     var share_vospace = lang.clone(vospace);
         //     delete share_vospace.credentials;
@@ -50,10 +49,10 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                         var pan = new ScidrivePanel({
                             id: "scidriveWidget",
                             style: "width: 100%; height: 100%; opacity: 0;",
-                            app: panel
+                            app: that
                         });
                         pan.placeAt(document.body)
-                        dijit.byId("scidriveWidget").loginToVO(this, null); // with updated credentials
+                        dijit.byId("scidriveWidget").loginToVO(that, null); // with updated credentials
                         dijit.byId("scidriveWidget").startup();
                         var anim = coreFx.combine([
                             fx.fadeIn({
@@ -70,7 +69,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                             domConstruct.destroy("loader");
                         }, true);
                     } else {
-                        dijit.byId("scidriveWidget").loginToVO(this, null); // with updated credentials
+                        dijit.byId("scidriveWidget").loginToVO(that, null); // with updated credentials
                     }
                 });
             }
