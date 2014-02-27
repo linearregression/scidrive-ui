@@ -324,6 +324,9 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
         if("undefined" !== typeof args)
             params = lang.mixin(params, args);
 
+        params = lang.mixin(params, {"method": method});
+
+
         return xhr(url, params);
     }
   });

@@ -525,17 +525,19 @@ define([
 
             getUserInfo: function(updateInfo /* callback */ ) {
                 var panel = this;
-                dojo.xhrGet(OAuth.sign("GET", {
-                    url: encodeURI(this.store.vospace.url + "/1/account/info"),
-                    handleAs: "json",
-                    sync: false,
-                    load: function(accountInfo) {
+                panel.store.vospace.request(
+                    encodeURI(this.store.vospace.url + "/1/account/info"),
+                    "GET", {
+                        handleAs: "json"
+                    }
+                ).then(
+                    function(accountInfo) {
                         updateInfo(accountInfo);
                     },
-                    error: function(data, ioargs) {
+                    function(error) {
                         panel._handleError(data, ioargs);
                     }
-                }, this.store.vospace.credentials));
+                );
             },
 
             _uploadFiles: function() {
@@ -550,8 +552,6 @@ define([
 
                 var xhr = new XMLHttpRequest();
                 xhr.open('PUT', url, true);
-                // xhr.onload = function(e) { 
-                // };
                 xhr.setRequestHeader('Authorization', OAuth.sign("PUT", {
                     url: url
                 }, curFileStruct.credentials).headers["Authorization"]);
@@ -588,40 +588,14 @@ define([
                     }
                 };
 
-                /*xhr.onreadystatechange = function(evt){
-        alert(evt);
-      };*/
-
                 xhr.setRequestHeader('Content-Type', 'text/plain; charset=x-user-defined-binary');
-                //xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
                 xhr.send(curFileStruct.file);
-                //panel.parentPanel.fileuploads.style.display = "block";
-                //panel.parentPanel.filetext.innerHTML = "Uploading "+fname+"  ";
-
-                /*reader.onload = (function(file){
-        return function(e){
-          xhr.sendAsBinary(e.target.result);
-        }
-      })(curFile);*/
-
-                /*var reader = new FileReader();
-
-      reader.onload = function() {
-        xhr.sendAsBinary(reader.result);
-      };
-
-      reader.readAsBinaryString(curFile);
-      }*/
-
             },
 
             _createUploader: function() {
                 var panel = this;
 
                 var doc = this.domNode;
-                //doc.ondragenter = function () { this.className = ((panel.gridWidget._currentPath != '/')?"hover":"errhover"); return false; };
-                //doc.ondragover = function () { this.className = ((panel.gridWidget._currentPath != '/')?"hover":"errhover"); return false; };
-                //doc.ondragleave = function () { this.className = ''; return false; };
                 doc.ondragenter = function() {
                     return false;
                 };
@@ -698,12 +672,13 @@ define([
                 params += (params == "") ? "?" : "&";
                 params += "write_perm=" + !this.readOnlyCheckBox.checked;
 
-                dojo.xhrPut(scidrive.OAuth.sign("PUT", {
-                    //url: encodeURI(panel.store.vospace.url+"/1/shares/sandbox"+panel._menuSelectedItem.i.path),
-                    url: encodeURI(panel.store.vospace.url + "/1/shares/sandbox" + panel._menuSelectedItem.i.path + params),
-                    handleAs: "json",
-                    sync: false,
-                    load: function(data) {
+                panel.store.vospace.request(
+                    encodeURI(panel.store.vospace.url + "/1/shares/sandbox" + panel._menuSelectedItem.i.path + params),
+                    "PUT", {
+                        handleAs: "json"
+                    }
+                ).then(
+                    function(data) {
 
                         var url = location.protocol + '//' + location.host + location.pathname;
                         var infoContent = "<p>Share URL: <a href='" + url + "?share=" + data.id + "'' target='_blank'>" + url + "?share=" + data.id + "</a></p>\n";
@@ -720,10 +695,10 @@ define([
                         });
                         infoWindow.show();
                     },
-                    error: function(data, ioargs) {
-                        panel._handleError(data, ioargs);
+                    function(error) {
+                        panel._handleError(error);
                     }
-                }, panel.store.vospace.credentials));
+                );
             },
 
             _rowcontextmenu: function(e) {
