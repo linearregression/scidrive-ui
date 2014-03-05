@@ -13,13 +13,12 @@ define( [
   "dojo/has",
   "dojo/sniff",
   "dijit/Dialog",
-  "scidrive/auth/OAuth",
   "scidrive/auth/OAuthLogin",
   "scidrive/auth/SciServerLogin",
   "dojo/text!scidrive/resources/regions.json"
 ],
 
-function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog, OAuth, OAuthLogin, SciServerLogin, regions) {
+function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog, OAuthLogin, SciServerLogin, regions) {
     return declare( null, {
 
         identity_ver: "1.4",

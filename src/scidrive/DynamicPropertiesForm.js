@@ -12,12 +12,11 @@ define( [
 "dojo/on",
 "dojo/dom-form",
 "dojox/mobile/Switch",
-"scidrive/auth/OAuth",
 "dojo/data/ItemFileReadStore",
 "dojox/form/CheckedMultiSelect"
 ],
 
-function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContainer, domConstruct, domStyle, xhr, on, domForm, Switch, OAuth, ItemFileReadStore, CheckedMultiSelect) {
+function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContainer, domConstruct, domStyle, xhr, on, domForm, Switch, ItemFileReadStore, CheckedMultiSelect) {
     return declare( Form, {
 
         constructor: function(args) {
