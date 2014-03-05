@@ -111,22 +111,24 @@ define([
                 
         },
 
-
-
         request: function(url, method, args) {
-            var params = {
-                headers: {
-                    'X-Auth-Token': this.credentials.token
-                }
-            };
+            var params = this.signRequest(url, method, args);
+            return xhr(url, params);
+        },
+
+        signRequest: function(url, method, args) {
+            var param = {};
 
             if("undefined" !== typeof args)
-                params = lang.mixin(params, args);
+                param = args;
 
-            params = lang.mixin(params, {"method": method});
-            console.debug(params);
+            if("undefined" === typeof param.headers)
+                param.headers = {};
 
-            return xhr(url, params);
+            param.headers["X-Auth-Token"] = this.credentials.token;
+            param.method = method;
+
+            return param;
         }
 
 

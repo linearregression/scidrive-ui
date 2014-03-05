@@ -1,4 +1,4 @@
-define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/auth/OAuth", "dojo/json", "dojo/request/xhr", "scidrive/XMLWriter"], function(QueryReadStore, declare, OAuth, JSON, xhr, XMLWriter) {
+define(["dojox/data/QueryReadStore", "dojo/_base/declare", "dojo/json", "dojo/request/xhr", "scidrive/XMLWriter"], function(QueryReadStore, declare, JSON, xhr, XMLWriter) {
     return declare([QueryReadStore], {
 	
     	_lastPath : null,
@@ -119,13 +119,15 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/auth/OAuth"
             var reqData = writer.createPullFromVoJob(id);
 
             var writer = new XMLWriter();
-            dojo.xhrPost(OAuth.sign("POST", {
-                url: vospace.url+"/transfers",
-                headers: { "Content-Type": "application/xml"},
-                postData: reqData,
-                handleAs: "xml",
-                sync: false,
-                handle: function(data, ioargs){
+            vospace.request(
+                vospace.url+"/transfers",
+                "POST", {
+	                headers: { "Content-Type": "application/xml"},
+	                postData: reqData,
+                    handleAs: "xml"
+                }
+            ).then(
+				function(data){
                     if(undefined != data) {
                         var endpoint = writer.selectSingleNode(data.documentElement, "//vos:protocolEndpoint/text()", {vos: "http://www.ivoa.net/xml/VOSpace/v2.0"}).nodeValue;
                         console.debug("Got endpoint for pullFrom job: "+endpoint);
@@ -138,42 +140,46 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "scidrive/auth/OAuth"
                     } else {
                         console.error("Error creating new pullFrom task");
                     }
-                }, error: function(err) {
+                }, function(err) {
                     console.debug(err);
                 }
-            }, vospace.credentials));
+            );
         },
 
         pullToVoJob: function(vospace, id, endpoint) {
             console.debug("Pulling "+endpoint+" to "+id);
             var writer = new XMLWriter();
             var reqData = writer.createPullToVoJob(id, endpoint);
-            dojo.xhrPost(OAuth.sign("POST", {
-                url: vospace.url+"/transfers",
-                headers: { "Content-Type": "application/xml"},
-                postData: reqData,
-                handleAs: "xml",
-                sync: false,
-                handle: function(data, ioargs){
+            vospace.request(
+                vospace.url+"/transfers",
+                "POST", {
+	                headers: { "Content-Type": "application/xml"},
+	                postData: reqData,
+                    handleAs: "xml"
+                }
+            ).then(
+                function(data){
                     console.debug("Created pullToJob");
                 }
-            }, vospace.credentials));
+            );
         },
 
         moveJob: function(vospace, from, to) {
             console.debug("Moving from"+from+" to "+to);
             var writer = new XMLWriter();
             var reqData = writer.createMoveJob(from, to);
-            dojo.xhrPost(OAuth.sign("POST", {
-                url: vospace.url+"/transfers",
-                headers: { "Content-Type": "application/xml"},
-                postData: reqData,
-                handleAs: "xml",
-                sync: false,
-                handle: function(data, ioargs){
+            vospace.request(
+                vospace.url+"/transfers",
+                "POST", {
+	                headers: { "Content-Type": "application/xml"},
+	                postData: reqData,
+                    handleAs: "xml"
+                }
+            ).then(
+                function(data){
                     console.debug("Created move Job");
                 }
-            }, vospace.credentials));
+            );
         }
 
 

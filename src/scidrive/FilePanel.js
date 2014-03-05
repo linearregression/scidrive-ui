@@ -19,7 +19,6 @@ define([
         "scidrive/DataGrid",
         "dijit/Menu",
         "dojox/image/Lightbox",
-        "scidrive/auth/OAuth",
         "scidrive/ConfirmDialog",
         "scidrive/MetadataViewer",
         "dijit/_TemplatedMixin",
@@ -50,7 +49,7 @@ define([
         "scidrive/XMLWriter"
     ],
     function(declare, connect, fx, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin,
-        MenuPlugin, DataGrid, Menu, LightBox, OAuth, ConfirmDialog, MetadataViewer, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
+        MenuPlugin, DataGrid, Menu, LightBox, ConfirmDialog, MetadataViewer, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
         Form, Button, Select, CheckBox, ValidationTextBox, TextBox, Textarea,
         FilteringSelect, PopupMenuBarItem, DropDownMenu, InlineEditBox, Toolbar, ProgressBar, Dialog, registry, dojox_Dialog, ItemFileWriteStore, TitlePane, XMLWriter
     ) {
@@ -535,7 +534,7 @@ define([
                         updateInfo(accountInfo);
                     },
                     function(error) {
-                        panel._handleError(data, ioargs);
+                        panel._handleError(error);
                     }
                 );
             },
@@ -550,11 +549,14 @@ define([
                 var curFileStruct = this._uploadFilesQueue.shift();
                 var url = encodeURI(curFileStruct.containerUrl + curFileStruct.file.name);
 
+                var headers = curFileStruct.vospace.signRequest(url, "PUT").headers;
+
                 var xhr = new XMLHttpRequest();
                 xhr.open('PUT', url, true);
-                xhr.setRequestHeader('Authorization', OAuth.sign("PUT", {
-                    url: url
-                }, curFileStruct.credentials).headers["Authorization"]);
+
+                for (var header in headers){
+                    xhr.setRequestHeader(header, headers[header]);
+                };
 
                 // Listen to the upload progress.
                 xhr.upload.onprogress = function(e) {
@@ -643,7 +645,7 @@ define([
                                 fileUploadNode: uploadNode,
                                 fileProgressNode: progressNode,
                                 containerUrl: url,
-                                credentials: panel.store.vospace.credentials
+                                vospace: panel.store.vospace
                             });
 
                             if (!panel._isUploading) {
@@ -767,12 +769,13 @@ define([
 
             },
 
-            _handleError: function(data, ioargs) {
-                if (ioargs.xhr.status == 401) {
-                    this.parentPanel.app.login(this.store.vospace, this, true);
-                } else {
-                    alert("Error: " + data);
-                }
+            _handleError: function(error) {
+                // if (ioargs.xhr.status == 401) {
+                //     this.parentPanel.app.login(this.store.vospace, this, true);
+                // } else {
+                //     alert("Error: " + data);
+                // }
+                console.debug(error);
             }
 
         });

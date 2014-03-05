@@ -28,7 +28,6 @@ define([
   "dijit/form/CheckBox",
   "dijit/Dialog",
   "dojox/layout/TableContainer",
-  "scidrive/auth/OAuth",
   "scidrive/FilePanel",
   "scidrive/DataGrid",
   "scidrive/VosyncReadStore",
@@ -42,7 +41,7 @@ define([
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
-    OAuth, FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, numeral, DojoDataGrid, template) {
+    FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, numeral, DojoDataGrid, template) {
     return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -160,10 +159,13 @@ define([
 
         _sharesDialog: function() {
           var panel = this;
-          dojo.xhrGet(OAuth.sign("GET", {
-              url: this.current_panel.store.vospace.url + "/1/shares",
-              handleAs: "json",
-              load: function(shares) {
+          this.current_panel.store.vospace.request(
+              this.current_panel.store.vospace.url + "/1/shares",
+              "GET", {
+                  handleAs: "json"
+              }
+          ).then(
+            function(shares) {
 
                 var sharesGridDiv = domConstruct.create("div", {
                   style: {height: '400px'}
@@ -199,16 +201,19 @@ define([
                         showLabel: true,
                         onClick: function(item) {
                           if (confirm("Remove share?")){
-
-                            dojo.xhrDelete(OAuth.sign("DELETE", {
-                                url: panel.current_panel.store.vospace.url + "/1/shares/"+share_id,
-                                load: function(data) {
-                                  store.deleteItem(rowdata); 
-                                },
-                                error: function(data, ioargs) {
-                                  panel.current_panel._handleError(data, ioargs);
-                                }
-                            }, panel.current_panel.store.vospace.credentials));
+                            panel.current_panel.store.vospace.request(
+                              panel.current_panel.store.vospace.url + "/1/shares/"+share_id,
+                              "DELETE", {
+                                  handleAs: "json"
+                              }
+                            ).then(
+                              function(data) {
+                                store.deleteItem(rowdata); 
+                              },
+                              function(error) {
+                                panel.current_panel._handleError(data, ioargs);
+                              }
+                            );
                           }
                         }
                     });
@@ -254,10 +259,10 @@ define([
                 dlg.show();
                 dojo.setSelectable(grid.id, true);
               },
-              error: function(data, ioargs) {
-                panel.current_panel._handleError(data, ioargs);
+              function(error) {
+                panel.current_panel._handleError(error);
               }
-          }, this.current_panel.store.vospace.credentials));
+          );
 
           //this.sharesDialog.show();
         },
@@ -409,9 +414,14 @@ define([
 
         _search: function() {
           var panel = this;
-          dojo.xhrGet(OAuth.sign("GET", {
-              url: panel.current_panel.store.vospace.url + "/1/cont_search?query="+this.searchInput.value,
-              load: function(data) {
+
+          this.vospace.request(
+            panel.current_panel.store.vospace.url + "/1/cont_search?query="+this.searchInput.value,
+            "GET", {
+                handleAs: "json"
+            }
+          ).then(
+              function(data) {
                 var dlg = new dijit.Dialog({
                   title: "Search results",
                   content: data,
@@ -423,11 +433,11 @@ define([
                 dlg.show();
 
               },
-              error: function(data, ioargs) {
-                panel.current_panel._handleError(data, ioargs);
+              function(error) {
+                panel.current_panel._handleError(error);
               }
 
-          }, panel.current_panel.store.vospace.credentials));
+          );
         },
 
         hideUploadPanel: function() {
@@ -501,33 +511,41 @@ define([
                       service: service,
                       save: function(jsonValues) {
                         if(this.onOffButton.get("value") == "on") {
-                          dojo.xhrPut(OAuth.sign("PUT", {
-                            url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
-                            putData: jsonValues,
-                            headers: { "Content-Type": "application/json"},
-                            handleAs: "text",
-                            load: function(data) {
+                          panel.current_panel.store.vospace.request(
+                              panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                              "PUT", {
+                                  handleAs: "text",
+                                  data: jsonValues,
+                                  headers: { "Content-Type": "application/json"},
+                              }
+                          ).then(
+                            function(data) {
                               cp.set("title",'✔'+cp.get("title").substring(1));
                               service.enabled = true;
                             },
-                            error: function(data, ioargs) {
+                            function(error) {
                               panel.current_panel._handleError(data, ioargs);
                             }
 
-                          }, panel.current_panel.store.vospace.credentials));
+                          );
                         } else {
-                          dojo.xhrDelete(OAuth.sign("DELETE", {
-                            url: panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
-                            handleAs: "text",
-                            load: function(data) {
+                          panel.current_panel.store.vospace.request(
+                              panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                              "DELETE", {
+                                  handleAs: "text",
+                                  data: jsonValues,
+                                  headers: { "Content-Type": "application/json"},
+                              }
+                          ).then(
+                            function(data) {
                               cp.set("title",'✘'+cp.get("title").substring(1));
                               service.enabled = false;
                             },
-                            error: function(data, ioargs) {
+                            function(error) {
                               panel.current_panel._handleError(data, ioargs);
                             }
 
-                          }, panel.current_panel.store.vospace.credentials));
+                          );
 
                         }
 

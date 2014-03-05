@@ -311,6 +311,11 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
     },
 
     request: function(url, method, args) {
+        var params = this.signRequest(url, method, args);
+        return xhr(url, params);
+    },
+
+    signRequest: function(url, method, args) {
         var params = {
             headers: {
                 'Authorization': OAuth.sign(
@@ -325,9 +330,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             params = lang.mixin(params, args);
 
         params = lang.mixin(params, {"method": method});
-
-
-        return xhr(url, params);
+        return params;
     }
   });
 });
