@@ -83,31 +83,27 @@ define([
 
             dijit.byId("scidriveWidget")._refreshRegions();
 
-            var authenticatedVospace, defaultVospace;
+            document.location.href = "http://zinc26.pha.jhu.edu:8080/?logout=true";
 
-            for(var i in this.vospaces) {
-                var vospace = this.vospaces[i];
-                if(vospace.defaultRegion) {
-                    defaultVospace = vospace;
-                }
-                if(undefined == authenticatedVospace && undefined != identity.regions[vospace.id]){
-                    authenticatedVospace = vospace;
-                }
-            }
+            // var authenticatedVospace, defaultVospace;
 
-            //First try to login to default vospace if is authenticated or don't have any authenticated at all
-            if(undefined != identity.regions[defaultVospace.id] || undefined == authenticatedVospace) {
-                dijit.byId("scidriveWidget").loginToVO(defaultVospace, component);
-            } else {
-                dijit.byId("scidriveWidget").loginToVO(authenticatedVospace, component);
-            }
+            // for(var i in this.vospaces) {
+            //     var vospace = this.vospaces[i];
+            //     if(vospace.defaultRegion) {
+            //         defaultVospace = vospace;
+            //     }
+            //     if("undefined" === typeof authenticatedVospace && "undefined" !== typeof identity.regions[vospace.id]){
+            //         authenticatedVospace = vospace;
+            //     }
+            // }
 
-            var otherComponent = (component == panel1)?panel2:panel1;
-            if(otherComponent != undefined && otherComponent.store.vospace.id == vospace.id && authenticatedVospace != undefined) {
-                dijit.byId("scidriveWidget").loginToVO(authenticatedVospace, otherComponent);
-            }
+            // //First try to login to default vospace if is authenticated or don't have any authenticated at all
+            // if("undefined" !== typeof identity.regions[defaultVospace.id] || "undefined" === typeof authenticatedVospace) {
+            //     dijit.byId("scidriveWidget").loginToVO(defaultVospace, component);
+            // } else {
+            //     dijit.byId("scidriveWidget").loginToVO(authenticatedVospace, component);
+            // }
 
-            //component._refreshRegions();
                 
         },
 

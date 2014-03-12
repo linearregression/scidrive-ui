@@ -123,7 +123,7 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "dojo/json", "dojo/re
                 vospace.url+"/transfers",
                 "POST", {
 	                headers: { "Content-Type": "application/xml"},
-	                postData: reqData,
+	                data: reqData,
                     handleAs: "xml"
                 }
             ).then(
@@ -154,7 +154,7 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "dojo/json", "dojo/re
                 vospace.url+"/transfers",
                 "POST", {
 	                headers: { "Content-Type": "application/xml"},
-	                postData: reqData,
+	                data: reqData,
                     handleAs: "xml"
                 }
             ).then(
@@ -172,7 +172,7 @@ define(["dojox/data/QueryReadStore", "dojo/_base/declare", "dojo/json", "dojo/re
                 vospace.url+"/transfers",
                 "POST", {
 	                headers: { "Content-Type": "application/xml"},
-	                postData: reqData,
+	                data: reqData,
                     handleAs: "xml"
                 }
             ).then(
