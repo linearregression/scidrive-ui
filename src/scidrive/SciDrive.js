@@ -86,10 +86,21 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                 return vospace.defaultRegion;
             })[0];
 
+            if("undefined" !== typeof share) {
+              defaultReg = lang.mixin({}, defaultReg);
+              defaultReg.id = share;
+              defaultReg.isShare = true;
+              defaultReg.display = "Share";
+              if(undefined != identity.regions[share]) {
+                  defaultReg.credentials = identity.regions[share];
+              }
+              vospaces.push(defaultReg);
+            }
+
             if("undefined" == typeof defaultReg)
                 console.error("Not found default region");
             else
-                defaultReg.loginFunc(identity, share);
+                defaultReg.loginFunc(identity);
             console.debug("DONE INIT");
         }
 

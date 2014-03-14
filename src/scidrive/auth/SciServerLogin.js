@@ -122,6 +122,10 @@ define([
                 param.headers = {};
 
             param.headers["X-Auth-Token"] = this.credentials.token;
+            if(this.isShare) {
+                param.headers["X-Share"] = this.id;
+                console.debug(param);                
+            }
             param.method = method;
 
             return param;
