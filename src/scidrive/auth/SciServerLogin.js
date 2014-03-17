@@ -25,11 +25,12 @@ define([
 
         loginFunc: function(identity, share) {
             var that = this;
-            if (undefined == this.credentials) {
-                console.debug("login to " + this.id);
+            if (undefined == this.credentials && !this.isShare) {
                 this.login(this);
             } else {
+                console.log("Have credential: ");
                 console.debug(this.credentials);
+                console.log("Or have share: "+this.isShare);
                 require(["scidrive/ScidrivePanel"], function(ScidrivePanel) {
                     if (undefined == dijit.byId("scidriveWidget")) {
                         var pan = new ScidrivePanel({
@@ -108,8 +109,17 @@ define([
         },
 
         request: function(url, method, args) {
+            var that = this;
             var params = this.signRequest(url, method, args);
-            return xhr(url, params);
+            var xhrPromise = xhr(url, params);
+            xhrPromise.then(
+                null,
+                function(error) {
+                    if(error.response.status == 401) {
+                        that.login();
+                    }
+                });
+            return xhrPromise;
         },
 
         signRequest: function(url, method, args) {
@@ -121,7 +131,9 @@ define([
             if("undefined" === typeof param.headers)
                 param.headers = {};
 
-            param.headers["X-Auth-Token"] = this.credentials.token;
+            if("undefined" !== typeof this.credentials)
+                param.headers["X-Auth-Token"] = this.credentials.token;
+
             if(this.isShare) {
                 param.headers["X-Share"] = this.id;
                 console.debug(param);                
