@@ -317,6 +317,8 @@ define([
                 this.secondPanelButton.destroyRecursive();
               if(this.setCasJobsCredentialsButton)
                 this.setCasJobsCredentialsButton.destroyRecursive();
+              if(this.openCasJobsButton)
+                this.openCasJobsButton.destroyRecursive();
               if(this.sharesButton)
                 this.sharesButton.destroyRecursive();
               if(this.jobsPanelButton)
