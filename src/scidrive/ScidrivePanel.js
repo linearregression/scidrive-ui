@@ -10,7 +10,6 @@ define([
   "dojo/fx/Toggler",
   "dojo/fx",
   "dojo/data/ItemFileWriteStore",
-  "dojo/request/xhr",
   "dijit/_WidgetBase",
   "dijit/_TemplatedMixin",
   "dijit/_WidgetsInTemplateMixin",
@@ -35,13 +34,15 @@ define([
   "scidrive/DynamicPropertiesForm",
   "scidrive/NewFilePanel",
   "scidrive/NewDirPanel",
+  "scidrive/GroupSettings",
+  "scidrive/AccountSettings",
   "numeral/numeral",
   "dojox/grid/DataGrid",
   "dojo/text!./templates/ScidrivePanel.html"
   ],
-  function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, xhr, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
+  function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
-    FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, numeral, DojoDataGrid, template) {
+    FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, GroupSettings, AccountSettings, numeral, DojoDataGrid, template) {
     return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -113,6 +114,7 @@ define([
             hideFunc: coreFx.wipeOut
           });
           this.uploadPanelToggler.hide();
+            this._showSettingsManagerDialog();
         },
 
         _mkdirDialog: function() {
@@ -487,14 +489,35 @@ define([
       
         },
 
-        _showProcessManagerDialog: function() {
-          var panel = this;
-          panel.current_panel.getUserInfo(function(userInfo) {
+        _showSettingsManagerDialog: function() {
+
+          var set = new TabContainer({
+                  doLayout: false,
+                  style: "width: 100%; height: 100%;"
+                });
+          set.startup();
+
+          var dialog = new Dialog({
+            title: "Settings",
+            content: set,
+            style: "width: 90%; height: 90%;",
+            onHide: function() {
+              this.destroyRecursive();
+            }
+
+          });
+          dialog.startup();
+          dialog.show();
+
+
+          var that = this;
+          that.current_panel.getUserInfo(function(userInfo) {
             var tabContainer = new TabContainer({
                     doLayout: false,
                     tabPosition: "left-h",
-                    style: "height: 500px; width: 800px;",
-                    tabStrip: true
+                    // style: "height: 100%; width: 800px;",
+                    tabStrip: true,
+                    title: "Metadata extractors"
                 });
 
             userInfo.services.map(function(service) {
@@ -504,7 +527,7 @@ define([
 
                     var form = new DynamicPropertiesForm({
                       style: "height: 100%; width: 100%",
-                      panel: panel,
+                      panel: that,
                       service: service,
                       save: function(jsonValues) {
                         if(this.onOffButton.get("value") == "on") {
@@ -543,7 +566,6 @@ define([
                             }
 
                           );
-
                         }
 
                       }
@@ -558,16 +580,22 @@ define([
               });
               tabContainer.addChild(cp);
             });
+        
+            set.addChild(tabContainer);
 
-            var dialog = new Dialog({
-                title: "Metadata extractors configuration",
-                content: tabContainer,
-                onHide: function() {
-                  this.destroyRecursive();
-                }
-            });
-            dialog.show();
           });
+
+          var accountSettingsPanel = new AccountSettings({
+            title: "Account",
+            panel: this
+          });
+          accountSettingsPanel.startup();
+          set.addChild(accountSettingsPanel);
+
+          var groupsSettingsPanel = new GroupSettings({title: "Users groups"});
+          set.addChild(groupsSettingsPanel);
+
+
         }
     });
 

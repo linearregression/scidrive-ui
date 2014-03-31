@@ -198,7 +198,8 @@ html, body {
 }
 
 /* border around dropdown elements */
-.toolbarDropdown.dijitSelect, .toolbarDropdown .dijitButtonContents, .tundra .dijitSelect .dijitButtonContents {
+.toolbarDropdown.dijitSelect, .toolbarDropdown .dijitButtonContents, .tundra .dijitSelect .dijitButtonContents,
+.dijitButtonNode .simpleButton {
 	border: 0px;
 	background: none;
 }
