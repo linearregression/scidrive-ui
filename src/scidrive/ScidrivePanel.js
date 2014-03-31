@@ -511,15 +511,18 @@ define([
 
 
           var that = this;
-          that.current_panel.getUserInfo(function(userInfo) {
-            var tabContainer = new TabContainer({
-                    doLayout: false,
-                    tabPosition: "left-h",
-                    // style: "height: 100%; width: 800px;",
-                    tabStrip: true,
-                    title: "Metadata extractors"
-                });
 
+          var tabContainer = new TabContainer({
+            doLayout: false,
+            tabPosition: "left-h",
+            // style: "height: 100%; width: 800px;",
+            tabStrip: true,
+            title: "Metadata extractors"
+          });
+
+          set.addChild(tabContainer);
+
+          that.current_panel.getUserInfo(function(userInfo) {
             userInfo.services.map(function(service) {
               var cp = new ContentPane({
                   title: ((service.enabled)?'✔ ':'✘ ')+service.title,
@@ -580,9 +583,6 @@ define([
               });
               tabContainer.addChild(cp);
             });
-        
-            set.addChild(tabContainer);
-
           });
 
           var accountSettingsPanel = new AccountSettings({
