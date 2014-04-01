@@ -198,7 +198,7 @@ define([
                       var rowdata = this.grid.getItem(rowIndex);
                       var share_id = rowdata['share_id'];
                       var w = new Button({
-                        label: "⌫",
+                        label: "&#10060;",
                         iconClass: "deleteShareButton",
                         showLabel: true,
                         onClick: function(item) {
