@@ -492,22 +492,19 @@ define([
         _showSettingsManagerDialog: function() {
 
           var set = new TabContainer({
-                  doLayout: false,
-                  style: "width: 100%; height: 100%;"
-                });
+            style: "width: 100%; height: 600px;"
+          });
           set.startup();
 
           var dialog = new Dialog({
             title: "Settings",
-            content: set,
-            style: "width: 90%; height: 90%;",
+            style: "width: 95%; height: 700px;",
             onHide: function() {
               this.destroyRecursive();
             }
 
           });
-          dialog.startup();
-          dialog.show();
+          dialog.addChild(set);
 
 
           var that = this;
@@ -515,7 +512,7 @@ define([
           var tabContainer = new TabContainer({
             doLayout: false,
             tabPosition: "left-h",
-            // style: "height: 100%; width: 800px;",
+            // style: "height: 500px; width: 100%;",
             tabStrip: true,
             title: "Metadata extractors"
           });
@@ -575,7 +572,6 @@ define([
                     });
 
                     this.addChild(form);
-                    form.startup();
                   },
                   onHide: function() {
                     this.destroyDescendants();
@@ -594,6 +590,9 @@ define([
 
           var groupsSettingsPanel = new GroupSettings({title: "Users groups"});
           set.addChild(groupsSettingsPanel);
+
+          dialog.startup();
+          dialog.show();
 
 
         }

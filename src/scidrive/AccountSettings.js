@@ -105,10 +105,6 @@ function(declare, _WidgetBase, _TemplatedMixin, ContentPane, xhr, domConstruct, 
                     domConstruct.place(identDiv, that.aliasesDiv);
                 });
             });
-        },
-
-        startup: function() {
-            this.inherited(arguments);
         }
     });
 }
