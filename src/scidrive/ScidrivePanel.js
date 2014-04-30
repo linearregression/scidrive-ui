@@ -34,7 +34,6 @@ define([
   "scidrive/DynamicPropertiesForm",
   "scidrive/NewFilePanel",
   "scidrive/NewDirPanel",
-  "scidrive/GroupSettings",
   "scidrive/AccountSettings",
   "numeral/numeral",
   "dojox/grid/DataGrid",
@@ -42,7 +41,7 @@ define([
   ],
   function(declare, array, lang, query, domStyle, domConstruct, keys, on, Toggler, coreFx, ItemFileWriteStore, WidgetBase, TemplatedMixin, WidgetsInTemplateMixin,
     BorderContainer, TabContainer, ContentPane, Toolbar, Tooltip, ProgressBar, Button, Select, MultiSelect, ToggleButton, TextBox, CheckBox, Dialog, TableContainer,
-    FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, GroupSettings, AccountSettings, numeral, DojoDataGrid, template) {
+    FilePanel, DataGrid, VosyncReadStore, JobsManager, DynamicPropertiesForm, NewFilePanel, NewDirPanel, AccountSettings, numeral, DojoDataGrid, template) {
     return declare([WidgetBase, TemplatedMixin, WidgetsInTemplateMixin], {
         templateString: template,
 
@@ -114,7 +113,7 @@ define([
             hideFunc: coreFx.wipeOut
           });
           this.uploadPanelToggler.hide();
-            this._showSettingsManagerDialog();
+            // this._showSettingsManagerDialog();
         },
 
         _mkdirDialog: function() {
@@ -492,13 +491,13 @@ define([
         _showSettingsManagerDialog: function() {
 
           var set = new TabContainer({
-            style: "width: 100%; height: 600px;"
+            style: "width: 100%; height: 500px;"
           });
           set.startup();
 
           var dialog = new Dialog({
             title: "Settings",
-            style: "width: 95%; height: 700px;",
+            style: "width: 95%; height: 600px;",
             onHide: function() {
               this.destroyRecursive();
             }
@@ -587,9 +586,6 @@ define([
           });
           accountSettingsPanel.startup();
           set.addChild(accountSettingsPanel);
-
-          var groupsSettingsPanel = new GroupSettings({title: "Users groups"});
-          set.addChild(groupsSettingsPanel);
 
           dialog.startup();
           dialog.show();

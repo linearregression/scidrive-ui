@@ -27,7 +27,7 @@ function(declare, Form, TextBox, Button, ToggleButton, ContentPane, BorderContai
         startup: function() {
             var form = this;
             var panel = this.panel;
-            var bc = new BorderContainer({style: "height: 580px; width: 100%", gutters: false});
+            var bc = new BorderContainer({style: "height: 480px; width: 100%", gutters: false});
 
             var cp_head = new ContentPane({
               region: "center", 
