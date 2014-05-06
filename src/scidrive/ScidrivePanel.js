@@ -163,7 +163,7 @@ define([
           this.current_panel.store.vospace.request(
               this.current_panel.store.vospace.url + "/1/shares",
               "GET", {
-                  handleAs: "json"
+                  'handleAs': "json"
               }
           ).then(
             function(shares) {
@@ -205,7 +205,7 @@ define([
                             panel.current_panel.store.vospace.request(
                               panel.current_panel.store.vospace.url + "/1/shares/"+share_id,
                               "DELETE", {
-                                  handleAs: "json"
+                                  'handleAs': "json"
                               }
                             ).then(
                               function(data) {
@@ -416,7 +416,7 @@ define([
           this.vospace.request(
             panel.current_panel.store.vospace.url + "/1/cont_search?query="+this.searchInput.value,
             "GET", {
-                handleAs: "json"
+                'handleAs': "json"
             }
           ).then(
               function(data) {
@@ -533,9 +533,9 @@ define([
                           panel.current_panel.store.vospace.request(
                               panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
                               "PUT", {
-                                  handleAs: "text",
+                                  'handleAs': "text",
                                   data: jsonValues,
-                                  headers: { "Content-Type": "application/json"},
+                                  headers: { "Content-Type": "application/json"}
                               }
                           ).then(
                             function(data) {
@@ -551,9 +551,9 @@ define([
                           panel.current_panel.store.vospace.request(
                               panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
                               "DELETE", {
-                                  handleAs: "text",
+                                  'handleAs': "text",
                                   data: jsonValues,
-                                  headers: { "Content-Type": "application/json"},
+                                  headers: { "Content-Type": "application/json"}
                               }
                           ).then(
                             function(data) {

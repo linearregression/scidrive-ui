@@ -17,9 +17,9 @@ function(declare, _WidgetBase, _TemplatedMixin, ContentPane, xhr, domConstruct, 
         templateString: template,
         accountName: "account",
         layout: [{
-            rows: [
-                {name: "name", field: "name", width: "200px", },
-                {name: "id", field: "id"}
+            'rows': [
+                {'name': "name", 'field': "name", 'width': "200px"},
+                {'name': "id", 'field': "id"}
             ]
         }],
 
@@ -75,7 +75,7 @@ function(declare, _WidgetBase, _TemplatedMixin, ContentPane, xhr, domConstruct, 
             that.panel.current_panel.store.vospace.request(
                 url, 
                 'GET',
-                {handleAs: 'json'}
+                {'handleAs': 'json'}
             ).then(function(identities) {
                 identities.aliases.map(function(identity) {
                     var identDiv = domConstruct.create("div");
@@ -98,7 +98,7 @@ function(declare, _WidgetBase, _TemplatedMixin, ContentPane, xhr, domConstruct, 
                     domConstruct.create('span', {innerHTML: identity}, identDiv);
 
                     domConstruct.create('div', {
-                        class:"dijitHidden",
+                        'class':"dijitHidden"
 
                     }, identDiv);
 
