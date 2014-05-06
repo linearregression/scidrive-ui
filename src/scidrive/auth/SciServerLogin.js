@@ -15,7 +15,7 @@ define([
 ], function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, ioQuery, has, sniff, Dialog) {
     return declare("scidrive.SciServerLogin", null, {
 
-        loginPortalUrl: 'http://zinc26.pha.jhu.edu:8080/',
+        loginPortalUrl: 'http://zinc26.pha.jhu.edu:8082/',
 
         constructor: function( /*Object*/ kwArgs) {
             lang.mixin(this, kwArgs);

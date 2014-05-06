@@ -70,7 +70,7 @@ function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, on, key
                   "PUT", {
                     data: nodeTemplate,
                     headers: { "Content-Type": "application/xml"},
-                    handleAs: "text",
+                    handleAs: "text"
                   }
               ).then(
                 function(data){
