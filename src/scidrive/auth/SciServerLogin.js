@@ -70,23 +70,25 @@ define([
             document.location.href = this.loginPortalUrl+'?callbackUrl='+curUrl;
         },
 
-        logout: function(vospace, component) {
+        logout: function(vospace, component, message) {
             var identity = JSON.parse(localStorage.getItem('vospace_oauth_s'));
-            delete identity.regions[vospace.id];
-            localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
+            if(typeof vospace !== 'undefined') {
+                delete identity.regions[vospace.id];
+                localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
 
-            delete vospace.credentials;
+                delete vospace.credentials;
 
-            if(vospace.isShare) {
-                this.vospaces = this.vospaces.filter(function(curvospace, index, array) {
-                    return curvospace.id != vospace.id;
-                });
-                dijit.byId("scidriveWidget").loginSelect.removeOption(vospace.id);
+                if(vospace.isShare) {
+                    this.vospaces = this.vospaces.filter(function(curvospace, index, array) {
+                        return curvospace.id != vospace.id;
+                    });
+                    dijit.byId("scidriveWidget").loginSelect.removeOption(vospace.id);
+                }
+
+                dijit.byId("scidriveWidget")._refreshRegions();
             }
 
-            dijit.byId("scidriveWidget")._refreshRegions();
-
-            document.location.href = this.loginPortalUrl+"?logout=true";
+            document.location.href = this.loginPortalUrl+"?logout=true"+((typeof message !== 'undefined')?"&message="+message:"");
         },
 
         request: function(url, method, args) {
@@ -97,7 +99,17 @@ define([
                 null,
                 function(error) {
                     if(error.response.status == 401) {
-                        that.login();
+                        if(that.isShare) {
+                            if (typeof that.credentials === 'undefined') { // need to authenticate for the share
+                                that.login();
+                            } else { // already authenticated, but token is either invalid or belongs to other group
+                                alert("Error: the user does not belong to share group. Logging out.");
+                                // need the proper vospace object here V
+                                that.logout(undefined, undefined, that, "User does not belong to the group requested by the share.");
+                            }
+                        } else {
+                            that.login();
+                        }
                     }
                 });
             return xhrPromise;
