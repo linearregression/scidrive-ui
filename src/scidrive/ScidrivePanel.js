@@ -530,8 +530,8 @@ define([
                       service: service,
                       save: function(jsonValues) {
                         if(this.onOffButton.get("value") == "on") {
-                          panel.current_panel.store.vospace.request(
-                              panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                          this.panel.current_panel.store.vospace.request(
+                              this.panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
                               "PUT", {
                                   'handleAs': "text",
                                   data: jsonValues,
@@ -543,13 +543,13 @@ define([
                               service.enabled = true;
                             },
                             function(error) {
-                              panel.current_panel._handleError(data, ioargs);
+                              this.panel.current_panel._handleError(data, ioargs);
                             }
 
                           );
                         } else {
-                          panel.current_panel.store.vospace.request(
-                              panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
+                          this.panel.current_panel.store.vospace.request(
+                              this.panel.current_panel.store.vospace.url +"/1/account/service/"+service.id,
                               "DELETE", {
                                   'handleAs': "text",
                                   data: jsonValues,
@@ -561,7 +561,7 @@ define([
                               service.enabled = false;
                             },
                             function(error) {
-                              panel.current_panel._handleError(data, ioargs);
+                              this.panel.current_panel._handleError(data, ioargs);
                             }
 
                           );
