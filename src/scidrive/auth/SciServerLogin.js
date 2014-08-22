@@ -63,24 +63,26 @@ define([
             }
         },
         
-        getRedirectUrl: function(baseUrl)
+        getRedirectUrl: function(baseUrl, appendToken)
         {
         	// Build current URL to pass it to login page
             var curUrl = location.protocol + '//' + location.host + location.pathname;
             
-            // Append keystone token placeholder (as required by the login portal)
-            curUrl += (curUrl.indexOf('?')>0)?'&':'?'+'token=$keystoneToken';
-            
-            // Add share parameter
-            if(this.isShare)
-                curUrl += (curUrl.indexOf('?')>0)?'&':'?'+'share='+this.id;
+            if (appendToken) {
+	            // Append keystone token placeholder (as required by the login portal)
+	            curUrl += (curUrl.indexOf('?')>0)?'&':'?'+'token=$keystoneToken';
+	            
+	            // Add share parameter
+	            if(this.isShare)
+	                curUrl += (curUrl.indexOf('?')>0)?'&':'?'+'share='+this.id;
+            }
             
             return baseUrl + encodeURIComponent(curUrl);
         },
 
         login: function(component) {
             // Redirect to login page
-            document.location.href = this.getRedirectUrl(this.loginUrl);
+            document.location.href = this.getRedirectUrl(this.loginUrl, true);
         },
 
         logout: function(vospace, component, message) {
@@ -104,7 +106,7 @@ define([
             }
 
             // Redirect to logout page
-            document.location.href = this.getRedirectUrl(this.logoutUrl);
+            document.location.href = this.getRedirectUrl(this.logoutUrl, false);
         },
 
         request: function(url, method, args) {
