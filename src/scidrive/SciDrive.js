@@ -7,7 +7,7 @@ define( [
   "dojo/fx",
   "dojo/aspect",
   "dojo/dom-construct",
-  "dojo/request/xhr", 
+  "dojo/request/xhr",
   "dojo/json",
   "dojo/io-query",
   "dojo/has",
@@ -46,7 +46,14 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                     identity = curIdentity;
                 }
             } else {
-                localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
+                try {
+                    localStorage.setItem('vospace_oauth_s', JSON.stringify(identity));
+                } catch (error) {
+                    if (error.code === DOMException.QUOTA_EXCEEDED_ERR && localStorage.length === 0)
+                        alert('Please disable private browsing mode to log in.');
+                    else
+                        throw error;
+                }
             }
 
             /* End Init identity object */
@@ -69,7 +76,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             this.vospaces = regions.map(function(vospace) {
                 vospace.credentials = identity.regions[vospace.id];
                 vospace.isShare = false;
-                return vospace; 
+                return vospace;
             });
 
             var defaultReg = this.vospaces.filter(function(vospace, index, array) {
@@ -78,7 +85,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
 
             if(defaultReg.length > 0) {
                 var vospace = defaultReg[0];
-                
+
                 if(share != undefined) {
                     var share_vospace = lang.clone(vospace);
                     delete share_vospace.credentials;
@@ -99,7 +106,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                     if(vospace.credentials.stage == "request") { // contains request token
                         this.login2(vospace, null);
                     } else if(vospace.credentials.stage == "access") {
-                        require(["scidrive/ScidrivePanel"], 
+                        require(["scidrive/ScidrivePanel"],
                             function(ScidrivePanel){
                             if(undefined == dijit.byId("scidriveWidget")) {
                                 var pan = new ScidrivePanel({
@@ -170,7 +177,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                 }
                 document.location.href = authorizeUrl;
             }
-            
+
             function success_open_window(data) {
                 var respObject = ioQuery.queryToObject(data);
                 var reqToken = respObject.oauth_token;
@@ -222,7 +229,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             }
 
 
-            function failure(data, ioargs) { 
+            function failure(data, ioargs) {
                 if(ioargs.xhr.status == 400 || ioargs.xhr.status == 401 || ioargs.xhr.status == 503) { // OAuth errors
                     var errorResponse = ioargs.xhr.responseText;
                     if(errorResponse.split("&")[0] != undefined) {
@@ -317,7 +324,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
                         } else {
                             alert("Error logging in: "+ ioargs.xhr.responseText);
                         }
-                        
+
                     }
                 },vospace.credentials));
             });
@@ -365,7 +372,7 @@ function(declare, lang, fx, connect, coreFx, aspect, domConstruct, xhr, JSON, io
             }
 
             //component._refreshRegions();
-                
+
         }
 
     });
