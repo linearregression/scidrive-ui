@@ -13,7 +13,7 @@ define([
   "dojo/store/Memory",
   "dijit/_WidgetBase",
   "dojox/grid/enhanced/plugins/Pagination",
-  "dojox/grid/enhanced/plugins/DnD", 
+  "dojox/grid/enhanced/plugins/DnD",
   "dojox/grid/enhanced/plugins/Selector",
   "dojox/grid/enhanced/plugins/Menu",
   "scidrive/DataGrid",
@@ -49,9 +49,9 @@ define([
   "dijit/TitlePane",
   "scidrive/XMLWriter"
   ],
-  function(declare, connect, fx, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin, 
+  function(declare, connect, fx, Deferred, aspect, array, on, keys, domConstruct, domStyle, domAttr, Memory, WidgetBase, PaginationPlugin, DnDPlugin, SelectorPlugin,
     MenuPlugin, DataGrid, Menu, LightBox, OAuth, ConfirmDialog, MetadataViewer, TemplatedMixin, WidgetsInTemplateMixin, _ContentPaneResizeMixin, template, BorderContainer, ContentPane, _LayoutWidget,
-    Form, Button, Select, CheckBox, ValidationTextBox, TextBox, Textarea, 
+    Form, Button, Select, CheckBox, ValidationTextBox, TextBox, Textarea,
     FilteringSelect, PopupMenuBarItem, DropDownMenu, InlineEditBox, Toolbar, ProgressBar, Dialog, registry, dojox_Dialog, ItemFileWriteStore, TitlePane, XMLWriter
     ){
     return declare([WidgetBase, _LayoutWidget, _ContentPaneResizeMixin /* These 2 make it resizing in height on window resize */, TemplatedMixin, WidgetsInTemplateMixin], {
@@ -82,8 +82,8 @@ define([
 
           var rowMenuObject = new Menu();
 
-          rowMenuObject.addChild(new dijit.MenuItem({ 
-            label: "Download", 
+          rowMenuObject.addChild(new dijit.MenuItem({
+            label: "Download",
             onClick:function(e) {
               dojo.xhrGet(scidrive.OAuth.sign("GET", {
                 url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
@@ -103,17 +103,17 @@ define([
                 }
               },panel.store.vospace.credentials));
             }
-          })); 
-          rowMenuObject.addChild(new dijit.MenuItem({ 
-            label: "Metadata...", 
+          }));
+          rowMenuObject.addChild(new dijit.MenuItem({
+            label: "Metadata...",
             onClick:function(e) {
               panel._showMetadata(panel._menuSelectedItem.i.path);
-            } 
+            }
           }));
 
           this._menuItems = {};
 
-          this._menuItems['previewMenuItem'] = new dijit.MenuItem({ 
+          this._menuItems['previewMenuItem'] = new dijit.MenuItem({
             label: "Preview...",
             onClick:function(e) {
               dojo.xhrGet(scidrive.OAuth.sign("GET", {
@@ -131,11 +131,11 @@ define([
                  panel._handleError(data, ioargs);
                }
             },panel.store.vospace.credentials));
-            } 
+            }
           });
           rowMenuObject.addChild(this._menuItems['previewMenuItem']);
-          rowMenuObject.addChild(new dijit.MenuItem({ 
-            label: "Delete", 
+          rowMenuObject.addChild(new dijit.MenuItem({
+            label: "Delete",
             onClick:function(e) {
               var selectedItems = panel.gridWidget.selection.getSelected("row", true);
 
@@ -152,21 +152,21 @@ define([
               } else { // nothing is selected
                 panel._deleteSelection(panel._menuSelectedItem);
               }
-            } 
-          })); 
-          this._menuItems['pullUrlMenuItem'] = new dijit.MenuItem({ 
+            }
+          }));
+          this._menuItems['pullUrlMenuItem'] = new dijit.MenuItem({
             label: "Pull from URL...",
             tooltip: "Pull data from URL to the selected item",
             onClick:function(e) {
              panel.transferNode.value = panel._menuSelectedItem.i.path;
              panel.urlInput.reset();
              panel.transferUrlDialog.show();
-           } 
+           }
          });
         rowMenuObject.addChild(this._menuItems['pullUrlMenuItem']);
 
-        this._menuItems['mediaMenuItem'] = new dijit.MenuItem({ 
-          label: "Quick Share URL...", 
+        this._menuItems['mediaMenuItem'] = new dijit.MenuItem({
+          label: "Quick Share URL...",
           onClick:function(e) {
             dojo.xhrGet(scidrive.OAuth.sign("GET", {
               url: encodeURI(panel.store.vospace.url+"/1/media/sandbox"+panel._menuSelectedItem.i.path),
@@ -192,12 +192,12 @@ define([
               }
 
             },panel.store.vospace.credentials));
-          } 
-        }); 
+          }
+        });
         rowMenuObject.addChild(this._menuItems['mediaMenuItem']);
 
-        this._menuItems['shareMenuItem'] = new dijit.MenuItem({ 
-          label: "Share...", 
+        this._menuItems['shareMenuItem'] = new dijit.MenuItem({
+          label: "Share...",
           onClick:function(e) {
             dojo.xhrGet(scidrive.OAuth.sign("GET", {
              url: encodeURI(panel.store.vospace.url+"/1/share_groups"),
@@ -219,7 +219,7 @@ define([
                         domConstruct.place(userDiv, panel.usersList);
                       });
 
-                   }, 
+                   },
                     error: function(data, ioargs) {
                       panel._handleError(data, ioargs);
                     }
@@ -233,8 +233,8 @@ define([
             }
 
             }, panel.store.vospace.credentials));
-          } 
-        }); 
+          }
+        });
         rowMenuObject.addChild(this._menuItems['shareMenuItem']);
 
 
@@ -308,14 +308,14 @@ define([
           }
         }, this.grid);
         connect.connect(this.gridWidget.plugin('dnd'), "onDragIn", this, "_dragIn");
-        
+
         connect.connect(this.gridWidget, "dokeypress", this, function(e) {
           if(e.keyCode == keys.DELETE) { // press delete on grid
             var selectedItems = panel.gridWidget.selection.getSelected("row", true);
             panel._deleteSelection(selectedItems);
           }
         });
-        
+
         connect.connect(this.gridWidget, "onRowContextMenu", this, "_rowcontextmenu");
         on(this, "click", function(e) {
           this.parentPanel.updateCurrentPanel(this);
@@ -424,7 +424,7 @@ define([
             return "<img src='scidrive/resources/table.png' style='vertical-align:middle' title='File' alt='File' width='20'/>&nbsp;"+pathTokens[pathTokens.length-1];
         }
       },
-      
+
       _shortenString: function(mime, rowIndex) {
         var max_len = 40;
         if(!mime || mime.length < max_len) {
@@ -455,7 +455,7 @@ define([
             }
           });
 
-          new MetadataViewer().parse(data, meta_form.id);
+          new MetadataViewer({"url": encodeURI(panel.store.vospace.url+"/nodes/"+path), "panel": panel}).parse(data, meta_form.id);
 
           editNodeDialog.show();
         },
@@ -466,7 +466,7 @@ define([
     },
 
     _pullToVo: function() {
-      this.store.pullToVoJob(this.store.vospace, 
+      this.store.pullToVoJob(this.store.vospace,
         this.store.getNodeVoId(this.transferNode.value),
         this.urlInput.value);
     },
@@ -502,7 +502,7 @@ define([
 
       var xhr = new XMLHttpRequest();
       xhr.open('PUT', url, true);
-      // xhr.onload = function(e) { 
+      // xhr.onload = function(e) {
       // };
       xhr.setRequestHeader('Authorization', OAuth.sign("PUT", {url: url}, curFileStruct.credentials).headers["Authorization"]);
 
@@ -579,7 +579,7 @@ define([
         event.preventDefault && event.preventDefault();
         this.className = '';
 
-        
+
         if(!panel.store.vospace.isShare && panel.gridWidget._currentPath == '/') {
           alert("Regular files can't be uploaded to root folder.");
         } else {
@@ -729,7 +729,7 @@ define([
         //domConstruct.empty(panel.usersList);
       }, true);
       anim.play();
-      
+
     },
 
     _handleError: function(data, ioargs) {

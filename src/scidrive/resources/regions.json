@@ -1,9 +1,9 @@
 [
 	{
-		"id":"www.scidrive.org",
+		"id":"scidrive-nds",
 		"defaultRegion":true,
-		"url":"http://www.scidrive.org/vospace-2.0",
-		"display":"JHU primary region"
+		"url":"http://scidrive.ncsa.illinois.edu:8080/vospace-2.0",
+		"display":"NCSA scidrive"
 	},
 	{
 		"id":"zinc26.pha.jhu.edu",
